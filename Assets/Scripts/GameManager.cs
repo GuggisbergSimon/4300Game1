@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
 
     public GameObject player;
     public GameObject projectileSpawner;
+    public GameObject levelTilemap;
     #endregion
 
     #region Unity Functions
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour {
 
         player = GameObject.FindGameObjectWithTag("Player");
         projectileSpawner = GameObject.FindGameObjectWithTag("ProjectileSpawner");
+        levelTilemap = GameObject.FindGameObjectWithTag("Level");
     }
     #endregion
 }

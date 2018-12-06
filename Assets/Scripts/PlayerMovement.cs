@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 // Controls player movement and animations associated with it.
 public class PlayerMovement : MonoBehaviour {
@@ -18,8 +19,7 @@ public class PlayerMovement : MonoBehaviour {
     // Private variables.
     Rigidbody2D playerRigidbody2D;
     Animator playerAnimator;
-    SpriteRenderer playerSpriteRenderer;
-    GameObject projectileSpawner;
+    TilemapCollider2D tilemapCollider;
 
     int PIXELS_PER_UNIT = 100;
     float playerSpriteSizeInPixels; // Used for CircleCast positioning.
@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour {
 
     bool isAirborne = false; // Used to check whether the player can jump.
     bool movingRight = true; // Used to flip sprite in the correct direction.
+    bool lateStartIsDone = false; // Avoids part of the script relying on references set in LateStart from running before the LateStart has run.
     #endregion
 
     #region Custom functions
@@ -43,16 +44,25 @@ public class PlayerMovement : MonoBehaviour {
             playerAnimator.SetBool("isJumping", false);
         }
     }
+
+    IEnumerator LateStart() // Used to get references stored in GameManager, which initializes at the same time as everything else which causes an error if we're trying to get a reference from it before it's initialized.
+    {
+        yield return new WaitForSeconds(0.05f);
+
+        tilemapCollider = GameManager.Instance.levelTilemap.GetComponent<TilemapCollider2D>();
+        lateStartIsDone = true;
+    }
     #endregion
 
     #region Unity functions
+
     private void Start()
     {
         // Gets references.
         playerRigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         playerAnimator = gameObject.GetComponentInChildren<Animator>();
-        playerSpriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
-        projectileSpawner = gameObject.GetComponentInChildren<ProjectileSpawner>().gameObject;
+
+        StartCoroutine(LateStart());
 
         playerSpriteSizeInPixels = PIXELS_PER_UNIT * transform.localScale.y; // Sets up variable.
     }
@@ -116,6 +126,18 @@ public class PlayerMovement : MonoBehaviour {
         if (isAirborne)
         {
             StartCoroutine(CheckGround()); // A coroutine with a WaitForSeconds() is necessary, otherwise isAirborne bool would be set back to false as soon as it's set to true.
+        }
+
+        if (lateStartIsDone)
+        {
+            if (Input.GetAxisRaw("Vertical") < 0)
+            {
+                tilemapCollider.enabled = false;
+            }
+            else if (Input.GetAxisRaw("Vertical") == 0)
+            {
+                tilemapCollider.enabled = true;
+            }
         }
 
         // Responsible for transitioning between jumping and falling animations.

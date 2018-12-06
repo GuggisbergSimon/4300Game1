@@ -181,8 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeedMultiplier: 5
-  playerJumpMultiplier: 5
-  axisInputThreshold: 0.2
+  playerJumpMultiplier: 7
   circleCastRadius: 0.05
 --- !u!212 &212102791101070790
 SpriteRenderer:
