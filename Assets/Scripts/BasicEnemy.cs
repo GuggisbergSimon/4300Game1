@@ -17,7 +17,11 @@ public class BasicEnemy : MonoBehaviour
 
 	private BasicEnemyStates myState;
 	private bool isLookingRight;
+	private bool isAlive = true;
+	private bool wantsToJump = false;
 	private Rigidbody2D myRigidbody2D;
+
+	#region Inherited methods
 
 	private void Start()
 	{
@@ -33,7 +37,7 @@ public class BasicEnemy : MonoBehaviour
 		{
 			case BasicEnemyStates.Falling:
 			{
-				CheckPlayerPos();
+				CheckPlayerPosX();
 			}
 				break;
 			case BasicEnemyStates.Jumping:
@@ -52,26 +56,6 @@ public class BasicEnemy : MonoBehaviour
 		}
 	}
 
-	private void CheckPlayerPos()
-	{
-		float diffPosX = this.transform.position.x - player.transform.position.x;
-		if ((diffPosX > 0 && !isLookingRight) || (diffPosX < 0 && isLookingRight))
-		{
-			TurnAround();
-		}
-	}
-
-	private void MoveForward()
-	{
-		myRigidbody2D.velocity = (Vector2) transform.right * speed + Vector2.up * myRigidbody2D.velocity.y;
-	}
-
-	private void TurnAround()
-	{
-		isLookingRight = !isLookingRight;
-		this.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 180, 0);
-	}
-
 	private void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.CompareTag("Platform"))
@@ -87,5 +71,55 @@ public class BasicEnemy : MonoBehaviour
 				TurnAround();
 			}
 		}
+
+		//implement the jump somewhere here or use children
 	}
+
+	#endregion
+
+
+	#region Public methods
+
+	public void Die()
+	{
+		if (isAlive)
+		{
+			Destroy(this.gameObject);
+		}
+	}
+
+	#endregion
+
+	#region Private methods
+
+	private void CheckPlayerPosX()
+	{
+		float diffPosX = this.transform.position.x - player.transform.position.x;
+		if ((diffPosX > 0 && !isLookingRight) || (diffPosX < 0 && isLookingRight))
+		{
+			TurnAround();
+		}
+	}
+
+	private void CheckPlayerPosY()
+	{
+		float diffPosY = this.transform.position.y - player.transform.position.y;
+		if (diffPosY > 0)
+		{
+			wantsToJump = true;
+		}
+	}
+
+	private void MoveForward()
+	{
+		myRigidbody2D.velocity = (Vector2) transform.right * speed + Vector2.up * myRigidbody2D.velocity.y;
+	}
+
+	private void TurnAround()
+	{
+		isLookingRight = !isLookingRight;
+		this.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 180, 0);
+	}
+
+	#endregion
 }
