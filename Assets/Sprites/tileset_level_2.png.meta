@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 484ac54fcb1254845bf029dc7ad54681
+guid: ad760534e715e6049bc665830373f2d6
 TextureImporter:
   fileIDToRecycleName:
-    21300000: BasicTileset_0
-    21300002: BasicTileset_1
-    21300004: BasicTileset_2
-    21300006: BasicTileset_3
+    21300000: tileset_level_2_0
+    21300002: tileset_level_2_1
+    21300004: tileset_level_2_2
+    21300006: tileset_level_2_3
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -85,17 +85,6 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-  - serializedVersion: 2
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -110,7 +99,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BasicTileset_0
+      name: tileset_level_2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -118,23 +107,19 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape:
-      - - {x: -16, y: -16}
-        - {x: -16, y: 16}
-        - {x: 16, y: 16}
-        - {x: 16, y: -16}
+      physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c860e32125a6cd84b971dcdf536531fb
+      spriteID: c026fa188f2925347a3500cc12095511
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BasicTileset_1
+      name: tileset_level_2_1
       rect:
         serializedVersion: 2
         x: 32
@@ -142,19 +127,19 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 99c077bc2464794489b6daad9da510fc
+      spriteID: a886a975586ac30419be5742598f1344
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BasicTileset_2
+      name: tileset_level_2_2
       rect:
         serializedVersion: 2
         x: 0
@@ -162,19 +147,19 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 177c79ce8bafef64abcf594dcca20e8d
+      spriteID: a39ba4764bcf9374fa4de52fa20c8840
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BasicTileset_3
+      name: tileset_level_2_3
       rect:
         serializedVersion: 2
         x: 32
@@ -182,13 +167,13 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f2bf3b05fb515284f8c9c651938b9c4b
+      spriteID: 8761e691e809d9e40b3308cc2e31aae5
       vertices: []
       indices: 
       edges: []
@@ -196,7 +181,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 2a89484500ecb1e4db3aae634f160206
+    spriteID: 6e266e15a1038b24997295f420a22c99
     vertices: []
     indices: 
     edges: []

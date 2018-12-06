@@ -13,13 +13,13 @@ public class PlayerMovement : MonoBehaviour {
     // Serialized variables.
     [SerializeField] float playerSpeedMultiplier = 1;
     [SerializeField] float playerJumpMultiplier = 1;
-    [SerializeField] [Range(0,1)] float axisInputThreshold = 0.2f; // Change to adjust minimal input from joystick needed in order to move.
     [SerializeField] float circleCastRadius = 0.3f; // CircleCast is used to avoid infinite jumping.
 
     // Private variables.
     Rigidbody2D playerRigidbody2D;
     Animator playerAnimator;
     SpriteRenderer playerSpriteRenderer;
+    GameObject projectileSpawner;
 
     int PIXELS_PER_UNIT = 100;
     float playerSpriteSizeInPixels; // Used for CircleCast positioning.
@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour {
         playerRigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         playerAnimator = gameObject.GetComponentInChildren<Animator>();
         playerSpriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        projectileSpawner = gameObject.GetComponentInChildren<ProjectileSpawner>().gameObject;
 
         playerSpriteSizeInPixels = PIXELS_PER_UNIT * transform.localScale.y; // Sets up variable.
     }
@@ -59,7 +60,7 @@ public class PlayerMovement : MonoBehaviour {
     private void Update()
     {
         // Horizontal movement.
-        if (Input.GetAxisRaw("Horizontal") > 0 + axisInputThreshold) // Joystick to the right.
+        if (Input.GetAxisRaw("Horizontal") > 0) // Joystick to the right.
         {
             if (movingRight) // Ensures the sprite is flipped the right way.
             {
@@ -72,11 +73,11 @@ public class PlayerMovement : MonoBehaviour {
                 playerAnimator.SetBool("isIdle", false);
 
                 // Flips the sprite the right way.
-                playerSpriteRenderer.flipX = false;
+                GameManager.Instance.player.transform.Rotate(0, 180, 0);
                 movingRight = true;
             }
         }
-        else if(Input.GetAxisRaw("Horizontal") < 0 - axisInputThreshold) // Joystick to the left.
+        else if(Input.GetAxisRaw("Horizontal") < 0) // Joystick to the left.
         {
             if (!movingRight)
             {
@@ -88,7 +89,7 @@ public class PlayerMovement : MonoBehaviour {
                 playerRigidbody2D.velocity = new Vector2(Vector2.left.x * playerSpeed * playerSpeedMultiplier, playerRigidbody2D.velocity.y);
                 playerAnimator.SetBool("isIdle", false);
 
-                playerSpriteRenderer.flipX = true;
+                GameManager.Instance.player.transform.Rotate(0,180,0);
                 movingRight = false;
             }
         }
