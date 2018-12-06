@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour {
     // Serialized variables.
     [SerializeField] float playerSpeedMultiplier = 1;
     [SerializeField] float playerJumpMultiplier = 1;
-    [SerializeField] [Range(0,1)] float axisInputThreshold = 0.2f; // Change to adjust minimal input from joystick needed in order to move.
     [SerializeField] float circleCastRadius = 0.3f; // CircleCast is used to avoid infinite jumping.
 
     // Private variables.
@@ -59,7 +58,7 @@ public class PlayerMovement : MonoBehaviour {
     private void Update()
     {
         // Horizontal movement.
-        if (Input.GetAxisRaw("Horizontal") > 0 + axisInputThreshold) // Joystick to the right.
+        if (Input.GetAxisRaw("Horizontal") > 0) // Joystick to the right.
         {
             if (movingRight) // Ensures the sprite is flipped the right way.
             {
@@ -76,7 +75,7 @@ public class PlayerMovement : MonoBehaviour {
                 movingRight = true;
             }
         }
-        else if(Input.GetAxisRaw("Horizontal") < 0 - axisInputThreshold) // Joystick to the left.
+        else if(Input.GetAxisRaw("Horizontal") < 0) // Joystick to the left.
         {
             if (!movingRight)
             {
