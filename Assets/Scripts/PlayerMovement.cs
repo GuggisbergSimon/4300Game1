@@ -48,11 +48,12 @@ public class PlayerMovement : MonoBehaviour {
     #region Unity functions
     private void Start()
     {
+        // Gets references.
         playerRigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         playerAnimator = gameObject.GetComponentInChildren<Animator>();
         playerSpriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
 
-        playerSpriteSizeInPixels = PIXELS_PER_UNIT * transform.localScale.y;
+        playerSpriteSizeInPixels = PIXELS_PER_UNIT * transform.localScale.y; // Sets up variable.
     }
 
     private void Update()
