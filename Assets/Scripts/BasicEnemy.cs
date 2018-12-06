@@ -5,53 +5,87 @@ using UnityEngine;
 public class BasicEnemy : MonoBehaviour
 {
 	[SerializeField] private GameObject player;
-	[SerializeField] private bool isLookingRight=true; //put that in Start and I'll be happy
-	[SerializeField] private float speed = 4.0f;
-	[SerializeField] private float distMinX = 1.5f;
+	[SerializeField] private float speed = 3;
 
-	private bool noTurn;
-	private Animator myAnimator; // not used currently
+	private enum BasicEnemyStates
+	{
+		Falling,
+		Jumping,
+		Running,
+		InBubble
+	}
+
+	private BasicEnemyStates myState;
+	private bool isLookingRight;
 	private Rigidbody2D myRigidbody2D;
 
 	private void Start()
 	{
 		myRigidbody2D = GetComponent<Rigidbody2D>();
+		float myRotation = this.transform.rotation.eulerAngles.y;
+		isLookingRight = -90.0f > myRotation && myRotation > 90.0f;
+		//TODO setup state here
 	}
 
 	private void Update()
 	{
-		Rotate();
-		Move();
-	}
-
-	//Moves the enemy
-	private void Move()
-	{
-		myRigidbody2D.velocity = (Vector2)transform.right * speed + Vector2.up * myRigidbody2D.velocity.y;
-	}
-
-	//Rotates the enemy in direction of the player (and if the player is far enough)
-	private void Rotate()
-	{
-		float diffPosX = player.transform.position.x - this.transform.position.x;
-
-		if (Mathf.Abs(diffPosX) > distMinX)
+		switch (myState)
 		{
-			if (diffPosX > 0 && !isLookingRight)
+			case BasicEnemyStates.Falling:
 			{
-				TurnAround();
+				CheckPlayerPos();
 			}
-			else if (diffPosX < 0 && isLookingRight)
+				break;
+			case BasicEnemyStates.Jumping:
 			{
-				TurnAround();
 			}
+				break;
+			case BasicEnemyStates.Running:
+			{
+				MoveForward();
+			}
+				break;
+			case BasicEnemyStates.InBubble:
+			{
+			}
+				break;
 		}
 	}
 
+	private void CheckPlayerPos()
+	{
+		float diffPosX = this.transform.position.x - player.transform.position.x;
+		if ((diffPosX > 0 && !isLookingRight) || (diffPosX < 0 && isLookingRight))
+		{
+			TurnAround();
+		}
+	}
+
+	private void MoveForward()
+	{
+		myRigidbody2D.velocity = (Vector2) transform.right * speed + Vector2.up * myRigidbody2D.velocity.y;
+	}
 
 	private void TurnAround()
 	{
 		isLookingRight = !isLookingRight;
-		this.transform.rotation = Quaternion.Euler(0, this.transform.rotation.eulerAngles.y + 180, 0);
+		this.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 180, 0);
+	}
+
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.CompareTag("Platform"))
+		{
+			//That means the enemy has touched the ground after falling
+			if (myState == BasicEnemyStates.Falling)
+			{
+				myState = BasicEnemyStates.Running;
+			}
+			//That means the enemy encountered a wall in front of him
+			else if (myState == BasicEnemyStates.Running)
+			{
+				TurnAround();
+			}
+		}
 	}
 }
