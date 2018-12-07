@@ -1,11 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class BasicEnemy : MonoBehaviour
 {
 	[SerializeField] private GameObject player;
 	[SerializeField] private float speed = 3;
+	[SerializeField] private float jumpForce = 150;
+	[SerializeField] private GameObject jumpPosition;
+	[SerializeField] private GameObject jumpCheckPlatForm;
+	[SerializeField] private GameObject groundDetector;
+	[SerializeField] private GameObject frontDetector;
+	[SerializeField] private Tilemap tilemap;
 
 	private enum BasicEnemyStates
 	{
@@ -21,6 +28,13 @@ public class BasicEnemy : MonoBehaviour
 	private bool wantsToJump = false;
 	private Rigidbody2D myRigidbody2D;
 
+	private Collider2D groundDetectorCollider2D;
+	private Collider2D frontDetectorCollider2D;
+	private Collider2D jumpPositionCollider2D;
+	private Collider2D jumpCheckPlatFormCollider2D;
+	private TilemapCollider2D tilemapCollider2D;
+
+
 	#region Inherited methods
 
 	private void Start()
@@ -28,25 +42,38 @@ public class BasicEnemy : MonoBehaviour
 		myRigidbody2D = GetComponent<Rigidbody2D>();
 		float myRotation = this.transform.rotation.eulerAngles.y;
 		isLookingRight = -90.0f > myRotation && myRotation > 90.0f;
-		//TODO setup state here
+		//TODO add checkstate somewhere here
+
+		groundDetectorCollider2D = groundDetector.GetComponent<Collider2D>();
+		frontDetectorCollider2D = frontDetector.GetComponent<Collider2D>();
+		jumpPositionCollider2D = jumpPosition.GetComponent<Collider2D>();
+		jumpCheckPlatFormCollider2D = jumpCheckPlatForm.GetComponent<Collider2D>();
+		tilemapCollider2D = tilemap.GetComponent<TilemapCollider2D>();
 	}
 
 	private void Update()
 	{
+		//Debug.Log(myState.ToString());
 		switch (myState)
 		{
 			case BasicEnemyStates.Falling:
 			{
 				CheckPlayerPosX();
+				CheckGround();
 			}
 				break;
 			case BasicEnemyStates.Jumping:
 			{
+				CheckGround();
 			}
 				break;
 			case BasicEnemyStates.Running:
 			{
 				MoveForward();
+				CheckPlayerPosY();
+				CheckForJump();
+				CheckGround();
+				CheckFront();
 			}
 				break;
 			case BasicEnemyStates.InBubble:
@@ -54,25 +81,6 @@ public class BasicEnemy : MonoBehaviour
 			}
 				break;
 		}
-	}
-
-	private void OnTriggerEnter2D(Collider2D other)
-	{
-		if (other.CompareTag("Platform"))
-		{
-			//That means the enemy has touched the ground after falling
-			if (myState == BasicEnemyStates.Falling)
-			{
-				myState = BasicEnemyStates.Running;
-			}
-			//That means the enemy encountered a wall in front of him
-			else if (myState == BasicEnemyStates.Running)
-			{
-				TurnAround();
-			}
-		}
-
-		//implement the jump somewhere here or use children
 	}
 
 	#endregion
@@ -92,6 +100,26 @@ public class BasicEnemy : MonoBehaviour
 
 	#region Private methods
 
+	private void CheckGround()
+	{
+		if (groundDetectorCollider2D.IsTouching(tilemapCollider2D))
+		{
+			myState = BasicEnemyStates.Running;
+		}
+		else
+		{
+			myState = BasicEnemyStates.Falling;
+		}
+	}
+
+	private void CheckFront()
+	{
+		if (frontDetectorCollider2D.IsTouching(tilemapCollider2D))
+		{
+			TurnAround();
+		}
+	}
+
 	private void CheckPlayerPosX()
 	{
 		float diffPosX = this.transform.position.x - player.transform.position.x;
@@ -104,9 +132,26 @@ public class BasicEnemy : MonoBehaviour
 	private void CheckPlayerPosY()
 	{
 		float diffPosY = this.transform.position.y - player.transform.position.y;
-		if (diffPosY > 0)
+		if (diffPosY < 0)
 		{
 			wantsToJump = true;
+		}
+
+		if (diffPosY > 0)
+		{
+			wantsToJump = false;
+		}
+	}
+
+	//Checks if jump is possible, if so, jump
+	private void CheckForJump()
+	{
+		if (wantsToJump && myState == BasicEnemyStates.Running &&
+		    !jumpPositionCollider2D.IsTouching(tilemapCollider2D) &&
+		    jumpCheckPlatFormCollider2D.IsTouching(tilemapCollider2D))
+		{
+			myRigidbody2D.AddForce(Vector2.up * jumpForce);
+			myState = BasicEnemyStates.Jumping;
 		}
 	}
 
