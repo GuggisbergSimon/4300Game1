@@ -53,7 +53,7 @@ public class BasicEnemy : MonoBehaviour
 
 	private void Update()
 	{
-		//Debug.Log(myState.ToString());
+		Debug.Log(myState.ToString());
 		switch (myState)
 		{
 			case BasicEnemyStates.Falling:
@@ -136,8 +136,7 @@ public class BasicEnemy : MonoBehaviour
 		{
 			wantsToJump = true;
 		}
-
-		if (diffPosY > 0)
+		else
 		{
 			wantsToJump = false;
 		}
@@ -150,7 +149,9 @@ public class BasicEnemy : MonoBehaviour
 		    !jumpPositionCollider2D.IsTouching(tilemapCollider2D) &&
 		    jumpCheckPlatFormCollider2D.IsTouching(tilemapCollider2D))
 		{
-			myRigidbody2D.AddForce(Vector2.up * jumpForce);
+			myRigidbody2D.AddForce(Vector2.up*jumpForce);
+			//myRigidbody2D.velocity = (jumpPosition.transform.position - transform.position)*jumpForce;
+			//Debug.DrawLine(transform.position, jumpPosition.transform.position - transform.position,Color.red,1.0f);
 			myState = BasicEnemyStates.Jumping;
 		}
 	}

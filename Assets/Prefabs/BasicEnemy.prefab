@@ -347,7 +347,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 0.25}
+  m_Size: {x: 1, y: 0.25}
   m_EdgeRadius: 0
 --- !u!61 &61737103664413678
 BoxCollider2D:
@@ -422,7 +422,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 0.1}
+  m_Size: {x: 1, y: 0.1}
   m_EdgeRadius: 0
 --- !u!70 &70676242583059856
 CapsuleCollider2D:
@@ -452,7 +452,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   speed: 4
-  jumpForce: 160
+  jumpForce: 3
   jumpPosition: {fileID: 1221593311915810}
   jumpCheckPlatForm: {fileID: 1456569053679870}
   groundDetector: {fileID: 1704226903221342}
@@ -493,7 +493,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300006, guid: 3f3c90f9334b6ca48a25a024674839e3, type: 3}
+  m_Sprite: {fileID: 21300006, guid: 484ac54fcb1254845bf029dc7ad54681, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
