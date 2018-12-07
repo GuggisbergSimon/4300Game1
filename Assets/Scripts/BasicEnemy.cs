@@ -12,6 +12,7 @@ public class BasicEnemy : MonoBehaviour
 	[SerializeField] private GameObject jumpCheckPlatForm;
 	[SerializeField] private GameObject groundDetector;
 	[SerializeField] private GameObject frontDetector;
+	[SerializeField] private bool enableJump = false;
 
 	private enum BasicEnemyStates
 	{
@@ -26,7 +27,7 @@ public class BasicEnemy : MonoBehaviour
 	private bool isAlive = true;
 	private bool wantsToJump = false;
 	private Rigidbody2D myRigidbody2D;
-
+	private Vector2 previousPos;
 	private Collider2D groundDetectorCollider2D;
 	private Collider2D frontDetectorCollider2D;
 	private Collider2D jumpPositionCollider2D;
@@ -39,8 +40,8 @@ public class BasicEnemy : MonoBehaviour
 	private void Start()
 	{
 		myRigidbody2D = GetComponent<Rigidbody2D>();
-		float myRotation = this.transform.rotation.eulerAngles.y;
-		isLookingRight = -90.0f > myRotation && myRotation > 90.0f;
+		float myRotationY = this.transform.rotation.eulerAngles.y;
+		isLookingRight = Mathf.Abs(myRotationY) < 90.0f;
 		//TODO add checkstate somewhere here
 
 		groundDetectorCollider2D = groundDetector.GetComponent<Collider2D>();
@@ -63,15 +64,15 @@ public class BasicEnemy : MonoBehaviour
 				break;
 			case BasicEnemyStates.Jumping:
 			{
-				CheckGround();
+				CheckFalling();
 			}
 				break;
 			case BasicEnemyStates.Running:
 			{
-				MoveForward();
 				CheckPlayerPosY();
 				CheckForJump();
 				CheckGround();
+				MoveForward();
 				CheckFront();
 			}
 				break;
@@ -80,6 +81,8 @@ public class BasicEnemy : MonoBehaviour
 			}
 				break;
 		}
+
+		previousPos = transform.position;
 	}
 
 	#endregion
@@ -98,6 +101,14 @@ public class BasicEnemy : MonoBehaviour
 	#endregion
 
 	#region Private methods
+
+	private void CheckFalling()
+	{
+		if (previousPos.y < transform.position.y)
+		{
+			myState = BasicEnemyStates.Falling;
+		}
+	}
 
 	private void CheckGround()
 	{
@@ -122,7 +133,7 @@ public class BasicEnemy : MonoBehaviour
 	private void CheckPlayerPosX()
 	{
 		float diffPosX = this.transform.position.x - player.transform.position.x;
-		if ((diffPosX > 0 && !isLookingRight) || (diffPosX < 0 && isLookingRight))
+		if ((diffPosX < 0 && !isLookingRight) || (diffPosX > 0 && isLookingRight))
 		{
 			TurnAround();
 		}
@@ -144,11 +155,10 @@ public class BasicEnemy : MonoBehaviour
 	//Checks if jump is possible, if so, jump
 	private void CheckForJump()
 	{
-		if (wantsToJump && myState == BasicEnemyStates.Running &&
-		    !jumpPositionCollider2D.IsTouching(tilemapCollider2D) &&
+		if (enableJump && wantsToJump && !jumpPositionCollider2D.IsTouching(tilemapCollider2D) &&
 		    jumpCheckPlatFormCollider2D.IsTouching(tilemapCollider2D))
 		{
-			myRigidbody2D.AddForce(Vector2.up*jumpForce);
+			myRigidbody2D.AddForce(Vector2.up * jumpForce);
 			//myRigidbody2D.velocity = (jumpPosition.transform.position - transform.position)*jumpForce;
 			//Debug.DrawLine(transform.position, jumpPosition.transform.position - transform.position,Color.red,1.0f);
 			myState = BasicEnemyStates.Jumping;
