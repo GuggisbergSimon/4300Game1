@@ -52,6 +52,7 @@ public class BasicEnemy : MonoBehaviour
 		myCollider = GetComponent<Collider2D>();
 
 		bubble.SetActive(false);
+		player = GameManager.Instance.player;
 		tilemapCollider2D = GameManager.Instance.levelTilemap.GetComponent<TilemapCollider2D>();
 	}
 
@@ -194,29 +195,30 @@ public class BasicEnemy : MonoBehaviour
 	private void TurnAround()
 	{
 		isLookingRight = !isLookingRight;
-		this.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 180, 0);
+		this.transform.Rotate(Vector3.up * 180);
 	}
 
 	private void BubbledMove()
 	{
-		myRigidbody2D.velocity = new Vector2(); // Resetting velocity.
+		// Resetting velocity.
+		myRigidbody2D.velocity = new Vector2();
 
 		int randomNumber = Random.Range(0, 100);
 
 		if (randomNumber > 50)
 		{
-			transform.position =
-				new Vector2(transform.position.x, transform.position.y + 0.1f); // Moves the bubbled enemy upwards.
+			// Moves the bubbled enemy upwards.
+			transform.position = new Vector2(transform.position.x, transform.position.y + 0.1f);
 		}
 		else if (randomNumber > 0 && randomNumber < 25)
 		{
-			transform.position =
-				new Vector2(transform.position.x + 0.1f, transform.position.y); // Moves the bubbled enemy to the right.
+			// Moves the bubbled enemy to the right.
+			transform.position = new Vector2(transform.position.x + 0.1f, transform.position.y);
 		}
 		else
 		{
-			transform.position =
-				new Vector2(transform.position.x - 0.1f, transform.position.y); // Moves the bubbled enemy to the left.
+			// Moves the bubbled enemy to the left.
+			transform.position = new Vector2(transform.position.x - 0.1f, transform.position.y);
 		}
 	}
 

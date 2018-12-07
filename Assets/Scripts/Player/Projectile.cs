@@ -12,8 +12,12 @@ public class Projectile : MonoBehaviour
 
 	// Private variables
 	Rigidbody2D projectileRigidbody2D;
-	Collider2D collision = null; // Used to manage projectile's destruction.
-	Vector3 projectileDirection; // Used to fire the projectile the right way when turning right and left.
+
+	// Used to manage projectile's destruction.
+	Collider2D collision = null;
+
+	// Used to fire the projectile the right way when turning right and left.
+	Vector3 projectileDirection;
 	BasicEnemy enemyScript;
 
 	#endregion
@@ -45,7 +49,8 @@ public class Projectile : MonoBehaviour
 
 	private void Update()
 	{
-		projectileRigidbody2D.velocity = projectileDirection * projectileSpeed; // Moves the projectile.
+		// Moves the projectile.
+		projectileRigidbody2D.velocity = projectileDirection * projectileSpeed;
 	}
 
 	#endregion
