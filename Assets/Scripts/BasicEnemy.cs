@@ -7,12 +7,12 @@ public class BasicEnemy : MonoBehaviour
 {
 	[SerializeField] private GameObject player;
 	[SerializeField] private float speed = 3;
-	[SerializeField] private float jumpForce = 150;
+	[SerializeField] private float jumpSpeed = 5;
 	[SerializeField] private GameObject jumpPosition;
 	[SerializeField] private GameObject jumpCheckPlatForm;
 	[SerializeField] private GameObject groundDetector;
 	[SerializeField] private GameObject frontDetector;
-	[SerializeField] private Tilemap tilemap;
+	[SerializeField] private bool enableJump = false;
 
 	private enum BasicEnemyStates
 	{
@@ -27,7 +27,7 @@ public class BasicEnemy : MonoBehaviour
 	private bool isAlive = true;
 	private bool wantsToJump = false;
 	private Rigidbody2D myRigidbody2D;
-
+	private Vector2 previousPos;
 	private Collider2D groundDetectorCollider2D;
 	private Collider2D frontDetectorCollider2D;
 	private Collider2D jumpPositionCollider2D;
@@ -40,15 +40,15 @@ public class BasicEnemy : MonoBehaviour
 	private void Start()
 	{
 		myRigidbody2D = GetComponent<Rigidbody2D>();
-		float myRotation = this.transform.rotation.eulerAngles.y;
-		isLookingRight = -90.0f > myRotation && myRotation > 90.0f;
+		float myRotationY = this.transform.rotation.eulerAngles.y;
+		isLookingRight = Mathf.Abs(myRotationY) < 90.0f;
 		//TODO add checkstate somewhere here
 
 		groundDetectorCollider2D = groundDetector.GetComponent<Collider2D>();
 		frontDetectorCollider2D = frontDetector.GetComponent<Collider2D>();
 		jumpPositionCollider2D = jumpPosition.GetComponent<Collider2D>();
 		jumpCheckPlatFormCollider2D = jumpCheckPlatForm.GetComponent<Collider2D>();
-		tilemapCollider2D = tilemap.GetComponent<TilemapCollider2D>();
+		tilemapCollider2D = GameManager.Instance.levelTilemap.GetComponent<TilemapCollider2D>();
 	}
 
 	private void Update()
@@ -56,31 +56,33 @@ public class BasicEnemy : MonoBehaviour
 		Debug.Log(myState.ToString());
 		switch (myState)
 		{
-			case BasicEnemyStates.Falling:
-			{
-				CheckPlayerPosX();
-				CheckGround();
-			}
-				break;
 			case BasicEnemyStates.Jumping:
 			{
+				CheckFalling();
+			}
+				break;
+			case BasicEnemyStates.Falling:
+			{
+				myRigidbody2D.velocity = myRigidbody2D.velocity * Vector2.up;
+				CheckPlayerPosX();
 				CheckGround();
 			}
 				break;
 			case BasicEnemyStates.Running:
 			{
 				MoveForward();
+				CheckFront();
+				CheckGround();
 				CheckPlayerPosY();
 				CheckForJump();
-				CheckGround();
-				CheckFront();
-			}
+				}
 				break;
 			case BasicEnemyStates.InBubble:
 			{
 			}
 				break;
 		}
+		previousPos = transform.position;
 	}
 
 	#endregion
@@ -100,6 +102,14 @@ public class BasicEnemy : MonoBehaviour
 
 	#region Private methods
 
+	private void CheckFalling()
+	{
+		if (previousPos.y > transform.position.y)
+		{
+			myState = BasicEnemyStates.Falling;
+		}
+	}
+
 	private void CheckGround()
 	{
 		if (groundDetectorCollider2D.IsTouching(tilemapCollider2D))
@@ -116,6 +126,7 @@ public class BasicEnemy : MonoBehaviour
 	{
 		if (frontDetectorCollider2D.IsTouching(tilemapCollider2D))
 		{
+			Debug.Log("something in front, turn !");
 			TurnAround();
 		}
 	}
@@ -123,7 +134,7 @@ public class BasicEnemy : MonoBehaviour
 	private void CheckPlayerPosX()
 	{
 		float diffPosX = this.transform.position.x - player.transform.position.x;
-		if ((diffPosX > 0 && !isLookingRight) || (diffPosX < 0 && isLookingRight))
+		if ((diffPosX < 0 && !isLookingRight) || (diffPosX > 0 && isLookingRight))
 		{
 			TurnAround();
 		}
@@ -142,16 +153,14 @@ public class BasicEnemy : MonoBehaviour
 		}
 	}
 
-	//Checks if jump is possible, if so, jump
+	//Checks if jump is possible depending on various conditions
 	private void CheckForJump()
 	{
-		if (wantsToJump && myState == BasicEnemyStates.Running &&
-		    !jumpPositionCollider2D.IsTouching(tilemapCollider2D) &&
+		//Debug.Log(wantsToJump + " " + !jumpPositionCollider2D.IsTouching(tilemapCollider2D) + " " +jumpCheckPlatFormCollider2D.IsTouching(tilemapCollider2D));
+		if (enableJump && wantsToJump && !jumpPositionCollider2D.IsTouching(tilemapCollider2D) &&
 		    jumpCheckPlatFormCollider2D.IsTouching(tilemapCollider2D))
 		{
-			myRigidbody2D.AddForce(Vector2.up*jumpForce);
-			//myRigidbody2D.velocity = (jumpPosition.transform.position - transform.position)*jumpForce;
-			//Debug.DrawLine(transform.position, jumpPosition.transform.position - transform.position,Color.red,1.0f);
+			myRigidbody2D.velocity = Vector2.up * jumpSpeed ;
 			myState = BasicEnemyStates.Jumping;
 		}
 	}
