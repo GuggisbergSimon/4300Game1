@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Level
   - ProjectileSpawner
-  - Platform
   - Enemy
   layers:
   - Default

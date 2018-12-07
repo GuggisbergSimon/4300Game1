@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Resume : MonoBehaviour {
-
-    [SerializeField] GameObject pausePanel;
+public class Resume : MonoBehaviour
+{
+	[SerializeField] GameObject pausePanel;
 
 	public void ResumeGame()
-    {
-        GameManager.Instance.paused = false;
+	{
+		GameManager.Instance.paused = false;
 
-        pausePanel.SetActive(false);
-    }
+		pausePanel.SetActive(false);
+	}
 }
