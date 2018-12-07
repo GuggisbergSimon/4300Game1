@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4291321326566200}
   - component: {fileID: 50672092241875438}
-  - component: {fileID: 114694293606564358}
   - component: {fileID: 58820860063581972}
+  - component: {fileID: 114538426558269668}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1053389253500286}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.8, y: 0.03, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4962863916272526}
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1581168866879336, guid: 7c3a1a97fa657ed40940d9fb7576142e,
     type: 2}
---- !u!114 &114694293606564358
+--- !u!114 &114538426558269668
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,12 +177,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1053389253500286}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d80dbb7e163bda43b25929e2202f093, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e8552da2f0d48b4188718cf0f5fdc43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeedMultiplier: 5
-  playerJumpMultiplier: 7
-  circleCastRadius: 0.05
+  playerSpeedMultiplier: 1
+  playerJumpMultiplier: 1
+  circleCastRadius: 0.3
+  isDebug: 1
 --- !u!212 &212102791101070790
 SpriteRenderer:
   m_ObjectHideFlags: 1
