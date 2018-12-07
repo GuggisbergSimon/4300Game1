@@ -13,9 +13,6 @@ public class Projectile : MonoBehaviour
 	// Private variables
 	Rigidbody2D projectileRigidbody2D;
 
-	// Used to manage projectile's destruction.
-	Collider2D collision = null;
-
 	// Used to fire the projectile the right way when turning right and left.
 	Vector3 projectileDirection;
 	BasicEnemy enemyScript;

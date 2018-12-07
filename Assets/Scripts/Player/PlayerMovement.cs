@@ -25,10 +25,10 @@ public class PlayerMovement : MonoBehaviour
 	// Used to flip sprite in the correct direction.
 	bool movingRight = true;
 
-	// Avoids part of the script relying on references set in LateStart from running before the LateStart has run.
-	bool lateStartIsDone = false;
-
 	#endregion
+
+	/*// Avoids part of the script relying on references set in LateStart from running before the LateStart has run.
+	bool lateStartIsDone = false;
 
 	#region Custom functions
 
@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
 		lateStartIsDone = true;
 	}
 
-	#endregion
+	#endregion*/
 
 	#region Unity functions
 
@@ -52,8 +52,7 @@ public class PlayerMovement : MonoBehaviour
 		// Gets references.
 		playerRigidbody2D = gameObject.GetComponent<Rigidbody2D>();
 		playerAnimator = gameObject.GetComponentInChildren<Animator>();
-
-		StartCoroutine(LateStart());
+		tilemapCollider = GameManager.Instance.levelTilemap.GetComponent<TilemapCollider2D>();
 	}
 
 	private void FixedUpdate()
@@ -64,8 +63,8 @@ public class PlayerMovement : MonoBehaviour
 			CheckAirborne();
 			CheckJump();
 
-			//NOT WORKING Code for dropping below platforms, currently not working as intended
-			if (lateStartIsDone)
+			//TODO Code for dropping below platforms, currently not working as intended
+			/*if (lateStartIsDone)
 			{
 				if (Input.GetAxisRaw("Vertical") < 0)
 				{
@@ -75,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
 				{
 					tilemapCollider.enabled = true;
 				}
-			}
+			}*/
 		}
 	}
 
@@ -126,15 +125,14 @@ public class PlayerMovement : MonoBehaviour
 
 	private void HorizontalMovement()
 	{
-		// Horizontal movement.
-		float currentInput = Input.GetAxisRaw("Horizontal");
-
-		if (currentInput.CompareTo(0) != 0)
+		// Horizontal movement
+		float currentInputHorizontal = Input.GetAxisRaw("Horizontal");
+		if (currentInputHorizontal.CompareTo(0) != 0)
 		{
 			playerRigidbody2D.velocity =
-				Vector2.right * playerSpeed * currentInput + Vector2.up * playerRigidbody2D.velocity;
+				Vector2.right * playerSpeed * currentInputHorizontal + Vector2.up * playerRigidbody2D.velocity;
 			playerAnimator.SetBool("isIdle", false);
-			if ((currentInput > 0 && !movingRight) || (currentInput < 0 && movingRight))
+			if ((currentInputHorizontal > 0 && !movingRight) || (currentInputHorizontal < 0 && movingRight))
 			{
 				TurnAround();
 			}
@@ -160,10 +158,9 @@ public class PlayerMovement : MonoBehaviour
 		{
 			if (!isAirborne)
 			{
-				playerRigidbody2D.velocity = new Vector2(playerRigidbody2D.velocity.x,
-					Vector2.up.y * playerJump); // Sets y velocity to new velocity.
+				// Sets y velocity to new velocity.
+				playerRigidbody2D.velocity = new Vector2(playerRigidbody2D.velocity.x, Vector2.up.y * playerJump);
 				isAirborne = true;
-
 				playerAnimator.SetBool("isJumping", true);
 			}
 		}
@@ -177,10 +174,4 @@ public class PlayerMovement : MonoBehaviour
 	}
 
 	#endregion
-
-	public void Die()
-	{
-		Destroy(this.gameObject);
-		//TODO go to gameover screen
-	}
 }

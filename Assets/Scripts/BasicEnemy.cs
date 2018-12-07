@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class BasicEnemy : MonoBehaviour
+public class BasicEnemy : Enemy
 {
 	[SerializeField] private GameObject player;
 	[SerializeField] private float speed = 3;
@@ -25,7 +25,6 @@ public class BasicEnemy : MonoBehaviour
 
 	private BasicEnemyStates myState;
 	private bool isLookingRight;
-	private bool isAlive = true;
 	private bool wantsToJump = false;
 	private Rigidbody2D myRigidbody2D;
 	private Vector2 previousPos;
@@ -56,7 +55,7 @@ public class BasicEnemy : MonoBehaviour
 		tilemapCollider2D = GameManager.Instance.levelTilemap.GetComponent<TilemapCollider2D>();
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		switch (myState)
 		{
@@ -104,16 +103,7 @@ public class BasicEnemy : MonoBehaviour
 
 	#endregion
 
-
 	#region Public methods
-
-	public void Die()
-	{
-		if (isAlive)
-		{
-			Destroy(this.gameObject);
-		}
-	}
 
 	public void Bubble()
 	{
@@ -148,7 +138,6 @@ public class BasicEnemy : MonoBehaviour
 	{
 		if (frontDetectorCollider2D.IsTouching(tilemapCollider2D))
 		{
-			Debug.Log("something in front, turn !");
 			TurnAround();
 		}
 	}
@@ -178,7 +167,6 @@ public class BasicEnemy : MonoBehaviour
 	//Checks if jump is possible depending on various conditions
 	private void CheckForJump()
 	{
-		//Debug.Log(wantsToJump + " " + !jumpPositionCollider2D.IsTouching(tilemapCollider2D) + " " +jumpCheckPlatFormCollider2D.IsTouching(tilemapCollider2D));
 		if (enableJump && wantsToJump && !jumpPositionCollider2D.IsTouching(tilemapCollider2D) &&
 		    jumpCheckPlatFormCollider2D.IsTouching(tilemapCollider2D))
 		{

@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour {
 
     #region Unity Functions
 
-    private void Start()
+    private void Awake()
     {
         Instance = this;
 
