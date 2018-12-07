@@ -13,7 +13,6 @@ public class BasicEnemy : MonoBehaviour
 	[SerializeField] private GameObject groundDetector;
 	[SerializeField] private GameObject frontDetector;
 	[SerializeField] private bool enableJump = false;
-	[SerializeField] private Tilemap tilemap;
     [SerializeField] private GameObject bubble;
 
 	private enum BasicEnemyStates
@@ -51,7 +50,6 @@ public class BasicEnemy : MonoBehaviour
 		frontDetectorCollider2D = frontDetector.GetComponent<Collider2D>();
 		jumpPositionCollider2D = jumpPosition.GetComponent<Collider2D>();
 		jumpCheckPlatFormCollider2D = jumpCheckPlatForm.GetComponent<Collider2D>();
-		tilemapCollider2D = tilemap.GetComponent<TilemapCollider2D>();
         myCollider = GetComponent<CapsuleCollider2D>();
 
         bubble.SetActive(false);
