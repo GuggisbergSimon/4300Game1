@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 // Controls player movement and animations associated with it.
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Actor
 {
 	#region Variables
 
