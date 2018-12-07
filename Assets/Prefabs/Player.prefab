@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4291321326566200}
   - component: {fileID: 50672092241875438}
   - component: {fileID: 58820860063581972}
-  - component: {fileID: 114538426558269668}
+  - component: {fileID: 114764598378195378}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -169,7 +169,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1581168866879336, guid: 7c3a1a97fa657ed40940d9fb7576142e,
     type: 2}
---- !u!114 &114538426558269668
+  debugging: 1
+--- !u!114 &114764598378195378
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,10 +181,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e8552da2f0d48b4188718cf0f5fdc43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeedMultiplier: 1
-  playerJumpMultiplier: 1
-  circleCastRadius: 0.3
-  isDebug: 1
+  playerSpeedMultiplier: 5
+  playerJumpMultiplier: 7
+  debugging: 1
+  raycastDistanceFromPlayer: 0.6
 --- !u!212 &212102791101070790
 SpriteRenderer:
   m_ObjectHideFlags: 1

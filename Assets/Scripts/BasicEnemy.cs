@@ -13,6 +13,7 @@ public class BasicEnemy : MonoBehaviour
 	[SerializeField] private GameObject groundDetector;
 	[SerializeField] private GameObject frontDetector;
 	[SerializeField] private bool enableJump = false;
+    [SerializeField] private GameObject bubble;
 
 	private enum BasicEnemyStates
 	{
@@ -33,6 +34,7 @@ public class BasicEnemy : MonoBehaviour
 	private Collider2D jumpPositionCollider2D;
 	private Collider2D jumpCheckPlatFormCollider2D;
 	private TilemapCollider2D tilemapCollider2D;
+    private CapsuleCollider2D myCollider;
 
 
 	#region Inherited methods
@@ -48,12 +50,14 @@ public class BasicEnemy : MonoBehaviour
 		frontDetectorCollider2D = frontDetector.GetComponent<Collider2D>();
 		jumpPositionCollider2D = jumpPosition.GetComponent<Collider2D>();
 		jumpCheckPlatFormCollider2D = jumpCheckPlatForm.GetComponent<Collider2D>();
+        myCollider = GetComponent<CapsuleCollider2D>();
+
+        bubble.SetActive(false);
 		tilemapCollider2D = GameManager.Instance.levelTilemap.GetComponent<TilemapCollider2D>();
 	}
 
 	private void Update()
 	{
-		Debug.Log(myState.ToString());
 		switch (myState)
 		{
 			case BasicEnemyStates.Jumping:
@@ -79,6 +83,17 @@ public class BasicEnemy : MonoBehaviour
 				break;
 			case BasicEnemyStates.InBubble:
 			{
+                if (!bubble.activeSelf)
+                {
+                    bubble.SetActive(true);
+                    myCollider.enabled = false; // Avoids the bubble collider from being triggered by enemy's own colliders.
+                    frontDetectorCollider2D.enabled = false;
+                    groundDetectorCollider2D.enabled = false;
+
+                    myRigidbody2D.gravityScale = 0;
+                }
+
+                BubbledMove();
 			}
 				break;
 		}
@@ -97,6 +112,11 @@ public class BasicEnemy : MonoBehaviour
 			Destroy(this.gameObject);
 		}
 	}
+
+    public void Bubble()
+    {
+        myState = BasicEnemyStates.InBubble;
+    }
 
 	#endregion
 
@@ -175,6 +195,26 @@ public class BasicEnemy : MonoBehaviour
 		isLookingRight = !isLookingRight;
 		this.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 180, 0);
 	}
+
+    private void BubbledMove()
+    {
+        myRigidbody2D.velocity = new Vector2(); // Resetting velocity.
+
+        int randomNumber = Random.Range(0,100);
+
+        if (randomNumber > 50)
+        {
+            transform.position = new Vector2(transform.position.x, transform.position.y + 0.1f); // Moves the bubbled enemy upwards.
+        }
+        else if (randomNumber > 0 && randomNumber < 25)
+        {
+            transform.position = new Vector2(transform.position.x + 0.1f, transform.position.y); // Moves the bubbled enemy to the right.
+        }
+        else
+        {
+            transform.position = new Vector2(transform.position.x - 0.1f, transform.position.y); // Moves the bubbled enemy to the left.
+        }
+    }
 
 	#endregion
 }
