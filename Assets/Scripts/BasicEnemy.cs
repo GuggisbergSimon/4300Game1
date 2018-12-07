@@ -36,7 +36,6 @@ public class BasicEnemy : MonoBehaviour
 	private TilemapCollider2D tilemapCollider2D;
 	private Collider2D myCollider;
 
-
 	#region Inherited methods
 
 	private void Start()

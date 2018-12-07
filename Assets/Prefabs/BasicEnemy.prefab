@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 4816091308260062}
   - component: {fileID: 114014277912800894}
   - component: {fileID: 50826971807866090}
-  - component: {fileID: 70676242583059856}
+  - component: {fileID: 61439190434624996}
   m_Layer: 0
   m_Name: BasicEnemy
   m_TagString: Enemy
@@ -271,7 +271,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1645950256246668}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.943465, y: -3.1339452, z: 0}
+  m_LocalPosition: {x: -5, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4378120026933368}
@@ -299,7 +299,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 77c534be8361f8a459a6eba6dda84da9, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -343,6 +343,31 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.2}
+  m_EdgeRadius: 0
+--- !u!61 &61439190434624996
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1645950256246668}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!61 &61656351865234086
 BoxCollider2D:
@@ -417,23 +442,8 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8, y: 0.1}
+  m_Size: {x: 1, y: 0.1}
   m_EdgeRadius: 0
---- !u!70 &70676242583059856
-CapsuleCollider2D:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1645950256246668}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 1}
-  m_Direction: 0
 --- !u!114 &114014277912800894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -445,14 +455,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc3e966d16a41b94dbce04776dea1799, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1053389253500286, guid: 04cdb6ecb76920e498a092498a163455, type: 2}
+  player: {fileID: 0}
   speed: 4
-  jumpSpeed: 10
+  jumpSpeed: 8
   jumpPosition: {fileID: 1221593311915810}
   jumpCheckPlatForm: {fileID: 1456569053679870}
   groundDetector: {fileID: 1704226903221342}
   frontDetector: {fileID: 1992665526627080}
-  enableJump: 0
+  enableJump: 1
   bubble: {fileID: 1266686559482734}
 --- !u!114 &114778105052058070
 MonoBehaviour:
