@@ -421,12 +421,41 @@ Prefab:
     - target: {fileID: 61832984813789030, guid: 6811ea6e05a75e14db1c0d055d4269e6,
         type: 2}
       propertyPath: m_Size.x
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114014277912800894, guid: 6811ea6e05a75e14db1c0d055d4269e6,
         type: 2}
       propertyPath: enableJump
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4209718593442514, guid: 6811ea6e05a75e14db1c0d055d4269e6, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 61356393312401694, guid: 6811ea6e05a75e14db1c0d055d4269e6,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 61356393312401694, guid: 6811ea6e05a75e14db1c0d055d4269e6,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 61656351865234086, guid: 6811ea6e05a75e14db1c0d055d4269e6,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 61656351865234086, guid: 6811ea6e05a75e14db1c0d055d4269e6,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114014277912800894, guid: 6811ea6e05a75e14db1c0d055d4269e6,
+        type: 2}
+      propertyPath: jumpSpeed
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 70676242583059856, guid: 6811ea6e05a75e14db1c0d055d4269e6, type: 2}

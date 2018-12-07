@@ -63,25 +63,25 @@ public class BasicEnemy : MonoBehaviour
 				break;
 			case BasicEnemyStates.Falling:
 			{
+				myRigidbody2D.velocity = myRigidbody2D.velocity * Vector2.up;
 				CheckPlayerPosX();
 				CheckGround();
 			}
 				break;
 			case BasicEnemyStates.Running:
 			{
-				CheckGround();
 				MoveForward();
 				CheckFront();
+				CheckGround();
 				CheckPlayerPosY();
 				CheckForJump();
-			}
+				}
 				break;
 			case BasicEnemyStates.InBubble:
 			{
 			}
 				break;
 		}
-
 		previousPos = transform.position;
 	}
 
@@ -160,9 +160,7 @@ public class BasicEnemy : MonoBehaviour
 		if (enableJump && wantsToJump && !jumpPositionCollider2D.IsTouching(tilemapCollider2D) &&
 		    jumpCheckPlatFormCollider2D.IsTouching(tilemapCollider2D))
 		{
-			myRigidbody2D.velocity = Vector2.up * jumpSpeed + (Vector2) transform.right * myRigidbody2D.velocity.x;
-			Debug.DrawLine(transform.position, (transform.position + (Vector3) myRigidbody2D.velocity) / 3, Color.red,
-				1.0f);
+			myRigidbody2D.velocity = Vector2.up * jumpSpeed ;
 			myState = BasicEnemyStates.Jumping;
 		}
 	}
