@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] float playerJumpMultiplier = 1;
     [SerializeField] float circleCastRadius = 0.1f; // CircleCast is used to avoid infinite jumping.
     [SerializeField] bool debugging = false;
+    [SerializeField] float raycastDistanceFromPlayer = 0.6f;
 
     // Private variables.
     Rigidbody2D playerRigidbody2D;
@@ -34,17 +35,18 @@ public class PlayerMovement : MonoBehaviour {
     #endregion
 
     #region Custom functions
+    /*
     IEnumerator CheckGround() // Checks whether the player is standing on solid ground or not.
     {
         yield return new WaitForSeconds(0.05f);
 
-        if (Physics2D.CircleCast(new Vector2(transform.position.x, transform.position.y - (playerSpriteSizeInPixels / 2.0f) / PIXELS_PER_UNIT - circleCastRadius / 2.0f - 0.1f), circleCastRadius, Vector3.forward).collider != null) // Casts a CircleCast at player's feet and sets isAirborne variable to false if the cast returned a collision.
+        if (Physics2D.Raycast(new Vector2(transform.position.x - 0.55f, transform.position.y), Vector3.forward).collider != null) // Casts a CircleCast at player's feet and sets isAirborne variable to false if the cast returned a collision.
         {
             isAirborne = false;
 
             playerAnimator.SetBool("isJumping", false);
         }
-    }
+    }*/
 
     IEnumerator LateStart() // Used to get references stored in GameManager, which initializes at the same time as everything else which causes an error if we're trying to get a reference from it before it's initialized.
     {
@@ -68,7 +70,7 @@ public class PlayerMovement : MonoBehaviour {
         playerSpriteSizeInPixels = PIXELS_PER_UNIT * transform.localScale.y; // Sets up variable.
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!GameManager.Instance.paused || debugging)
         {
@@ -112,6 +114,18 @@ public class PlayerMovement : MonoBehaviour {
 
                 playerAnimator.SetBool("isIdle", true);
             }
+            
+            RaycastHit2D groundHit = Physics2D.Raycast(new Vector3(transform.position.x, transform.position.y - raycastDistanceFromPlayer, transform.position.z - 0.5f), Vector3.forward);
+            if (groundHit != false && groundHit.collider.gameObject.tag == "Level") // Casts a CircleCast at player's feet and sets isAirborne variable to false if the cast returned a collision.
+            {
+                isAirborne = false;
+
+                playerAnimator.SetBool("isJumping", false);
+            }
+            else
+            {
+                isAirborne = true;
+            }
 
             // Vertical movement.
             if (Input.GetButtonDown("Jump"))
@@ -128,7 +142,7 @@ public class PlayerMovement : MonoBehaviour {
             // Prevents the player from jumping multiple times.
             if (isAirborne)
             {
-                StartCoroutine(CheckGround()); // A coroutine with a WaitForSeconds() is necessary, otherwise isAirborne bool would be set back to false as soon as it's set to true.
+                // StartCoroutine(CheckGround()); // A coroutine with a WaitForSeconds() is necessary, otherwise isAirborne bool would be set back to false as soon as it's set to true.
             }
 
             if (lateStartIsDone)
@@ -142,17 +156,20 @@ public class PlayerMovement : MonoBehaviour {
                     tilemapCollider.enabled = true;
                 }
             }
+        }
+    }
 
-            // Responsible for transitioning between jumping and falling animations.
-            if (playerRigidbody2D.velocity.y < 0)
-            {
-                playerAnimator.SetBool("isFalling", true);
-                playerAnimator.SetBool("isJumping", false);
-            }
-            else
-            {
-                playerAnimator.SetBool("isFalling", false);
-            }
+    private void Update()
+    {
+        // Responsible for transitioning between jumping and falling animations.
+        if (playerRigidbody2D.velocity.y < 0)
+        {
+            playerAnimator.SetBool("isFalling", true);
+            playerAnimator.SetBool("isJumping", false);
+        }
+        else
+        {
+            playerAnimator.SetBool("isFalling", false);
         }
     }
     #endregion

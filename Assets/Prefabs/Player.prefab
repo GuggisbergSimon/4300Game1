@@ -169,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1581168866879336, guid: 7c3a1a97fa657ed40940d9fb7576142e,
     type: 2}
-  debugging: 0
+  debugging: 1
 --- !u!114 &114694293606564358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -184,7 +184,8 @@ MonoBehaviour:
   playerSpeedMultiplier: 5
   playerJumpMultiplier: 7
   circleCastRadius: 0.2
-  debugging: 0
+  debugging: 1
+  raycastDistanceFromPlayer: 0.6
 --- !u!212 &212102791101070790
 SpriteRenderer:
   m_ObjectHideFlags: 1

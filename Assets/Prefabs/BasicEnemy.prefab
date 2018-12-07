@@ -504,7 +504,6 @@ MonoBehaviour:
   jumpCheckPlatForm: {fileID: 1456569053679870}
   groundDetector: {fileID: 1704226903221342}
   frontDetector: {fileID: 1992665526627080}
-  myCollider: {fileID: 0}
   tilemap: {fileID: 0}
   bubble: {fileID: 1266686559482734}
 --- !u!114 &114778105052058070
