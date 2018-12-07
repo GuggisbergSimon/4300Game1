@@ -15,7 +15,7 @@ public class BubblePopScript : MonoBehaviour
 	{
 		if (collision.collider.gameObject.tag == "Player")
 		{
-			Destroy(enemy);
+			enemy.GetComponent<BasicEnemy>().Die();
 		}
 	}
 }

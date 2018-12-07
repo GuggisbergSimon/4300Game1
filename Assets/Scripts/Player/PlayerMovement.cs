@@ -169,5 +169,19 @@ public class PlayerMovement : MonoBehaviour
 		}
 	}
 
+	private void OnCollisionEnter2D(Collision2D other)
+	{
+		if (other.gameObject.CompareTag("Enemy"))
+		{
+			this.Die();
+		}
+	}
+
 	#endregion
+
+	public void Die()
+	{
+		Destroy(this.gameObject);
+		//TODO go to gameover screen
+	}
 }
