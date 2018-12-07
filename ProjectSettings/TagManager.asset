@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Level
   - ProjectileSpawner
+  - Platform
   layers:
   - Default
   - TransparentFX
