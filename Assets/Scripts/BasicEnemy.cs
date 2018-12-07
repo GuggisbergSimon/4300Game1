@@ -34,7 +34,7 @@ public class BasicEnemy : MonoBehaviour
 	private Collider2D jumpPositionCollider2D;
 	private Collider2D jumpCheckPlatFormCollider2D;
 	private TilemapCollider2D tilemapCollider2D;
-	private CapsuleCollider2D myCollider;
+	private Collider2D myCollider;
 
 
 	#region Inherited methods
@@ -50,7 +50,7 @@ public class BasicEnemy : MonoBehaviour
 		frontDetectorCollider2D = frontDetector.GetComponent<Collider2D>();
 		jumpPositionCollider2D = jumpPosition.GetComponent<Collider2D>();
 		jumpCheckPlatFormCollider2D = jumpCheckPlatForm.GetComponent<Collider2D>();
-		myCollider = GetComponent<CapsuleCollider2D>();
+		myCollider = GetComponent<Collider2D>();
 
 		bubble.SetActive(false);
 		tilemapCollider2D = GameManager.Instance.levelTilemap.GetComponent<TilemapCollider2D>();
@@ -86,8 +86,8 @@ public class BasicEnemy : MonoBehaviour
 				if (!bubble.activeSelf)
 				{
 					bubble.SetActive(true);
-					myCollider.enabled =
-						false; // Avoids the bubble collider from being triggered by enemy's own colliders.
+					// Avoids the bubble collider from being triggered by enemy's own colliders.
+					myCollider.enabled = false;
 					frontDetectorCollider2D.enabled = false;
 					groundDetectorCollider2D.enabled = false;
 
