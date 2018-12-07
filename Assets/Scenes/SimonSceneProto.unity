@@ -335,6 +335,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &622502136 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1645950256246668, guid: 6811ea6e05a75e14db1c0d055d4269e6,
+    type: 2}
+  m_PrefabInternal: {fileID: 955649608}
+--- !u!61 &622502137
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 622502136}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &801311885 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1053389253500286, guid: 04cdb6ecb76920e498a092498a163455,
@@ -349,11 +379,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4816091308260062, guid: 6811ea6e05a75e14db1c0d055d4269e6, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.51
       objectReference: {fileID: 0}
     - target: {fileID: 4816091308260062, guid: 6811ea6e05a75e14db1c0d055d4269e6, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.5
+      value: -1.34
       objectReference: {fileID: 0}
     - target: {fileID: 4816091308260062, guid: 6811ea6e05a75e14db1c0d055d4269e6, type: 2}
       propertyPath: m_LocalPosition.z
@@ -384,19 +414,9 @@ Prefab:
       propertyPath: player
       value: 
       objectReference: {fileID: 801311885}
-    - target: {fileID: 114014277912800894, guid: 6811ea6e05a75e14db1c0d055d4269e6,
-        type: 2}
-      propertyPath: tilemap
-      value: 
-      objectReference: {fileID: 2131330263}
     - target: {fileID: 1645950256246668, guid: 6811ea6e05a75e14db1c0d055d4269e6, type: 2}
       propertyPath: m_Name
       value: BasicEnemy (top)
-      objectReference: {fileID: 0}
-    - target: {fileID: 61685170386753174, guid: 6811ea6e05a75e14db1c0d055d4269e6,
-        type: 2}
-      propertyPath: m_Size.y
-      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 61832984813789030, guid: 6811ea6e05a75e14db1c0d055d4269e6,
         type: 2}
@@ -406,9 +426,10 @@ Prefab:
     - target: {fileID: 114014277912800894, guid: 6811ea6e05a75e14db1c0d055d4269e6,
         type: 2}
       propertyPath: enableJump
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 70676242583059856, guid: 6811ea6e05a75e14db1c0d055d4269e6, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 6811ea6e05a75e14db1c0d055d4269e6, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &1315842031
