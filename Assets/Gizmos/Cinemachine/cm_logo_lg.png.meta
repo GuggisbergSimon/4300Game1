@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+guid: 38ed6652b5b20a04db51951f1a287f5b
+=======
 guid: 641b433c04d9215409e1543afd8c30c1
+>>>>>>> Oleg
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}
@@ -75,7 +79,11 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
+<<<<<<< HEAD
+    spriteID: 7b22cc3da26619b429c49d31317be5a7
+=======
     spriteID: a2bb1999ef9bbdd42989ea870b1e34e8
+>>>>>>> Oleg
     vertices: []
     indices: 
     edges: []

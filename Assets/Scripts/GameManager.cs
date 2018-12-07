@@ -15,9 +15,9 @@ public class GameManager : MonoBehaviour {
 
     #region Public variables
 
-    public bool startedGame = false;
-    public bool hidePausePanel = true;
-    public bool paused = true;
+    [HideInInspector] public bool startedGame = false;
+    [HideInInspector] public bool hidePausePanel = true;
+    [HideInInspector] public bool paused = true;
     #endregion
 
     #region Custom Functions
@@ -57,17 +57,20 @@ public class GameManager : MonoBehaviour {
             Application.Quit();
         }
 
-        if (Input.GetButtonDown("Pause"))
+        if (startedGame)
         {
-            if (paused)
+            if (Input.GetButtonDown("Pause"))
             {
-                paused = false;
-                hidePausePanel = true;
-            }
-            else
-            {
-                paused = true;
-                hidePausePanel = false;
+                if (paused)
+                {
+                    paused = false;
+                    hidePausePanel = true;
+                }
+                else
+                {
+                    paused = true;
+                    hidePausePanel = false;
+                }
             }
         }
     }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Level
   - ProjectileSpawner
+  - Platform
   layers:
   - Default
   - TransparentFX
@@ -54,4 +55,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 1530867301
+    locked: 0
+  - name: UI
+    uniqueID: 437917507
     locked: 0
