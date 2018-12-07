@@ -14,7 +14,8 @@ public class PlayerMovement : MonoBehaviour {
     // Serialized variables.
     [SerializeField] float playerSpeedMultiplier = 1;
     [SerializeField] float playerJumpMultiplier = 1;
-    [SerializeField] float circleCastRadius = 0.3f; // CircleCast is used to avoid infinite jumping.
+    [SerializeField] float circleCastRadius = 0.1f; // CircleCast is used to avoid infinite jumping.
+    [SerializeField] bool debugging = false;
 
     // Private variables.
     Rigidbody2D playerRigidbody2D;
@@ -69,7 +70,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private void Update()
     {
-        if (!GameManager.Instance.paused)
+        if (!GameManager.Instance.paused || debugging)
         {
             // Horizontal movement.
             if (Input.GetAxisRaw("Horizontal") > 0) // Joystick to the right.

@@ -13,6 +13,7 @@ public class Projectile : MonoBehaviour {
     Rigidbody2D projectileRigidbody2D;
     Collider2D collision = null;    // Used to manage projectile's destruction.
     Vector3 projectileDirection;    // Used to fire the projectile the right way when turning right and left.
+    BasicEnemy enemyScript;
     #endregion
 
     #region Unity functions
@@ -37,15 +38,13 @@ public class Projectile : MonoBehaviour {
             if (collision.gameObject.tag == "Enemy") // If collided with enemy, bubble the enemy and destroy self.
             {
                 // Bubble the enemy.
-                Debug.Log("Bubbled the enemy!");
+                enemyScript = collision.gameObject.GetComponent<BasicEnemy>();
+                enemyScript.Bubble();
 
                 Destroy(gameObject);
             }
-            else if (collision.gameObject.tag == "Level") // If collided with level, create a bubble trap and destroy self.
+            else if (collision.gameObject.tag == "Level")
             {
-                // Create a bubble gum trap.
-                Debug.Log("Created a gum trap!");
-
                 Destroy(gameObject);
             }
         }

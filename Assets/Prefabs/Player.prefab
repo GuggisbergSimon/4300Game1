@@ -169,6 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1581168866879336, guid: 7c3a1a97fa657ed40940d9fb7576142e,
     type: 2}
+  debugging: 0
 --- !u!114 &114694293606564358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -177,12 +178,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1053389253500286}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d80dbb7e163bda43b25929e2202f093, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e8552da2f0d48b4188718cf0f5fdc43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeedMultiplier: 5
   playerJumpMultiplier: 7
-  circleCastRadius: 0.05
+  circleCastRadius: 0.2
+  debugging: 0
 --- !u!212 &212102791101070790
 SpriteRenderer:
   m_ObjectHideFlags: 1

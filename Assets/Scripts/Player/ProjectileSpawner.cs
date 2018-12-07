@@ -6,10 +6,11 @@ using UnityEngine;
 public class ProjectileSpawner : MonoBehaviour {
     
     [SerializeField] GameObject projectilePrefab;
+    [SerializeField] bool debugging = false;
 
     private void Update()
     {
-        if (!GameManager.Instance.paused)
+        if (!GameManager.Instance.paused || debugging)
         {
             if (Input.GetButtonDown("Fire1"))
             {
