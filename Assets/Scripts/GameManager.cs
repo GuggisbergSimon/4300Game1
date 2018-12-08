@@ -2,77 +2,91 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
+	// Self reference for use in other scripts.
+	public static GameManager Instance { get; private set; } = null;
 
-    public static GameManager Instance { get; private set; } = null; // Self reference for use in other scripts.
+	#region Public References
 
-    #region Public References
+	public GameObject player;
+	public GameObject projectileSpawner;
+	public GameObject levelTilemap;
 
-    public GameObject player;
-    public GameObject projectileSpawner;
-    public GameObject levelTilemap;
-    #endregion
+	#endregion
 
-    #region Public variables
+	#region Public variables
 
-    [HideInInspector] public bool startedGame = false;
-    [HideInInspector] public bool hidePausePanel = true;
-    [HideInInspector] public bool paused = true;
-    #endregion
+	[HideInInspector] public bool startedGame = false;
+	[HideInInspector] public bool hidePausePanel = true;
+	[HideInInspector] public bool paused = true;
 
-    #region Custom Functions
+	#endregion
 
-    public void ResetGameManager()
-    {
-        Instance = this;
-        player = GameObject.FindGameObjectWithTag("Player");
-        projectileSpawner = GameObject.FindGameObjectWithTag("ProjectileSpawner");
-        levelTilemap = GameObject.FindGameObjectWithTag("Level");
+	#region Custom Functions
 
-        startedGame = false;
-        hidePausePanel = true;
-        paused = true;
-}
-    #endregion
+	public void ResetGameManager()
+	{
+		Instance = this;
+		player = GameObject.FindGameObjectWithTag("Player");
+		projectileSpawner = GameObject.FindGameObjectWithTag("ProjectileSpawner");
+		levelTilemap = GameObject.FindGameObjectWithTag("Level");
 
-    #region Unity Functions
+		startedGame = false;
+		hidePausePanel = true;
+		paused = true;
+	}
 
-    private void Awake()
-    {
-        Instance = this;
+	private void CheckEscape()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+#if UNITY_EDITOR
+			UnityEditor.EditorApplication.isPlaying = false;
+#else
+		Application.Quit();
+#endif
+		}
+	}
 
-        player = GameObject.FindGameObjectWithTag("Player");
-        projectileSpawner = GameObject.FindGameObjectWithTag("ProjectileSpawner");
-        levelTilemap = GameObject.FindGameObjectWithTag("Level");
-    }
+	private void CheckPause()
+	{
+		if (startedGame)
+		{
+			if (Input.GetButtonDown("Pause"))
+			{
+				if (paused)
+				{
+					paused = false;
+					hidePausePanel = true;
+				}
+				else
+				{
+					paused = true;
+					hidePausePanel = false;
+				}
+			}
+		}
+	}
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #endif
+	#endregion
 
-            Application.Quit();
-        }
+	#region Unity Functions
 
-        if (startedGame)
-        {
-            if (Input.GetButtonDown("Pause"))
-            {
-                if (paused)
-                {
-                    paused = false;
-                    hidePausePanel = true;
-                }
-                else
-                {
-                    paused = true;
-                    hidePausePanel = false;
-                }
-            }
-        }
-    }
-    #endregion
+	private void Awake()
+	{
+		Instance = this;
+
+		player = GameObject.FindGameObjectWithTag("Player");
+		projectileSpawner = GameObject.FindGameObjectWithTag("ProjectileSpawner");
+		levelTilemap = GameObject.FindGameObjectWithTag("Level");
+	}
+
+	private void Update()
+	{
+		CheckEscape();
+		CheckPause();
+	}
+
+	#endregion
 }

@@ -25,6 +25,8 @@ public class PlayerMovement : Actor
 	// Used to flip sprite in the correct direction.
 	bool movingRight = true;
 
+	private bool hasPressedJump = false;
+
 	#endregion
 
 	/*// Avoids part of the script relying on references set in LateStart from running before the LateStart has run.
@@ -80,6 +82,15 @@ public class PlayerMovement : Actor
 
 	private void Update()
 	{
+		if (Input.GetButtonDown("Jump"))
+		{
+			hasPressedJump = true;
+		}
+		else if (Input.GetButtonUp("Jump"))
+		{
+			hasPressedJump = false;
+		}
+
 		// Responsible for transitioning between jumping and falling animations.
 		if (playerRigidbody2D.velocity.y < 0)
 		{
@@ -153,7 +164,7 @@ public class PlayerMovement : Actor
 
 	private void CheckJump()
 	{
-		if (Input.GetButtonDown("Jump"))
+		if (hasPressedJump)
 		{
 			if (!isAirborne)
 			{

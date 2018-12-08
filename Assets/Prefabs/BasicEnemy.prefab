@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 61439190434624996}
   m_Layer: 0
   m_Name: BasicEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -438,8 +438,8 @@ MonoBehaviour:
   frontDetector: {fileID: 1992665526627080}
   enableJump: 1
   bubble: {fileID: 1266686559482734}
-  distanceCast: 0.55
-  radiusCast: 0.5
+  distanceCastGround: 0.55
+  radiusCastGround: 0.5
 --- !u!114 &114778105052058070
 MonoBehaviour:
   m_ObjectHideFlags: 1
