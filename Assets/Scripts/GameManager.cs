@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,6 +25,11 @@ public class GameManager : MonoBehaviour
 	#endregion
 
 	#region Custom Functions
+
+	public void LoadLevel(string nameLevel)
+	{
+		SceneManager.LoadScene(nameLevel);
+	}
 
 	public void ResetGameManager()
 	{
@@ -51,20 +57,17 @@ public class GameManager : MonoBehaviour
 
 	private void CheckPause()
 	{
-		if (startedGame)
-		{
-			if (Input.GetButtonDown("Pause"))
+		if (startedGame && Input.GetButtonDown("Pause"))
+		{	
+			if (paused)
 			{
-				if (paused)
-				{
-					paused = false;
-					hidePausePanel = true;
-				}
-				else
-				{
-					paused = true;
-					hidePausePanel = false;
-				}
+				paused = false;
+				hidePausePanel = true;
+			}
+			else
+			{
+				paused = true;
+				hidePausePanel = false;
 			}
 		}
 	}

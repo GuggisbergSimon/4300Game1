@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.Tilemaps;
 
 // Controls player movement and animations associated with it.
@@ -108,6 +109,7 @@ public class PlayerMovement : Actor
 		if (other.gameObject.CompareTag("Enemy"))
 		{
 			this.Die();
+			GameManager.Instance.LoadLevel("GameOver");
 		}
 	}
 
