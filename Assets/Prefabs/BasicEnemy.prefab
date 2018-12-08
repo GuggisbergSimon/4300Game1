@@ -103,6 +103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4142018634934742}
+  - component: {fileID: 61408435150790026}
   m_Layer: 0
   m_Name: GroundDetector
   m_TagString: Untagged
@@ -270,7 +271,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1645950256246668}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: 3.16, z: 0}
+  m_LocalPosition: {x: -1.9, y: -2.92, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4378120026933368}
@@ -342,6 +343,31 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &61408435150790026
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1704226903221342}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.1}
   m_EdgeRadius: 0
 --- !u!61 &61439190434624996
 BoxCollider2D:
@@ -416,7 +442,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 0.8}
+  m_Size: {x: 0.1, y: 0.2}
   m_EdgeRadius: 0
 --- !u!114 &114014277912800894
 MonoBehaviour:
@@ -436,10 +462,7 @@ MonoBehaviour:
   jumpCheckPlatForm: {fileID: 1456569053679870}
   groundDetector: {fileID: 1704226903221342}
   frontDetector: {fileID: 1992665526627080}
-  enableJump: 1
   bubble: {fileID: 1266686559482734}
-  distanceCastGround: 0.55
-  radiusCastGround: 0.5
 --- !u!114 &114778105052058070
 MonoBehaviour:
   m_ObjectHideFlags: 1
