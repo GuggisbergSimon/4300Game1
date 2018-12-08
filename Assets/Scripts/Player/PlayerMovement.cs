@@ -14,11 +14,13 @@ public class PlayerMovement : Actor
 	[SerializeField] float playerJump = 1;
 	[SerializeField] bool debugging = false;
 	[SerializeField] float raycastDistanceFromPlayer = 0.6f;
+	[SerializeField] private GameObject groundDetector;
 
 	// Private variables.
 	Rigidbody2D playerRigidbody2D;
 	Animator playerAnimator;
-	TilemapCollider2D tilemapCollider;
+	CompositeCollider2D tilemapCollider;
+	private Collider2D groundDetectorCollider2D;
 
 	// Used to check whether the player can jump.
 	bool isAirborne = false;
@@ -55,7 +57,8 @@ public class PlayerMovement : Actor
 		// Gets references.
 		playerRigidbody2D = gameObject.GetComponent<Rigidbody2D>();
 		playerAnimator = gameObject.GetComponentInChildren<Animator>();
-		tilemapCollider = GameManager.Instance.levelTilemap.GetComponent<TilemapCollider2D>();
+		tilemapCollider = GameManager.Instance.levelTilemap.GetComponent<CompositeCollider2D>();
+		groundDetectorCollider2D = groundDetector.GetComponent<Collider2D>();
 	}
 
 	private void FixedUpdate()
@@ -127,6 +130,18 @@ public class PlayerMovement : Actor
 		{
 			isAirborne = false;
 
+			playerAnimator.SetBool("isJumping", false);
+		}
+		else
+		{
+			isAirborne = true;
+		}
+
+		//
+
+		if (groundDetectorCollider2D.IsTouching(tilemapCollider))
+		{
+			isAirborne = false;
 			playerAnimator.SetBool("isJumping", false);
 		}
 		else
