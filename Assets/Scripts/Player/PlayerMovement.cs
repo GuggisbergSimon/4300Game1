@@ -123,7 +123,7 @@ public class PlayerMovement : Actor
 	private void CheckAirborne()
 	{
 		// Casts a CircleCast at player's feet and sets isAirborne variable to false if the cast returned a collision.
-		Vector3 originRaycast = new Vector3(transform.position.x, transform.position.y - raycastDistanceFromPlayer,
+		/*Vector3 originRaycast = new Vector3(transform.position.x, transform.position.y - raycastDistanceFromPlayer,
 			transform.position.z - 0.5f);
 		RaycastHit2D groundHit = Physics2D.Raycast(originRaycast, Vector3.forward);
 		if (groundHit != false && groundHit.collider.gameObject.CompareTag("Level"))
@@ -135,7 +135,7 @@ public class PlayerMovement : Actor
 		else
 		{
 			isAirborne = true;
-		}
+		}*/
 
 		//
 
