@@ -14,6 +14,9 @@ public class BasicEnemy : Enemy
 	[SerializeField] private GameObject frontDetector;
 	[SerializeField] private bool enableJump = false;
 	[SerializeField] private GameObject bubble;
+	[SerializeField] private float distanceCastGround = 0.55f;
+	[SerializeField] private float radiusCastGround = 0.5f;
+
 
 	private enum BasicEnemyStates
 	{
@@ -28,7 +31,6 @@ public class BasicEnemy : Enemy
 	private bool wantsToJump = false;
 	private Rigidbody2D myRigidbody2D;
 	private Vector2 previousPos;
-	private Collider2D groundDetectorCollider2D;
 	private Collider2D frontDetectorCollider2D;
 	private Collider2D jumpPositionCollider2D;
 	private Collider2D jumpCheckPlatFormCollider2D;
@@ -44,7 +46,6 @@ public class BasicEnemy : Enemy
 		isLookingRight = Mathf.Abs(myRotationY) < 90.0f;
 		//TODO add checkstate somewhere here
 
-		groundDetectorCollider2D = groundDetector.GetComponent<Collider2D>();
 		frontDetectorCollider2D = frontDetector.GetComponent<Collider2D>();
 		jumpPositionCollider2D = jumpPosition.GetComponent<Collider2D>();
 		jumpCheckPlatFormCollider2D = jumpCheckPlatForm.GetComponent<Collider2D>();
@@ -88,7 +89,6 @@ public class BasicEnemy : Enemy
 					// Avoids the bubble collider from being triggered by enemy's own colliders.
 					myCollider.enabled = false;
 					frontDetectorCollider2D.enabled = false;
-					groundDetectorCollider2D.enabled = false;
 
 					myRigidbody2D.gravityScale = 0;
 				}
@@ -124,7 +124,11 @@ public class BasicEnemy : Enemy
 
 	private void CheckGround()
 	{
-		if (groundDetectorCollider2D.IsTouching(tilemapCollider2D))
+		Vector2 originCast = groundDetector.transform.position;
+		RaycastHit2D groundHitLeft = Physics2D.Raycast(originCast + Vector2.right * radiusCastGround, Vector2.down, distanceCastGround);
+		RaycastHit2D groundHitRight = Physics2D.Raycast(originCast + Vector2.left * radiusCastGround, Vector2.down, distanceCastGround);
+		if ((groundHitLeft && groundHitLeft.collider.CompareTag("Level")) ||
+		    (groundHitRight && groundHitRight.collider.CompareTag("Level")))
 		{
 			myState = BasicEnemyStates.Running;
 		}
