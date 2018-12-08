@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public bool startedGame = false;
     [HideInInspector] public bool hidePausePanel = true;
     [HideInInspector] public bool paused = true;
+    [HideInInspector] public int lives = 3;
     #endregion
 
     #region Custom Functions

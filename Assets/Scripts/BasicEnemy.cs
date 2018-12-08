@@ -27,6 +27,7 @@ public class BasicEnemy : MonoBehaviour
 	private bool isLookingRight;
 	private bool isAlive = true;
 	private bool wantsToJump = false;
+    private bool lateStartIsDone = false;
 	private Rigidbody2D myRigidbody2D;
 	private Vector2 previousPos;
 	private Collider2D groundDetectorCollider2D;
@@ -53,7 +54,7 @@ public class BasicEnemy : MonoBehaviour
 		myCollider = GetComponent<Collider2D>();
 
 		bubble.SetActive(false);
-		tilemapCollider2D = GameManager.Instance.levelTilemap.GetComponent<TilemapCollider2D>();
+        StartCoroutine(LateStart());
 	}
 
 	private void Update()
@@ -67,18 +68,24 @@ public class BasicEnemy : MonoBehaviour
 				break;
 			case BasicEnemyStates.Falling:
 			{
-				myRigidbody2D.velocity = myRigidbody2D.velocity * Vector2.up;
-				CheckPlayerPosX();
-				CheckGround();
+                if (lateStartIsDone)
+                {
+                    myRigidbody2D.velocity = myRigidbody2D.velocity * Vector2.up;
+                    CheckPlayerPosX();
+                    CheckGround();
+                }
 			}
 				break;
 			case BasicEnemyStates.Running:
 			{
-				MoveForward();
-				CheckFront();
-				CheckGround();
-				CheckPlayerPosY();
-				CheckForJump();
+                if (lateStartIsDone)
+                {
+                    MoveForward();
+                    CheckFront();
+                    CheckGround();
+                    CheckPlayerPosY();
+                    CheckForJump();
+                }
 			}
 				break;
 			case BasicEnemyStates.InBubble:
@@ -221,5 +228,13 @@ public class BasicEnemy : MonoBehaviour
 		}
 	}
 
-	#endregion
+    IEnumerator LateStart() // Used to get references stored in GameManager, which initializes at the same time as everything else which causes an error if we're trying to get a reference from it before it's initialized.
+    {
+        yield return new WaitForSeconds(0.05f);
+
+        tilemapCollider2D = GameManager.Instance.levelTilemap.GetComponent<TilemapCollider2D>();
+        lateStartIsDone = true;
+    }
+
+    #endregion
 }

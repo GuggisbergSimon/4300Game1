@@ -17,30 +17,12 @@ public class PlayerMovement : MonoBehaviour
 	// Private variables.
 	Rigidbody2D playerRigidbody2D;
 	Animator playerAnimator;
-	TilemapCollider2D tilemapCollider;
 
 	float playerSpeed = 1; // Base horizontal velocity.
 	float playerJump = 1; // Base jumping velocity.
 
 	bool isAirborne = false; // Used to check whether the player can jump.
 	bool movingRight = true; // Used to flip sprite in the correct direction.
-
-	bool
-		lateStartIsDone =
-			false; // Avoids part of the script relying on references set in LateStart from running before the LateStart has run.
-
-	#endregion
-
-	#region Custom functions
-
-	IEnumerator
-		LateStart() // Used to get references stored in GameManager, which initializes at the same time as everything else which causes an error if we're trying to get a reference from it before it's initialized.
-	{
-		yield return new WaitForSeconds(0.05f);
-
-		tilemapCollider = GameManager.Instance.levelTilemap.GetComponent<TilemapCollider2D>();
-		lateStartIsDone = true;
-	}
 
 	#endregion
 
@@ -51,8 +33,6 @@ public class PlayerMovement : MonoBehaviour
 		// Gets references.
 		playerRigidbody2D = gameObject.GetComponent<Rigidbody2D>();
 		playerAnimator = gameObject.GetComponentInChildren<Animator>();
-
-		StartCoroutine(LateStart());
 	}
 
 	private void FixedUpdate()
@@ -100,18 +80,13 @@ public class PlayerMovement : MonoBehaviour
 			}
 			else // No horizontal movement input.
 			{
-				playerRigidbody2D.velocity =
-					new Vector2(0, playerRigidbody2D.velocity.y); // Sets player velocity to 0 on x axis.
+				playerRigidbody2D.velocity = new Vector2(0, playerRigidbody2D.velocity.y); // Sets player velocity to 0 on x axis.
 
 				playerAnimator.SetBool("isIdle", true);
 			}
 
-			RaycastHit2D groundHit =
-				Physics2D.Raycast(
-					new Vector3(transform.position.x, transform.position.y - raycastDistanceFromPlayer,
-						transform.position.z - 0.5f), Vector3.forward);
-			if (groundHit != false && groundHit.collider.gameObject.tag == "Level"
-			) // Casts a CircleCast at player's feet and sets isAirborne variable to false if the cast returned a collision.
+			RaycastHit2D groundHit = Physics2D.Raycast(new Vector3(transform.position.x, transform.position.y - raycastDistanceFromPlayer, transform.position.z - 0.5f), Vector3.forward);
+			if (groundHit != false && groundHit.collider.gameObject.tag == "Level") // Casts a CircleCast at player's feet and sets isAirborne variable to false if the cast returned a collision.
 			{
 				isAirborne = false;
 
@@ -139,18 +114,6 @@ public class PlayerMovement : MonoBehaviour
 			if (isAirborne)
 			{
 				// StartCoroutine(CheckGround()); // A coroutine with a WaitForSeconds() is necessary, otherwise isAirborne bool would be set back to false as soon as it's set to true.
-			}
-
-			if (lateStartIsDone)
-			{
-				if (Input.GetAxisRaw("Vertical") < 0)
-				{
-					tilemapCollider.enabled = false;
-				}
-				else if (Input.GetAxisRaw("Vertical") == 0)
-				{
-					tilemapCollider.enabled = true;
-				}
 			}
 		}
 	}
