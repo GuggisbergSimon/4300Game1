@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class BasicEnemy : Enemy
 {
+	#region Variables
+
 	[SerializeField] private float speed = 3;
 	[SerializeField] private float checkPlayerHeightThreshold = 0.5f;
 	[SerializeField] private float jumpSpeed = 5;
@@ -42,6 +44,8 @@ public class BasicEnemy : Enemy
 	private Collider2D myCollider;
 	private Vector2 startSinPos;
 	private float sinTimer = 0.0f;
+
+	#endregion
 
 	#region Inherited methods
 

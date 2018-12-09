@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,7 +25,9 @@ public class GameManager : MonoBehaviour
 	[HideInInspector] public bool paused = true;
 
 	[SerializeField] private GameObject Canvas;
+	private List<GameObject> enemies;
 	private UIManager UIManager;
+	private bool inLevel = false;
 	private float score = 0.0f;
 
 	#endregion
@@ -37,10 +41,7 @@ public class GameManager : MonoBehaviour
 
 	public void ResetGameManager()
 	{
-		Instance = this;
-		player = GameObject.FindGameObjectWithTag("Player");
-		projectileSpawner = GameObject.FindGameObjectWithTag("ProjectileSpawner");
-		levelTilemap = GameObject.FindGameObjectWithTag("Level");
+		Setup();
 
 		startedGame = false;
 		hidePausePanel = true;
@@ -89,23 +90,57 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	#endregion
+	private void CheckWin()
+	{
+		if (inLevel && enemies.Count == 0)
+		{
+			LoadLevel("EndingScene");
+		}
+	}
 
-	#region Unity Functions
-
-	private void Awake()
+	private void Setup()
 	{
 		Instance = this;
 		UIManager = Canvas.GetComponent<UIManager>();
 		player = GameObject.FindGameObjectWithTag("Player");
 		projectileSpawner = GameObject.FindGameObjectWithTag("ProjectileSpawner");
 		levelTilemap = GameObject.FindGameObjectWithTag("Level");
+		enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
+
+		if (enemies.Count > 0)
+		{
+			inLevel = true;
+		}
+		else
+		{
+			inLevel = false;
+		}
+	}
+
+	public void AddEnemy(GameObject enemy)
+	{
+		enemies.Add(enemy);
+	}
+
+	public void RemoveEnemy(GameObject enemy)
+	{
+		enemies.Remove(enemy);
+	}
+
+	#endregion
+
+	#region Unity Functions
+
+	private void Awake()
+	{
+		Setup();
 	}
 
 	private void Update()
 	{
 		CheckEscape();
 		CheckPause();
+		CheckWin();
 	}
 
 	#endregion
