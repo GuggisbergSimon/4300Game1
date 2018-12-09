@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 public class BasicEnemy : Enemy
 {
 	[SerializeField] private float speed = 3;
+	[SerializeField] private float jumpThreshold = 0.5f;
 	[SerializeField] private float jumpSpeed = 5;
 	[SerializeField] private GameObject jumpPosition;
 	[SerializeField] private GameObject jumpCheckPlatForm;
@@ -128,7 +129,7 @@ public class BasicEnemy : Enemy
 
 	private void CheckFalling()
 	{
-		if (previousPos.y >= transform.position.y)
+		if (previousPos.y > transform.position.y)
 		{
 			myState = BasicEnemyStates.Falling;
 		}
@@ -174,7 +175,7 @@ public class BasicEnemy : Enemy
 	private void CheckPlayerPosY()
 	{
 		float diffPosY = this.transform.position.y - player.transform.position.y;
-		if (diffPosY < 0)
+		if (diffPosY < -jumpThreshold)
 		{
 			wantsToJump = true;
 		}
@@ -208,29 +209,6 @@ public class BasicEnemy : Enemy
 
 	private void BubbledMove()
 	{
-		/*
-		// Resetting velocity.
-		myRigidbody2D.velocity = new Vector2();
-
-		int randomNumber = Random.Range(0, 100);
-
-		if (randomNumber > 50)
-		{
-			// Moves the bubbled enemy upwards.
-			transform.position = new Vector2(transform.position.x, transform.position.y + 0.1f);
-		}
-		else if (randomNumber > 0 && randomNumber < 25)
-		{
-			// Moves the bubbled enemy to the right.
-			transform.position = new Vector2(transform.position.x + 0.1f, transform.position.y);
-		}
-		else
-		{
-			// Moves the bubbled enemy to the left.
-			transform.position = new Vector2(transform.position.x - 0.1f, transform.position.y);
-		}
-		*/
-
 		startSinPos += (Vector2) transform.up * Time.deltaTime * bubbleSpeed;
 		transform.position = startSinPos + Vector2.right * Mathf.Sin(sinTimer * frequency) * amplitude;
 		sinTimer += Time.deltaTime;

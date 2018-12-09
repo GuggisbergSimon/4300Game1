@@ -455,6 +455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
+  jumpThreshold: 0.5
   jumpSpeed: 8
   jumpPosition: {fileID: 1221593311915810}
   jumpCheckPlatForm: {fileID: 1456569053679870}
