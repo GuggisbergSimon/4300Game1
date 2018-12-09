@@ -10,45 +10,27 @@ public class PlayerMovement : Actor
 	#region Variables
 
 	// Serialized variables.
-	[SerializeField] float playerSpeed = 1;
-	[SerializeField] float playerJump = 1;
-	[SerializeField] bool debugging = false;
-	[SerializeField] float raycastDistanceFromPlayer = 0.6f;
+	[SerializeField] private float playerSpeed = 1;
+	[SerializeField] private float playerJump = 1;
+	[SerializeField] private bool debugging = false;
 	[SerializeField] private GameObject groundDetector;
 
 	// Private variables.
-	Rigidbody2D playerRigidbody2D;
-	Animator playerAnimator;
-	CompositeCollider2D tilemapCollider;
+	private Rigidbody2D playerRigidbody2D;
+	private Animator playerAnimator;
+	private CompositeCollider2D tilemapCollider;
 	private Collider2D groundDetectorCollider2D;
+	private Collider2D myCollider2D;
 
 	// Used to check whether the player can jump.
-	bool isAirborne = false;
+	private bool isAirborne = false;
 
 	// Used to flip sprite in the correct direction.
-	bool movingRight = true;
+	private bool movingRight = true;
 
 	private bool hasPressedJump = false;
 
 	#endregion
-
-	/*// Avoids part of the script relying on references set in LateStart from running before the LateStart has run.
-	bool lateStartIsDone = false;
-
-	#region Custom functions
-
-	// Used to get references stored in GameManager,
-	// which initializes at the same time as everything else,
-	// which causes an error if we're trying to get a reference from it before it's initialized.
-	IEnumerator LateStart()
-	{
-		yield return new WaitForSeconds(0.05f);
-
-		tilemapCollider = GameManager.Instance.levelTilemap.GetComponent<TilemapCollider2D>();
-		lateStartIsDone = true;
-	}
-
-	#endregion*/
 
 	#region Unity functions
 
@@ -59,6 +41,7 @@ public class PlayerMovement : Actor
 		playerAnimator = gameObject.GetComponentInChildren<Animator>();
 		tilemapCollider = GameManager.Instance.levelTilemap.GetComponent<CompositeCollider2D>();
 		groundDetectorCollider2D = groundDetector.GetComponent<Collider2D>();
+		myCollider2D = gameObject.GetComponent<Collider2D>();
 	}
 
 	private void FixedUpdate()
@@ -68,19 +51,6 @@ public class PlayerMovement : Actor
 			HorizontalMovement();
 			CheckAirborne();
 			CheckJump();
-
-			//TODO Code for dropping below platforms, currently not working as intended
-			/*if (lateStartIsDone)
-			{
-				if (Input.GetAxisRaw("Vertical") < 0)
-				{
-					tilemapCollider.enabled = false;
-				}
-				else if (Input.GetAxisRaw("Vertical") == 0)
-				{
-					tilemapCollider.enabled = true;
-				}
-			}*/
 		}
 	}
 
@@ -105,11 +75,23 @@ public class PlayerMovement : Actor
 		{
 			playerAnimator.SetBool("isFalling", false);
 		}
+
+		// Handle the dropdown of player
+		/*if (Input.GetAxisRaw("Vertical") < 0)
+		{
+			myCollider2D.isTrigger = true;
+		}*/
 	}
+
+	/*private void OnTriggerExit2D(Collider2D other)
+	{
+		myCollider2D.isTrigger = false;
+	}*/
 
 	private void OnCollisionEnter2D(Collision2D other)
 	{
-		if (other.gameObject.CompareTag("Enemy"))
+	//TODO add check for bubbled state
+		if (other.gameObject.CompareTag("Enemy") && !other.gameObject.GetComponent<Enemy>().IsBubble)
 		{
 			this.Die();
 			GameManager.Instance.LoadLevel("GameOver");
@@ -122,23 +104,6 @@ public class PlayerMovement : Actor
 
 	private void CheckAirborne()
 	{
-		// Casts a CircleCast at player's feet and sets isAirborne variable to false if the cast returned a collision.
-		/*Vector3 originRaycast = new Vector3(transform.position.x, transform.position.y - raycastDistanceFromPlayer,
-			transform.position.z - 0.5f);
-		RaycastHit2D groundHit = Physics2D.Raycast(originRaycast, Vector3.forward);
-		if (groundHit != false && groundHit.collider.gameObject.CompareTag("Level"))
-		{
-			isAirborne = false;
-
-			playerAnimator.SetBool("isJumping", false);
-		}
-		else
-		{
-			isAirborne = true;
-		}*/
-
-		//
-
 		if (groundDetectorCollider2D.IsTouching(tilemapCollider))
 		{
 			isAirborne = false;
@@ -189,6 +154,7 @@ public class PlayerMovement : Actor
 				playerRigidbody2D.velocity = new Vector2(playerRigidbody2D.velocity.x, Vector2.up.y * playerJump);
 				isAirborne = true;
 				playerAnimator.SetBool("isJumping", true);
+				hasPressedJump = false;
 			}
 		}
 
