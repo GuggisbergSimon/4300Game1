@@ -5,7 +5,6 @@ using UnityEngine.Tilemaps;
 
 public class BasicEnemy : Enemy
 {
-	[SerializeField] private GameObject player;
 	[SerializeField] private float speed = 3;
 	[SerializeField] private float jumpSpeed = 5;
 	[SerializeField] private GameObject jumpPosition;
@@ -13,7 +12,9 @@ public class BasicEnemy : Enemy
 	[SerializeField] private GameObject groundDetector;
 	[SerializeField] private GameObject frontDetector;
 	[SerializeField] private GameObject bubble;
-
+	[SerializeField] private float bubbleSpeed = 2;
+	[SerializeField] private float frequency = 1;
+	[SerializeField] private float amplitude = 1;
 
 	private enum BasicEnemyStates
 	{
@@ -23,6 +24,7 @@ public class BasicEnemy : Enemy
 		InBubble
 	}
 
+	private GameObject player;
 	private BasicEnemyStates myState;
 	private bool isLookingRight;
 	private bool wantsToJump = false;
@@ -32,8 +34,12 @@ public class BasicEnemy : Enemy
 	private Collider2D jumpCheckPlatFormCollider2D;
 	private Collider2D groundDetectorCollider2D;
 	private Collider2D frontDetectorCollider2D;
+	private Collider2D bubbleCollider2D;
+	private Collider2D playerCollider2D;
 	private CompositeCollider2D tilemapCollider2D;
 	private Collider2D myCollider;
+	private Vector2 startSinPos;
+	private float sinTimer = 0.0f;
 
 	#region Inherited methods
 
@@ -46,6 +52,8 @@ public class BasicEnemy : Enemy
 		jumpCheckPlatFormCollider2D = jumpCheckPlatForm.GetComponent<Collider2D>();
 		groundDetectorCollider2D = groundDetector.GetComponent<Collider2D>();
 		frontDetectorCollider2D = frontDetector.GetComponent<Collider2D>();
+		bubbleCollider2D = bubble.GetComponent<Collider2D>();
+		playerCollider2D = player.GetComponent<Collider2D>();
 		tilemapCollider2D = GameManager.Instance.levelTilemap.GetComponent<CompositeCollider2D>();
 
 		bubble.SetActive(false);
@@ -86,14 +94,17 @@ public class BasicEnemy : Enemy
 			{
 				if (!bubble.activeSelf)
 				{
+					startSinPos = transform.position;
+
 					bubble.SetActive(true);
 					// Avoids the bubble collider from being triggered by enemy's own colliders.
 					myCollider.enabled = false;
 					frontDetectorCollider2D.enabled = false;
-
+					groundDetectorCollider2D.enabled = false;
 					myRigidbody2D.gravityScale = 0;
 				}
 
+				CheckCollisionsInBubble();
 				BubbledMove();
 			}
 				break;
@@ -143,6 +154,14 @@ public class BasicEnemy : Enemy
 		}
 	}
 
+	void CheckCollisionsInBubble()
+	{
+		if (bubbleCollider2D.IsTouching(playerCollider2D))
+		{
+			this.Die();
+		}
+	}
+
 	private void CheckPlayerPosX()
 	{
 		float diffPosX = this.transform.position.x - player.transform.position.x;
@@ -189,6 +208,7 @@ public class BasicEnemy : Enemy
 
 	private void BubbledMove()
 	{
+		/*
 		// Resetting velocity.
 		myRigidbody2D.velocity = new Vector2();
 
@@ -209,6 +229,11 @@ public class BasicEnemy : Enemy
 			// Moves the bubbled enemy to the left.
 			transform.position = new Vector2(transform.position.x - 0.1f, transform.position.y);
 		}
+		*/
+
+		startSinPos += (Vector2) transform.up * Time.deltaTime * bubbleSpeed;
+		transform.position = startSinPos + Vector2.right * Mathf.Sin(sinTimer * frequency) * amplitude;
+		sinTimer += Time.deltaTime;
 	}
 
 	#endregion

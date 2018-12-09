@@ -13,7 +13,6 @@ public class PlayerMovement : Actor
 	[SerializeField] float playerSpeed = 1;
 	[SerializeField] float playerJump = 1;
 	[SerializeField] bool debugging = false;
-	[SerializeField] float raycastDistanceFromPlayer = 0.6f;
 	[SerializeField] private GameObject groundDetector;
 
 	// Private variables.
@@ -31,24 +30,6 @@ public class PlayerMovement : Actor
 	private bool hasPressedJump = false;
 
 	#endregion
-
-	/*// Avoids part of the script relying on references set in LateStart from running before the LateStart has run.
-	bool lateStartIsDone = false;
-
-	#region Custom functions
-
-	// Used to get references stored in GameManager,
-	// which initializes at the same time as everything else,
-	// which causes an error if we're trying to get a reference from it before it's initialized.
-	IEnumerator LateStart()
-	{
-		yield return new WaitForSeconds(0.05f);
-
-		tilemapCollider = GameManager.Instance.levelTilemap.GetComponent<TilemapCollider2D>();
-		lateStartIsDone = true;
-	}
-
-	#endregion*/
 
 	#region Unity functions
 
@@ -109,11 +90,11 @@ public class PlayerMovement : Actor
 
 	private void OnCollisionEnter2D(Collision2D other)
 	{
-		if (other.gameObject.CompareTag("Enemy"))
+		/*if (other.gameObject.CompareTag("Enemy"))
 		{
 			this.Die();
 			GameManager.Instance.LoadLevel("GameOver");
-		}
+		}*/
 	}
 
 	#endregion
@@ -122,23 +103,6 @@ public class PlayerMovement : Actor
 
 	private void CheckAirborne()
 	{
-		// Casts a CircleCast at player's feet and sets isAirborne variable to false if the cast returned a collision.
-		/*Vector3 originRaycast = new Vector3(transform.position.x, transform.position.y - raycastDistanceFromPlayer,
-			transform.position.z - 0.5f);
-		RaycastHit2D groundHit = Physics2D.Raycast(originRaycast, Vector3.forward);
-		if (groundHit != false && groundHit.collider.gameObject.CompareTag("Level"))
-		{
-			isAirborne = false;
-
-			playerAnimator.SetBool("isJumping", false);
-		}
-		else
-		{
-			isAirborne = true;
-		}*/
-
-		//
-
 		if (groundDetectorCollider2D.IsTouching(tilemapCollider))
 		{
 			isAirborne = false;

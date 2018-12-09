@@ -13,9 +13,9 @@ public class BubblePopScript : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (collision.collider.gameObject.tag == "Player")
+		if (collision.collider.CompareTag("Player"))
 		{
-			enemy.GetComponent<BasicEnemy>().Die();
+			enemy.GetComponent<Actor>().Die();
 		}
 	}
 }
