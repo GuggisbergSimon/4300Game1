@@ -405,6 +405,11 @@ MonoBehaviour:
   frequency: 2
   amplitude: 1
   bubbleSprite: {fileID: 21300000, guid: f8c084e7f34d1b549b4cd9dd81667a09, type: 3}
+  itemscorePrefab: {fileID: 0}
+  minItemScoreDropped: 2
+  maxItemScoreDropped: 10
+  minSpeedItemScore: 0.3
+  maxSpeedItemScore: 6
 --- !u!212 &212612852628890696
 SpriteRenderer:
   m_ObjectHideFlags: 1

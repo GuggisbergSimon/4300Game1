@@ -1289,6 +1289,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114014277912800894, guid: 6811ea6e05a75e14db1c0d055d4269e6,
+        type: 2}
+      propertyPath: itemscorePrefab
+      value: 
+      objectReference: {fileID: 1985677380}
     - target: {fileID: 1645950256246668, guid: 6811ea6e05a75e14db1c0d055d4269e6, type: 2}
       propertyPath: m_Name
       value: BasicEnemy (top)
@@ -1618,7 +1623,8 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 61675017728771138, guid: f43ed487454e63a4fb594230b2d3c799, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: f43ed487454e63a4fb594230b2d3c799, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &1669138530
@@ -1839,6 +1845,32 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04cdb6ecb76920e498a092498a163455, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1985677377 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1453693995826710, guid: f43ed487454e63a4fb594230b2d3c799,
+    type: 2}
+  m_PrefabInternal: {fileID: 1457440427}
+--- !u!58 &1985677378
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1985677377}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.15
+--- !u!114 &1985677380 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114188639253525124, guid: f43ed487454e63a4fb594230b2d3c799,
+    type: 2}
+  m_PrefabInternal: {fileID: 1457440427}
+  m_Script: {fileID: 11500000, guid: 73776d427c5fad34fbe65ac95d91653b, type: 3}
 --- !u!1 &2038527784
 GameObject:
   m_ObjectHideFlags: 0
@@ -2049,7 +2081,6 @@ GameObject:
   - component: {fileID: 2131330264}
   - component: {fileID: 2131330267}
   - component: {fileID: 2131330266}
-  - component: {fileID: 2131330265}
   m_Layer: 0
   m_Name: border
   m_TagString: Level
@@ -3183,24 +3214,6 @@ TilemapCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 1
   m_Offset: {x: 0, y: 0}
---- !u!251 &2131330265
-PlatformEffector2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2131330260}
-  m_Enabled: 1
-  m_UseColliderMask: 1
-  m_ColliderMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RotationalOffset: 0
-  m_UseOneWay: 1
-  m_UseOneWayGrouping: 0
-  m_SurfaceArc: 180
-  m_UseSideFriction: 0
-  m_UseSideBounce: 0
-  m_SideArc: 1
 --- !u!66 &2131330266
 CompositeCollider2D:
   m_ObjectHideFlags: 0

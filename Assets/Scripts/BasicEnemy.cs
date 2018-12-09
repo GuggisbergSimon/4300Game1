@@ -19,6 +19,11 @@ public class BasicEnemy : Enemy
 	[SerializeField] private float frequency = 1;
 	[SerializeField] private float amplitude = 1;
 	[SerializeField] private Sprite bubbleSprite;
+	[SerializeField] private ItemScore itemscorePrefab;
+	[SerializeField] private int minItemScoreDropped = 1;
+	[SerializeField] private int maxItemScoreDropped = 5;
+	[SerializeField] private float minSpeedItemScore = 0.3f;
+	[SerializeField] private float maxSpeedItemScore = 6.0f;
 
 	private enum BasicEnemyStates
 	{
@@ -105,7 +110,7 @@ public class BasicEnemy : Enemy
 					GetComponentInChildren<SpriteRenderer>().sprite = bubbleSprite;
 					bubble.SetActive(true);
 					// Avoids the bubble collider from being triggered by enemy's own colliders.
-					myCollider.enabled = false;
+					//myCollider.enabled = false;
 					myRigidbody2D.gravityScale = 0;
 				}
 
@@ -163,6 +168,14 @@ public class BasicEnemy : Enemy
 	{
 		if (bubbleCollider2D.IsTouching(playerCollider2D))
 		{
+			for (int i = 0; i <= Random.Range(minItemScoreDropped, maxItemScoreDropped); i++)
+			{
+				ItemScore spawn = Instantiate(itemscorePrefab, transform.position,
+					Quaternion.Euler(0, 0, Random.Range(0, 360)));
+				spawn.gameObject.GetComponent<Rigidbody2D>().velocity =
+					spawn.transform.up * Random.Range(minSpeedItemScore, maxSpeedItemScore);
+			}
+
 			this.Die();
 		}
 	}
@@ -214,7 +227,8 @@ public class BasicEnemy : Enemy
 	private void BubbledMove()
 	{
 		startSinPos += (Vector2) transform.up * Time.deltaTime * bubbleSpeed;
-		transform.position = startSinPos + Vector2.right * Mathf.Sin(sinTimer * frequency) * amplitude;
+		myRigidbody2D.MovePosition(startSinPos + Vector2.right * Mathf.Sin(sinTimer * frequency) * amplitude);
+		//transform.position = startSinPos + Vector2.right * Mathf.Sin(sinTimer * frequency) * amplitude;
 		sinTimer += Time.deltaTime;
 	}
 
