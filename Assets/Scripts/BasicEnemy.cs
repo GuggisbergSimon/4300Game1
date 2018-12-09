@@ -16,6 +16,7 @@ public class BasicEnemy : Enemy
 	[SerializeField] private float bubbleSpeed = 2;
 	[SerializeField] private float frequency = 1;
 	[SerializeField] private float amplitude = 1;
+	[SerializeField] private Sprite bubbleSprite;
 
 	private enum BasicEnemyStates
 	{
@@ -96,12 +97,11 @@ public class BasicEnemy : Enemy
 				if (!bubble.activeSelf)
 				{
 					startSinPos = transform.position;
-
+					isBubble = true;
+					GetComponentInChildren<SpriteRenderer>().sprite = bubbleSprite;
 					bubble.SetActive(true);
 					// Avoids the bubble collider from being triggered by enemy's own colliders.
 					myCollider.enabled = false;
-					frontDetectorCollider2D.enabled = false;
-					groundDetectorCollider2D.enabled = false;
 					myRigidbody2D.gravityScale = 0;
 				}
 

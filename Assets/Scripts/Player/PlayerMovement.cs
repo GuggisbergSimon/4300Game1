@@ -10,22 +10,23 @@ public class PlayerMovement : Actor
 	#region Variables
 
 	// Serialized variables.
-	[SerializeField] float playerSpeed = 1;
-	[SerializeField] float playerJump = 1;
-	[SerializeField] bool debugging = false;
+	[SerializeField] private float playerSpeed = 1;
+	[SerializeField] private float playerJump = 1;
+	[SerializeField] private bool debugging = false;
 	[SerializeField] private GameObject groundDetector;
 
 	// Private variables.
-	Rigidbody2D playerRigidbody2D;
-	Animator playerAnimator;
-	CompositeCollider2D tilemapCollider;
+	private Rigidbody2D playerRigidbody2D;
+	private Animator playerAnimator;
+	private CompositeCollider2D tilemapCollider;
 	private Collider2D groundDetectorCollider2D;
+	private Collider2D myCollider2D;
 
 	// Used to check whether the player can jump.
-	bool isAirborne = false;
+	private bool isAirborne = false;
 
 	// Used to flip sprite in the correct direction.
-	bool movingRight = true;
+	private bool movingRight = true;
 
 	private bool hasPressedJump = false;
 
@@ -40,6 +41,7 @@ public class PlayerMovement : Actor
 		playerAnimator = gameObject.GetComponentInChildren<Animator>();
 		tilemapCollider = GameManager.Instance.levelTilemap.GetComponent<CompositeCollider2D>();
 		groundDetectorCollider2D = groundDetector.GetComponent<Collider2D>();
+		myCollider2D = gameObject.GetComponent<Collider2D>();
 	}
 
 	private void FixedUpdate()
@@ -49,19 +51,6 @@ public class PlayerMovement : Actor
 			HorizontalMovement();
 			CheckAirborne();
 			CheckJump();
-
-			//TODO Code for dropping below platforms, currently not working as intended
-			/*if (lateStartIsDone)
-			{
-				if (Input.GetAxisRaw("Vertical") < 0)
-				{
-					tilemapCollider.enabled = false;
-				}
-				else if (Input.GetAxisRaw("Vertical") == 0)
-				{
-					tilemapCollider.enabled = true;
-				}
-			}*/
 		}
 	}
 
@@ -86,15 +75,27 @@ public class PlayerMovement : Actor
 		{
 			playerAnimator.SetBool("isFalling", false);
 		}
+
+		// Handle the dropdown of player
+		/*if (Input.GetAxisRaw("Vertical") < 0)
+		{
+			myCollider2D.isTrigger = true;
+		}*/
 	}
+
+	/*private void OnTriggerExit2D(Collider2D other)
+	{
+		myCollider2D.isTrigger = false;
+	}*/
 
 	private void OnCollisionEnter2D(Collision2D other)
 	{
-		/*if (other.gameObject.CompareTag("Enemy"))
+	//TODO add check for bubbled state
+		if (other.gameObject.CompareTag("Enemy") && !other.gameObject.GetComponent<Enemy>().IsBubble)
 		{
 			this.Die();
 			GameManager.Instance.LoadLevel("GameOver");
-		}*/
+		}
 	}
 
 	#endregion
@@ -153,6 +154,7 @@ public class PlayerMovement : Actor
 				playerRigidbody2D.velocity = new Vector2(playerRigidbody2D.velocity.x, Vector2.up.y * playerJump);
 				isAirborne = true;
 				playerAnimator.SetBool("isJumping", true);
+				hasPressedJump = false;
 			}
 		}
 
