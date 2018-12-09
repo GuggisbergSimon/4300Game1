@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class BasicEnemy : Enemy
 {
 	[SerializeField] private float speed = 3;
-	[SerializeField] private float jumpThreshold = 0.5f;
+	[SerializeField] private float checkPlayerHeightThreshold = 0.5f;
 	[SerializeField] private float jumpSpeed = 5;
 	[SerializeField] private GameObject jumpPosition;
 	[SerializeField] private GameObject jumpCheckPlatForm;
@@ -175,7 +175,7 @@ public class BasicEnemy : Enemy
 	private void CheckPlayerPosY()
 	{
 		float diffPosY = this.transform.position.y - player.transform.position.y;
-		if (diffPosY < -jumpThreshold)
+		if (diffPosY < -checkPlayerHeightThreshold)
 		{
 			wantsToJump = true;
 		}

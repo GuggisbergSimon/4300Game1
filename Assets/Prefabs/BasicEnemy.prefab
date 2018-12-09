@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 4378120026933368}
   - component: {fileID: 212612852628890696}
   m_Layer: 0
-  m_Name: body
+  m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -160,7 +160,7 @@ Transform:
   m_GameObject: {fileID: 1299350793531026}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 4816091308260062}
   m_RootOrder: 0
@@ -394,7 +394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
-  jumpThreshold: 0.5
+  checkPlayerHeightThreshold: 0.5
   jumpSpeed: 8
   jumpPosition: {fileID: 1221593311915810}
   jumpCheckPlatForm: {fileID: 1456569053679870}
@@ -440,7 +440,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 585e6a408ad502049b1082114bfe2064, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c7c360f460aef6f4688cde2334bde360, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
