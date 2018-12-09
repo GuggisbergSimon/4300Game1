@@ -16,11 +16,15 @@ public class GameManager : MonoBehaviour
 
 	#endregion
 
-	#region Public variables
+	#region Variables
 
 	[HideInInspector] public bool startedGame = false;
 	[HideInInspector] public bool hidePausePanel = true;
 	[HideInInspector] public bool paused = true;
+
+	[SerializeField] private GameObject Canvas;
+	private UIManager UIManager;
+	private float score = 0.0f;
 
 	#endregion
 
@@ -43,6 +47,19 @@ public class GameManager : MonoBehaviour
 		paused = true;
 	}
 
+	public void AddScore(float points)
+	{
+		score += points;
+		UIManager.UpdateScore();
+	}
+
+	public void ResetScore()
+	{
+		score = 0.0f;
+	}
+
+	public float Score => score;
+
 	private void CheckEscape()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
@@ -58,7 +75,7 @@ public class GameManager : MonoBehaviour
 	private void CheckPause()
 	{
 		if (startedGame && Input.GetButtonDown("Pause"))
-		{	
+		{
 			if (paused)
 			{
 				paused = false;
@@ -79,7 +96,7 @@ public class GameManager : MonoBehaviour
 	private void Awake()
 	{
 		Instance = this;
-
+		UIManager = Canvas.GetComponent<UIManager>();
 		player = GameObject.FindGameObjectWithTag("Player");
 		projectileSpawner = GameObject.FindGameObjectWithTag("ProjectileSpawner");
 		levelTilemap = GameObject.FindGameObjectWithTag("Level");
