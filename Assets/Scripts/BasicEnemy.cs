@@ -24,6 +24,8 @@ public class BasicEnemy : Enemy
 	[SerializeField] private int maxItemScoreDropped = 5;
 	[SerializeField] private float minSpeedItemScore = 0.3f;
 	[SerializeField] private float maxSpeedItemScore = 6.0f;
+    [SerializeField] private AudioSource bubblingSound;
+    [SerializeField] private GameObject bubblePopSoundPrefab;
 
 	private enum BasicEnemyStates
 	{
@@ -131,6 +133,7 @@ public class BasicEnemy : Enemy
 	public void Bubble()
 	{
 		myState = BasicEnemyStates.InBubble;
+        bubblingSound.PlayOneShot(bubblingSound.clip);
 	}
 
 	#endregion
@@ -141,6 +144,7 @@ public class BasicEnemy : Enemy
 	{
 		if (previousPos.y > transform.position.y)
 		{
+
 			myState = BasicEnemyStates.Falling;
 		}
 	}
@@ -180,6 +184,7 @@ public class BasicEnemy : Enemy
 
 			}
 
+            Instantiate(bubblePopSoundPrefab);
 			this.Die();
 		}
 	}
@@ -240,7 +245,7 @@ public class BasicEnemy : Enemy
     {
         yield return new WaitForSeconds(0.05f);
 
-        tilemapCollider2D = GameManager.Instance.levelTilemap.GetComponent<TilemapCollider2D>();
+        tilemapCollider2D = GameManager.Instance.levelTilemap.GetComponent<CompositeCollider2D>();
         lateStartIsDone = true;
     }
 
