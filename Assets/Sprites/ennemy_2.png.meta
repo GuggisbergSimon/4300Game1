@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: 76497afcdeafa354aacc4e7271377318
+guid: d2a4443425ba3e044986cac5a7db907f
 TextureImporter:
   fileIDToRecycleName:
-    21300000: missile_bubble_gumpsd_0
+    21300000: ennemy_2_0
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -85,13 +85,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: missile_bubble_gumpsd_0
+      name: ennemy_2_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 16
-        width: 15
-        height: 7
+        x: 12
+        y: 0
+        width: 9
+        height: 9
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -99,7 +99,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e1e288729ea32344ab6d6f5e7d4a604c
+      spriteID: ebfbdd839954744449cc215a2500a542
       vertices: []
       indices: 
       edges: []
@@ -107,7 +107,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 7aec0f5fd46c3c248a694f48c129c9da
+    spriteID: b0679d01054e731408475a3eb249ee7f
     vertices: []
     indices: 
     edges: []

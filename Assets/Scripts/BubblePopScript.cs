@@ -8,9 +8,9 @@ public class BubblePopScript : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (collision.collider.gameObject.tag == "Player")
+		if (collision.collider.CompareTag("Player"))
 		{
-			Destroy(enemy);
+			enemy.GetComponent<Actor>().Die();
 		}
 	}
 }

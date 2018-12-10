@@ -1,79 +1,148 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
+	// Self reference for use in other scripts.
+	public static GameManager Instance { get; private set; } = null;
 
-    public static GameManager Instance { get; private set; } = null; // Self reference for use in other scripts.
+	#region Public References
 
-    #region Public References
+	public GameObject player;
+	public GameObject projectileSpawner;
+	public GameObject levelTilemap;
 
-    public GameObject player;
-    public GameObject projectileSpawner;
-    public GameObject levelTilemap;
-    #endregion
+	#endregion
 
-    #region Public variables
+	#region Variables
 
-    [HideInInspector] public bool startedGame = false;
-    [HideInInspector] public bool hidePausePanel = true;
-    [HideInInspector] public bool paused = true;
-    [HideInInspector] public int lives = 3;
-    #endregion
+	[HideInInspector] public bool startedGame = false;
+	[HideInInspector] public bool hidePausePanel = true;
+	[HideInInspector] public bool paused = true;
 
-    #region Custom Functions
+	[SerializeField] private Canvas canvas;
+	private List<GameObject> enemies;
+	private UIManager UIManager;
+	private bool inLevel = false;
+	private float score = 0.0f;
 
-    public void ResetGameManager()
-    {
-        Instance = this;
-        player = GameObject.FindGameObjectWithTag("Player");
-        projectileSpawner = GameObject.FindGameObjectWithTag("ProjectileSpawner");
-        levelTilemap = GameObject.FindGameObjectWithTag("Level");
+	#endregion
 
-        startedGame = false;
-        hidePausePanel = true;
-        paused = true;
-}
-    #endregion
+	#region Custom Functions
 
-    #region Unity Functions
+	public void LoadLevel(string nameLevel)
+	{
+		SceneManager.LoadScene(nameLevel);
+	}
 
-    private void Start()
-    {
-        Instance = this;
+	public void ResetGameManager()
+	{
+		Setup();
 
-        player = GameObject.FindGameObjectWithTag("Player");
-        projectileSpawner = GameObject.FindGameObjectWithTag("ProjectileSpawner");
-        levelTilemap = GameObject.FindGameObjectWithTag("Level");
-    }
+		startedGame = false;
+		hidePausePanel = true;
+		paused = true;
+	}
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #endif
+	public void AddScore(float points)
+	{
+		score += points;
+		UIManager.UpdateScore();
+	}
 
-            Application.Quit();
-        }
+	public void ResetScore()
+	{
+		score = 0.0f;
+	}
 
-        if (startedGame)
-        {
-            if (Input.GetButtonDown("Pause"))
-            {
-                if (paused)
-                {
-                    paused = false;
-                    hidePausePanel = true;
-                }
-                else
-                {
-                    paused = true;
-                    hidePausePanel = false;
-                }
-            }
-        }
-    }
-    #endregion
+	public float Score => score;
+
+	private void CheckEscape()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+#if UNITY_EDITOR
+			UnityEditor.EditorApplication.isPlaying = false;
+#else
+		Application.Quit();
+#endif
+		}
+	}
+
+	private void CheckPause()
+	{
+		if (startedGame && Input.GetButtonDown("Pause"))
+		{
+			if (paused)
+			{
+				paused = false;
+				hidePausePanel = true;
+			}
+			else
+			{
+				paused = true;
+				hidePausePanel = false;
+			}
+		}
+	}
+
+	private void CheckWin()
+	{
+		if (inLevel && enemies.Count == 0)
+		{
+			LoadLevel("EndingScene");
+		}
+	}
+
+	private void Setup()
+	{
+		Instance = this;
+		canvas = FindObjectOfType<Canvas>();
+		UIManager = canvas.gameObject.GetComponent<UIManager>();
+		player = GameObject.FindGameObjectWithTag("Player");
+		projectileSpawner = GameObject.FindGameObjectWithTag("ProjectileSpawner");
+		levelTilemap = GameObject.FindGameObjectWithTag("Level");
+		enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
+
+		if (enemies.Count > 0)
+		{
+			inLevel = true;
+		}
+		else
+		{
+			inLevel = false;
+		}
+	}
+
+	public void AddEnemy(GameObject enemy)
+	{
+		enemies.Add(enemy);
+	}
+
+	public void RemoveEnemy(GameObject enemy)
+	{
+		enemies.Remove(enemy);
+	}
+
+	#endregion
+
+	#region Unity Functions
+
+	private void Awake()
+	{
+		Setup();
+	}
+
+	private void Update()
+	{
+		CheckEscape();
+		CheckPause();
+		CheckWin();
+	}
+
+	#endregion
 }

@@ -1,8 +1,10 @@
 fileFormatVersion: 2
-guid: 76497afcdeafa354aacc4e7271377318
+guid: d62a01a788cb93242add8532640d5ad9
 TextureImporter:
   fileIDToRecycleName:
-    21300000: missile_bubble_gumpsd_0
+    21300000: finalplayer_0
+    21300002: finalplayer_1
+    21300004: finalplayer_2
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -61,7 +63,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 32
+    maxTextureSize: 64
     resizeAlgorithm: 1
     textureFormat: -1
     textureCompression: 1
@@ -72,7 +74,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 32
+    maxTextureSize: 64
     resizeAlgorithm: 1
     textureFormat: -1
     textureCompression: 1
@@ -85,13 +87,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: missile_bubble_gumpsd_0
+      name: finalplayer_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 16
-        width: 15
-        height: 7
+        x: 0
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -99,7 +101,47 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e1e288729ea32344ab6d6f5e7d4a604c
+      spriteID: 3812dc8394595fe46a48d4e985206089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: finalplayer_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2679a6a90a6e1714eb654d1e95d1f2de
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: finalplayer_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0c9e2f52e136134ead9b723f0179659
       vertices: []
       indices: 
       edges: []
@@ -107,7 +149,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 7aec0f5fd46c3c248a694f48c129c9da
+    spriteID: 8259c43a0e675514d8b4d76b86e4f4a2
     vertices: []
     indices: 
     edges: []

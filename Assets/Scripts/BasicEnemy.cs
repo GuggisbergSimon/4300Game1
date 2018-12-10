@@ -3,17 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class BasicEnemy : MonoBehaviour
+public class BasicEnemy : Enemy
 {
-	[SerializeField] private GameObject player;
+	#region Variables
+
 	[SerializeField] private float speed = 3;
+	[SerializeField] private float checkPlayerHeightThreshold = 0.5f;
 	[SerializeField] private float jumpSpeed = 5;
 	[SerializeField] private GameObject jumpPosition;
 	[SerializeField] private GameObject jumpCheckPlatForm;
 	[SerializeField] private GameObject groundDetector;
 	[SerializeField] private GameObject frontDetector;
-	[SerializeField] private bool enableJump = false;
 	[SerializeField] private GameObject bubble;
+	[SerializeField] private float bubbleSpeed = 2;
+	[SerializeField] private float frequency = 1;
+	[SerializeField] private float amplitude = 1;
+	[SerializeField] private Sprite bubbleSprite;
+	[SerializeField] private ItemScore itemscorePrefab;
+	[SerializeField] private int minItemScoreDropped = 1;
+	[SerializeField] private int maxItemScoreDropped = 5;
+	[SerializeField] private float minSpeedItemScore = 0.3f;
+	[SerializeField] private float maxSpeedItemScore = 6.0f;
 
 	private enum BasicEnemyStates
 	{
@@ -23,84 +33,89 @@ public class BasicEnemy : MonoBehaviour
 		InBubble
 	}
 
+	private GameObject player;
 	private BasicEnemyStates myState;
 	private bool isLookingRight;
-	private bool isAlive = true;
 	private bool wantsToJump = false;
     private bool lateStartIsDone = false;
 	private Rigidbody2D myRigidbody2D;
 	private Vector2 previousPos;
-	private Collider2D groundDetectorCollider2D;
-	private Collider2D frontDetectorCollider2D;
 	private Collider2D jumpPositionCollider2D;
 	private Collider2D jumpCheckPlatFormCollider2D;
-	private TilemapCollider2D tilemapCollider2D;
-	private Collider2D myCollider;
+	private Collider2D groundDetectorCollider2D;
+	private Collider2D frontDetectorCollider2D;
+	private Collider2D bubbleCollider2D;
+	private Collider2D playerCollider2D;
+	private CompositeCollider2D tilemapCollider2D;
+	//private Collider2D myCollider;
+	private Vector2 startSinPos;
+	private float sinTimer = 0.0f;
 
+	#endregion
 
 	#region Inherited methods
 
 	private void Start()
 	{
+		player = GameManager.Instance.player;
 		myRigidbody2D = GetComponent<Rigidbody2D>();
+		//myCollider = GetComponent<Collider2D>();
+		jumpPositionCollider2D = jumpPosition.GetComponent<Collider2D>();
+		jumpCheckPlatFormCollider2D = jumpCheckPlatForm.GetComponent<Collider2D>();
+		groundDetectorCollider2D = groundDetector.GetComponent<Collider2D>();
+		frontDetectorCollider2D = frontDetector.GetComponent<Collider2D>();
+		bubbleCollider2D = bubble.GetComponent<Collider2D>();
+		playerCollider2D = player.GetComponent<Collider2D>();
+		tilemapCollider2D = GameManager.Instance.levelTilemap.GetComponent<CompositeCollider2D>();
+
+		bubble.SetActive(false);
 		float myRotationY = this.transform.rotation.eulerAngles.y;
 		isLookingRight = Mathf.Abs(myRotationY) < 90.0f;
 		//TODO add checkstate somewhere here
-
-		groundDetectorCollider2D = groundDetector.GetComponent<Collider2D>();
-		frontDetectorCollider2D = frontDetector.GetComponent<Collider2D>();
-		jumpPositionCollider2D = jumpPosition.GetComponent<Collider2D>();
-		jumpCheckPlatFormCollider2D = jumpCheckPlatForm.GetComponent<Collider2D>();
-		myCollider = GetComponent<Collider2D>();
-
-		bubble.SetActive(false);
-        StartCoroutine(LateStart());
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		switch (myState)
 		{
+			case BasicEnemyStates.Falling:
+			{
+				myRigidbody2D.velocity = myRigidbody2D.velocity * Vector2.up;
+				CheckGround();
+				CheckPlayerPosX();
+			}
+				break;
 			case BasicEnemyStates.Jumping:
 			{
 				CheckFalling();
 			}
 				break;
-			case BasicEnemyStates.Falling:
-			{
-                if (lateStartIsDone)
-                {
-                    myRigidbody2D.velocity = myRigidbody2D.velocity * Vector2.up;
-                    CheckPlayerPosX();
-                    CheckGround();
-                }
-			}
-				break;
 			case BasicEnemyStates.Running:
 			{
-                if (lateStartIsDone)
-                {
-                    MoveForward();
-                    CheckFront();
-                    CheckGround();
-                    CheckPlayerPosY();
-                    CheckForJump();
-                }
+				MoveForward();
+				CheckGround();
+				if (myState == BasicEnemyStates.Running)
+				{
+					CheckFront();
+					CheckPlayerPosY();
+					CheckForJump();
+				}
 			}
 				break;
 			case BasicEnemyStates.InBubble:
 			{
 				if (!bubble.activeSelf)
 				{
+					startSinPos = transform.position;
+					isBubble = true;
+					GetComponentInChildren<SpriteRenderer>().sprite = bubbleSprite;
 					bubble.SetActive(true);
 					// Avoids the bubble collider from being triggered by enemy's own colliders.
-					myCollider.enabled = false;
-					frontDetectorCollider2D.enabled = false;
-					groundDetectorCollider2D.enabled = false;
-
+					//myCollider.enabled = false;
 					myRigidbody2D.gravityScale = 0;
 				}
 
+				CheckCollisionsInBubble();
 				BubbledMove();
 			}
 				break;
@@ -111,16 +126,7 @@ public class BasicEnemy : MonoBehaviour
 
 	#endregion
 
-
 	#region Public methods
-
-	public void Die()
-	{
-		if (isAlive)
-		{
-			Destroy(this.gameObject);
-		}
-	}
 
 	public void Bubble()
 	{
@@ -155,8 +161,26 @@ public class BasicEnemy : MonoBehaviour
 	{
 		if (frontDetectorCollider2D.IsTouching(tilemapCollider2D))
 		{
-			Debug.Log("something in front, turn !");
 			TurnAround();
+		}
+	}
+
+	void CheckCollisionsInBubble()
+	{
+		if (bubbleCollider2D.IsTouching(playerCollider2D))
+		{
+			for (int i = 0; i <= Random.Range(minItemScoreDropped, maxItemScoreDropped); i++)
+			{
+				ItemScore spawn = Instantiate(itemscorePrefab, transform.position,
+					Quaternion.Euler(0, 0, Random.Range(0, 360)));
+
+				Vector2 test = spawn.transform.up * Random.Range(minSpeedItemScore, maxSpeedItemScore);
+				spawn.gameObject.GetComponent<Rigidbody2D>().velocity = test;
+				Debug.DrawLine(transform.position,transform.position+(Vector3)test);
+
+			}
+
+			this.Die();
 		}
 	}
 
@@ -172,7 +196,7 @@ public class BasicEnemy : MonoBehaviour
 	private void CheckPlayerPosY()
 	{
 		float diffPosY = this.transform.position.y - player.transform.position.y;
-		if (diffPosY < 0)
+		if (diffPosY < -checkPlayerHeightThreshold)
 		{
 			wantsToJump = true;
 		}
@@ -185,8 +209,7 @@ public class BasicEnemy : MonoBehaviour
 	//Checks if jump is possible depending on various conditions
 	private void CheckForJump()
 	{
-		//Debug.Log(wantsToJump + " " + !jumpPositionCollider2D.IsTouching(tilemapCollider2D) + " " +jumpCheckPlatFormCollider2D.IsTouching(tilemapCollider2D));
-		if (enableJump && wantsToJump && !jumpPositionCollider2D.IsTouching(tilemapCollider2D) &&
+		if (wantsToJump && !jumpPositionCollider2D.IsTouching(tilemapCollider2D) &&
 		    jumpCheckPlatFormCollider2D.IsTouching(tilemapCollider2D))
 		{
 			myRigidbody2D.velocity = Vector2.up * jumpSpeed;
@@ -196,36 +219,21 @@ public class BasicEnemy : MonoBehaviour
 
 	private void MoveForward()
 	{
-		myRigidbody2D.velocity = (Vector2) transform.right * speed + Vector2.up * myRigidbody2D.velocity.y;
+		myRigidbody2D.velocity = (Vector2) transform.right * speed + Vector2.up * myRigidbody2D.velocity;
 	}
 
 	private void TurnAround()
 	{
 		isLookingRight = !isLookingRight;
-		this.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 180, 0);
+		this.transform.Rotate(Vector3.up * 180);
 	}
 
 	private void BubbledMove()
 	{
-		myRigidbody2D.velocity = new Vector2(); // Resetting velocity.
-
-		int randomNumber = Random.Range(0, 100);
-
-		if (randomNumber > 50)
-		{
-			transform.position =
-				new Vector2(transform.position.x, transform.position.y + 0.1f); // Moves the bubbled enemy upwards.
-		}
-		else if (randomNumber > 0 && randomNumber < 25)
-		{
-			transform.position =
-				new Vector2(transform.position.x + 0.1f, transform.position.y); // Moves the bubbled enemy to the right.
-		}
-		else
-		{
-			transform.position =
-				new Vector2(transform.position.x - 0.1f, transform.position.y); // Moves the bubbled enemy to the left.
-		}
+		startSinPos += (Vector2) transform.up * Time.deltaTime * bubbleSpeed;
+		myRigidbody2D.MovePosition(startSinPos + Vector2.right * Mathf.Sin(sinTimer * frequency) * amplitude);
+		//transform.position = startSinPos + Vector2.right * Mathf.Sin(sinTimer * frequency) * amplitude;
+		sinTimer += Time.deltaTime;
 	}
 
     IEnumerator LateStart() // Used to get references stored in GameManager, which initializes at the same time as everything else which causes an error if we're trying to get a reference from it before it's initialized.

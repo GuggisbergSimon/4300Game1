@@ -1,28 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.Tilemaps;
 
 // Controls player movement and animations associated with it.
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Actor
 {
 	#region Variables
 
 	// Serialized variables.
-	[SerializeField] float playerSpeedMultiplier = 1;
-	[SerializeField] float playerJumpMultiplier = 1;
-	[SerializeField] bool debugging = false;
-	[SerializeField] float raycastDistanceFromPlayer = 0.6f;
+	[SerializeField] private float playerSpeed = 1;
+	[SerializeField] private float playerJump = 1;
+	[SerializeField] private bool debugging = false;
+	[SerializeField] private GameObject groundDetector;
 
 	// Private variables.
-	Rigidbody2D playerRigidbody2D;
-	Animator playerAnimator;
+	private Rigidbody2D playerRigidbody2D;
+	private Animator playerAnimator;
+	private CompositeCollider2D tilemapCollider;
+	private Collider2D groundDetectorCollider2D;
+	//private Collider2D myCollider2D;
 
-	float playerSpeed = 1; // Base horizontal velocity.
-	float playerJump = 1; // Base jumping velocity.
+	// Used to check whether the player can jump.
+	private bool isAirborne = false;
 
-	bool isAirborne = false; // Used to check whether the player can jump.
-	bool movingRight = true; // Used to flip sprite in the correct direction.
+	// Used to flip sprite in the correct direction.
+	private bool movingRight = true;
+
+	private bool hasPressedJump = false;
 
 	#endregion
 
@@ -33,93 +39,32 @@ public class PlayerMovement : MonoBehaviour
 		// Gets references.
 		playerRigidbody2D = gameObject.GetComponent<Rigidbody2D>();
 		playerAnimator = gameObject.GetComponentInChildren<Animator>();
+		tilemapCollider = GameManager.Instance.levelTilemap.GetComponent<CompositeCollider2D>();
+		groundDetectorCollider2D = groundDetector.GetComponent<Collider2D>();
+		//myCollider2D = gameObject.GetComponent<Collider2D>();
 	}
 
 	private void FixedUpdate()
 	{
 		if (!GameManager.Instance.paused || debugging)
 		{
-			// Horizontal movement.
-			if (Input.GetAxisRaw("Horizontal") > 0) // Joystick to the right.
-			{
-				if (movingRight) // Ensures the sprite is flipped the right way.
-				{
-					playerRigidbody2D.velocity = new Vector2(Vector2.right.x * playerSpeed * playerSpeedMultiplier,
-						playerRigidbody2D.velocity.y); // Sets x velocity to new velocity.
-					playerAnimator.SetBool("isIdle",
-						false); // Note: is it worth it to check the state of the bool before assigning it or nah? Seems to me that it's more performant to just set the bool.
-				}
-				else
-				{
-					playerRigidbody2D.velocity = new Vector2(Vector2.right.x * playerSpeed * playerSpeedMultiplier,
-						playerRigidbody2D.velocity.y);
-					playerAnimator.SetBool("isIdle", false);
-
-					// Flips the sprite the right way.
-					GameManager.Instance.player.transform.Rotate(0, 180, 0);
-					movingRight = true;
-				}
-			}
-			else if (Input.GetAxisRaw("Horizontal") < 0) // Joystick to the left.
-			{
-				if (!movingRight)
-				{
-					playerRigidbody2D.velocity = new Vector2(Vector2.left.x * playerSpeed * playerSpeedMultiplier,
-						playerRigidbody2D.velocity.y);
-					playerAnimator.SetBool("isIdle", false);
-				}
-				else
-				{
-					playerRigidbody2D.velocity = new Vector2(Vector2.left.x * playerSpeed * playerSpeedMultiplier,
-						playerRigidbody2D.velocity.y);
-					playerAnimator.SetBool("isIdle", false);
-
-					GameManager.Instance.player.transform.Rotate(0, 180, 0);
-					movingRight = false;
-				}
-			}
-			else // No horizontal movement input.
-			{
-				playerRigidbody2D.velocity = new Vector2(0, playerRigidbody2D.velocity.y); // Sets player velocity to 0 on x axis.
-
-				playerAnimator.SetBool("isIdle", true);
-			}
-
-			RaycastHit2D groundHit = Physics2D.Raycast(new Vector3(transform.position.x, transform.position.y - raycastDistanceFromPlayer, transform.position.z - 0.5f), Vector3.forward);
-			if (groundHit != false && groundHit.collider.gameObject.tag == "Level") // Casts a CircleCast at player's feet and sets isAirborne variable to false if the cast returned a collision.
-			{
-				isAirborne = false;
-
-				playerAnimator.SetBool("isJumping", false);
-			}
-			else
-			{
-				isAirborne = true;
-			}
-
-			// Vertical movement.
-			if (Input.GetButtonDown("Jump"))
-			{
-				if (!isAirborne)
-				{
-					playerRigidbody2D.velocity = new Vector2(playerRigidbody2D.velocity.x,
-						Vector2.up.y * playerJump * playerJumpMultiplier); // Sets y velocity to new velocity.
-					isAirborne = true;
-
-					playerAnimator.SetBool("isJumping", true);
-				}
-			}
-
-			// Prevents the player from jumping multiple times.
-			if (isAirborne)
-			{
-				// StartCoroutine(CheckGround()); // A coroutine with a WaitForSeconds() is necessary, otherwise isAirborne bool would be set back to false as soon as it's set to true.
-			}
+			HorizontalMovement();
+			CheckAirborne();
+			CheckJump();
 		}
 	}
 
 	private void Update()
 	{
+		if (Input.GetButtonDown("Jump"))
+		{
+			hasPressedJump = true;
+		}
+		else if (Input.GetButtonUp("Jump"))
+		{
+			hasPressedJump = false;
+		}
+
 		// Responsible for transitioning between jumping and falling animations.
 		if (playerRigidbody2D.velocity.y < 0)
 		{
@@ -130,6 +75,96 @@ public class PlayerMovement : MonoBehaviour
 		{
 			playerAnimator.SetBool("isFalling", false);
 		}
+
+		// Handle the dropdown of player
+		//TODO player can be stuck inside platform, it's due to composite collider
+		/*if (Input.GetAxisRaw("Vertical") < 0)
+		{
+			myCollider2D.isTrigger = true;
+		}*/
+	}
+
+	/*private void OnTriggerExit2D(Collider2D other)
+	{
+		myCollider2D.isTrigger = false;
+	}*/
+
+	private void OnCollisionEnter2D(Collision2D other)
+	{
+	//TODO add check for bubbled state
+		if (other.gameObject.CompareTag("Enemy") && !other.gameObject.GetComponent<Enemy>().IsBubble)
+		{
+			this.Die();
+			GameManager.Instance.LoadLevel("GameOver");
+		}
+	}
+
+	#endregion
+
+	#region Private methods
+
+	private void CheckAirborne()
+	{
+		if (groundDetectorCollider2D.IsTouching(tilemapCollider))
+		{
+			isAirborne = false;
+			playerAnimator.SetBool("isJumping", false);
+		}
+		else
+		{
+			isAirborne = true;
+		}
+	}
+
+	private void HorizontalMovement()
+	{
+		// Horizontal movement
+		float currentInputHorizontal = Input.GetAxisRaw("Horizontal");
+		if (currentInputHorizontal.CompareTo(0) != 0)
+		{
+			playerRigidbody2D.velocity =
+				Vector2.right * playerSpeed * currentInputHorizontal + Vector2.up * playerRigidbody2D.velocity;
+			playerAnimator.SetBool("isIdle", false);
+			if ((currentInputHorizontal > 0 && !movingRight) || (currentInputHorizontal < 0 && movingRight))
+			{
+				TurnAround();
+			}
+		}
+		// No horizontal movement input.
+		else
+		{
+			// Sets player velocity to 0 on x axis.
+			playerRigidbody2D.velocity = Vector2.up * playerRigidbody2D.velocity;
+			playerAnimator.SetBool("isIdle", true);
+		}
+	}
+
+	private void TurnAround()
+	{
+		this.transform.Rotate(Vector3.up * 180);
+		movingRight = !movingRight;
+	}
+
+	private void CheckJump()
+	{
+		if (hasPressedJump)
+		{
+			if (!isAirborne)
+			{
+				// Sets y velocity to new velocity.
+				playerRigidbody2D.velocity = new Vector2(playerRigidbody2D.velocity.x, Vector2.up.y * playerJump);
+				isAirborne = true;
+				playerAnimator.SetBool("isJumping", true);
+				hasPressedJump = false;
+			}
+		}
+
+		// Prevents the player from jumping multiple times.
+		/*if (isAirborne)
+		{
+			// A coroutine with a WaitForSeconds() is necessary, otherwise isAirborne bool would be set back to false as soon as it's set to true.
+			// StartCoroutine(CheckGround());
+		}*/
 	}
 
 	#endregion

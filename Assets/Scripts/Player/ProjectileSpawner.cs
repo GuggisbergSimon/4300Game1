@@ -14,10 +14,8 @@ public class ProjectileSpawner : MonoBehaviour
 		{
 			if (Input.GetButtonDown("Fire1"))
 			{
-				Instantiate(projectilePrefab, GameManager.Instance.player.transform.position,
-					Quaternion.Euler(transform.position -
-					                 GameManager.Instance.player.transform
-						                 .position)); // Note: The position difference between the the player and the spawner allows orientation of the projectiles... Not sure if necessary?
+				// Note: The position difference between the the player and the spawner allows orientation of the projectiles... Not sure if necessary?
+				Instantiate(projectilePrefab, transform.position, transform.rotation);
 			}
 		}
 	}
