@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
 	#region Public References
 
 	public GameObject player;
-	public GameObject projectileSpawner;
+	//public GameObject projectileSpawner;
 	public GameObject levelTilemap;
 
 	#endregion
@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
 		canvas = FindObjectOfType<Canvas>();
 		UIManager = canvas.gameObject.GetComponent<UIManager>();
 		player = GameObject.FindGameObjectWithTag("Player");
-		projectileSpawner = GameObject.FindGameObjectWithTag("ProjectileSpawner");
+		//projectileSpawner = GameObject.FindGameObjectWithTag("ProjectileSpawner");
 		levelTilemap = GameObject.FindGameObjectWithTag("Level");
 		enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
 
