@@ -46,7 +46,7 @@ public class BasicEnemy : Enemy
 	private Collider2D bubbleCollider2D;
 	private Collider2D playerCollider2D;
 	private CompositeCollider2D tilemapCollider2D;
-	private Collider2D myCollider;
+	//private Collider2D myCollider;
 	private Vector2 startSinPos;
 	private float sinTimer = 0.0f;
 
@@ -58,7 +58,7 @@ public class BasicEnemy : Enemy
 	{
 		player = GameManager.Instance.player;
 		myRigidbody2D = GetComponent<Rigidbody2D>();
-		myCollider = GetComponent<Collider2D>();
+		//myCollider = GetComponent<Collider2D>();
 		jumpPositionCollider2D = jumpPosition.GetComponent<Collider2D>();
 		jumpCheckPlatFormCollider2D = jumpCheckPlatForm.GetComponent<Collider2D>();
 		groundDetectorCollider2D = groundDetector.GetComponent<Collider2D>();
