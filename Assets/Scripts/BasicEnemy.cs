@@ -172,8 +172,11 @@ public class BasicEnemy : Enemy
 			{
 				ItemScore spawn = Instantiate(itemscorePrefab, transform.position,
 					Quaternion.Euler(0, 0, Random.Range(0, 360)));
-				spawn.gameObject.GetComponent<Rigidbody2D>().velocity =
-					spawn.transform.up * Random.Range(minSpeedItemScore, maxSpeedItemScore);
+
+				Vector2 test = spawn.transform.up * Random.Range(minSpeedItemScore, maxSpeedItemScore);
+				spawn.gameObject.GetComponent<Rigidbody2D>().velocity = test;
+				Debug.DrawLine(transform.position,transform.position+(Vector3)test);
+
 			}
 
 			this.Die();

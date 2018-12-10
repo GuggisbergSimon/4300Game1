@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 	[HideInInspector] public bool hidePausePanel = true;
 	[HideInInspector] public bool paused = true;
 
-	[SerializeField] private GameObject Canvas;
+	[SerializeField] private Canvas canvas;
 	private List<GameObject> enemies;
 	private UIManager UIManager;
 	private bool inLevel = false;
@@ -101,7 +101,8 @@ public class GameManager : MonoBehaviour
 	private void Setup()
 	{
 		Instance = this;
-		UIManager = Canvas.GetComponent<UIManager>();
+		canvas = FindObjectOfType<Canvas>();
+		UIManager = canvas.gameObject.GetComponent<UIManager>();
 		player = GameObject.FindGameObjectWithTag("Player");
 		projectileSpawner = GameObject.FindGameObjectWithTag("ProjectileSpawner");
 		levelTilemap = GameObject.FindGameObjectWithTag("Level");

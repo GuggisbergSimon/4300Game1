@@ -11,4 +11,9 @@ public class UIManager : MonoBehaviour
 	{
 		scoreText.text = GameManager.Instance.Score.ToString();
 	}
+
+	private void Start()
+	{
+		UpdateScore();
+	}
 }
