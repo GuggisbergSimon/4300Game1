@@ -19,6 +19,7 @@ public class PlayerMovement : Actor
 	private Rigidbody2D playerRigidbody2D;
 	private Animator playerAnimator;
 	private CompositeCollider2D tilemapCollider;
+
 	private Collider2D groundDetectorCollider2D;
 	//private Collider2D myCollider2D;
 
@@ -46,12 +47,9 @@ public class PlayerMovement : Actor
 
 	private void FixedUpdate()
 	{
-		if (!GameManager.Instance.paused || debugging)
-		{
-			HorizontalMovement();
-			CheckAirborne();
-			CheckJump();
-		}
+		HorizontalMovement();
+		CheckAirborne();
+		CheckJump();
 	}
 
 	private void Update()
@@ -91,7 +89,7 @@ public class PlayerMovement : Actor
 
 	private void OnCollisionEnter2D(Collision2D other)
 	{
-	//TODO add check for bubbled state
+		//TODO add check for bubbled state
 		if (other.gameObject.CompareTag("Enemy") && !other.gameObject.GetComponent<Enemy>().IsBubble)
 		{
 			this.Die();

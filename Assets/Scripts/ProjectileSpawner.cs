@@ -10,13 +10,10 @@ public class ProjectileSpawner : MonoBehaviour
 
 	private void Update()
 	{
-		if (!GameManager.Instance.paused || debugging)
+		if (Input.GetButtonDown("Fire1"))
 		{
-			if (Input.GetButtonDown("Fire1"))
-			{
-				// Note: The position difference between the the player and the spawner allows orientation of the projectiles... Not sure if necessary?
-				Instantiate(projectilePrefab, transform.position, transform.rotation);
-			}
+			// Note: The position difference between the the player and the spawner allows orientation of the projectiles... Not sure if necessary?
+			Instantiate(projectilePrefab, transform.position, transform.rotation);
 		}
 	}
 }

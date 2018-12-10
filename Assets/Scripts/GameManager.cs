@@ -8,7 +8,9 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 	// Self reference for use in other scripts.
-	public static GameManager Instance { get; private set; } = null;
+	private static GameManager instance = null;
+	public static GameManager Instance => instance;
+	//public static GameManager Instance { get; private set; } = null;
 
 	#region Public References
 
@@ -20,9 +22,11 @@ public class GameManager : MonoBehaviour
 
 	#region Variables
 
+	/*
 	[HideInInspector] public bool startedGame = false;
 	[HideInInspector] public bool hidePausePanel = true;
 	[HideInInspector] public bool paused = true;
+	*/
 
 	[SerializeField] private Canvas canvas;
 	private List<GameObject> enemies;
@@ -39,15 +43,6 @@ public class GameManager : MonoBehaviour
 		SceneManager.LoadScene(nameLevel);
 	}
 
-	public void ResetGameManager()
-	{
-		Setup();
-
-		startedGame = false;
-		hidePausePanel = true;
-		paused = true;
-	}
-
 	public void AddScore(float points)
 	{
 		score += points;
@@ -59,21 +54,41 @@ public class GameManager : MonoBehaviour
 		score = 0.0f;
 	}
 
+	private void OnEnable()
+	{
+		SceneManager.sceneLoaded += OnLevelFinishedLoadingScene;
+	}
+
+	private void OnDisable()
+	{
+		SceneManager.sceneLoaded -= OnLevelFinishedLoadingScene;
+	}
+
+	void OnLevelFinishedLoadingScene(Scene scene, LoadSceneMode mode)
+	{
+		Setup();
+	}
+
+	public void Quit()
+	{
+#if UNITY_EDITOR
+		UnityEditor.EditorApplication.isPlaying = false;
+#else
+		Application.Quit();
+#endif
+	}
+
 	public float Score => score;
 
 	private void CheckEscape()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
-#if UNITY_EDITOR
-			UnityEditor.EditorApplication.isPlaying = false;
-#else
-		Application.Quit();
-#endif
+			Quit();
 		}
 	}
 
-	private void CheckPause()
+	/*private void CheckPause()
 	{
 		if (startedGame && Input.GetButtonDown("Pause"))
 		{
@@ -88,7 +103,7 @@ public class GameManager : MonoBehaviour
 				hidePausePanel = false;
 			}
 		}
-	}
+	}*/
 
 	private void CheckWin()
 	{
@@ -100,7 +115,6 @@ public class GameManager : MonoBehaviour
 
 	private void Setup()
 	{
-		Instance = this;
 		canvas = FindObjectOfType<Canvas>();
 		UIManager = canvas.gameObject.GetComponent<UIManager>();
 		player = GameObject.FindGameObjectWithTag("Player");
@@ -134,13 +148,22 @@ public class GameManager : MonoBehaviour
 
 	private void Awake()
 	{
+		if (instance != null && instance != this)
+		{
+			Destroy(this.gameObject);
+		}
+		else
+		{
+			instance = this;
+			DontDestroyOnLoad(this.gameObject);
+		}
 		Setup();
 	}
 
 	private void Update()
 	{
 		CheckEscape();
-		CheckPause();
+		//CheckPause();
 		CheckWin();
 	}
 

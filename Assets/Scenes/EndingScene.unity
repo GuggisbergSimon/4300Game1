@@ -351,9 +351,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 980939008}
-        m_MethodName: LoadLevel
-        m_Mode: 5
+      - m_Target: {fileID: 114973821942011886, guid: 5aac190609c003144b4031d9e8985352,
+          type: 2}
+        m_MethodName: Quit
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -663,12 +664,6 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5aac190609c003144b4031d9e8985352, type: 2}
   m_IsPrefabAsset: 0
---- !u!114 &980939008 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114973821942011886, guid: 5aac190609c003144b4031d9e8985352,
-    type: 2}
-  m_PrefabInternal: {fileID: 980939007}
-  m_Script: {fileID: 11500000, guid: 9d760b494a732f64bacd01d0810800df, type: 3}
 --- !u!1 &1178276819
 GameObject:
   m_ObjectHideFlags: 0

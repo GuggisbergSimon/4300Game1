@@ -612,7 +612,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1277610864}
+      - m_Target: {fileID: 114973821942011886, guid: 5aac190609c003144b4031d9e8985352,
+          type: 2}
         m_MethodName: LoadLevel
         m_Mode: 5
         m_Arguments:
@@ -621,6 +622,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: Level1
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 114973821942011886, guid: 5aac190609c003144b4031d9e8985352,
+          type: 2}
+        m_MethodName: ResetScore
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -703,12 +716,6 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5aac190609c003144b4031d9e8985352, type: 2}
   m_IsPrefabAsset: 0
---- !u!114 &1277610864 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114973821942011886, guid: 5aac190609c003144b4031d9e8985352,
-    type: 2}
-  m_PrefabInternal: {fileID: 1277610863}
-  m_Script: {fileID: 11500000, guid: 9d760b494a732f64bacd01d0810800df, type: 3}
 --- !u!1 &1612027128
 GameObject:
   m_ObjectHideFlags: 0
