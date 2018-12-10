@@ -14,7 +14,6 @@ public class Projectile : MonoBehaviour
 	Rigidbody2D projectileRigidbody2D;
 
 	// Used to fire the projectile the right way when turning right and left.
-	Vector3 projectileDirection;
 	BasicEnemy enemyScript;
 
 	#endregion
@@ -39,15 +38,12 @@ public class Projectile : MonoBehaviour
 	private void Start()
 	{
 		projectileRigidbody2D = GetComponent<Rigidbody2D>();
-		// Set up once, gives the projectile the direction in which to fly: (1,0,0) when facing right, (-1,0,0) when facing left.
-		projectileDirection = Vector3.Normalize(GameManager.Instance.projectileSpawner.transform.position -
-		                                        GameManager.Instance.player.transform.position);
 	}
 
 	private void Update()
 	{
 		// Moves the projectile.
-		projectileRigidbody2D.velocity = projectileDirection * projectileSpeed;
+		projectileRigidbody2D.velocity = transform.right * projectileSpeed;
 	}
 
 	#endregion

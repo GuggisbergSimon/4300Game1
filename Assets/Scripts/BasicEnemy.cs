@@ -5,8 +5,10 @@ using UnityEngine.Tilemaps;
 
 public class BasicEnemy : Enemy
 {
+	#region Variables
+
 	[SerializeField] private float speed = 3;
-	[SerializeField] private float jumpThreshold = 0.5f;
+	[SerializeField] private float checkPlayerHeightThreshold = 0.5f;
 	[SerializeField] private float jumpSpeed = 5;
 	[SerializeField] private GameObject jumpPosition;
 	[SerializeField] private GameObject jumpCheckPlatForm;
@@ -17,6 +19,11 @@ public class BasicEnemy : Enemy
 	[SerializeField] private float frequency = 1;
 	[SerializeField] private float amplitude = 1;
 	[SerializeField] private Sprite bubbleSprite;
+	[SerializeField] private ItemScore itemscorePrefab;
+	[SerializeField] private int minItemScoreDropped = 1;
+	[SerializeField] private int maxItemScoreDropped = 5;
+	[SerializeField] private float minSpeedItemScore = 0.3f;
+	[SerializeField] private float maxSpeedItemScore = 6.0f;
 
 	private enum BasicEnemyStates
 	{
@@ -39,9 +46,11 @@ public class BasicEnemy : Enemy
 	private Collider2D bubbleCollider2D;
 	private Collider2D playerCollider2D;
 	private CompositeCollider2D tilemapCollider2D;
-	private Collider2D myCollider;
+	//private Collider2D myCollider;
 	private Vector2 startSinPos;
 	private float sinTimer = 0.0f;
+
+	#endregion
 
 	#region Inherited methods
 
@@ -49,7 +58,7 @@ public class BasicEnemy : Enemy
 	{
 		player = GameManager.Instance.player;
 		myRigidbody2D = GetComponent<Rigidbody2D>();
-		myCollider = GetComponent<Collider2D>();
+		//myCollider = GetComponent<Collider2D>();
 		jumpPositionCollider2D = jumpPosition.GetComponent<Collider2D>();
 		jumpCheckPlatFormCollider2D = jumpCheckPlatForm.GetComponent<Collider2D>();
 		groundDetectorCollider2D = groundDetector.GetComponent<Collider2D>();
@@ -101,7 +110,7 @@ public class BasicEnemy : Enemy
 					GetComponentInChildren<SpriteRenderer>().sprite = bubbleSprite;
 					bubble.SetActive(true);
 					// Avoids the bubble collider from being triggered by enemy's own colliders.
-					myCollider.enabled = false;
+					//myCollider.enabled = false;
 					myRigidbody2D.gravityScale = 0;
 				}
 
@@ -159,6 +168,17 @@ public class BasicEnemy : Enemy
 	{
 		if (bubbleCollider2D.IsTouching(playerCollider2D))
 		{
+			for (int i = 0; i <= Random.Range(minItemScoreDropped, maxItemScoreDropped); i++)
+			{
+				ItemScore spawn = Instantiate(itemscorePrefab, transform.position,
+					Quaternion.Euler(0, 0, Random.Range(0, 360)));
+
+				Vector2 test = spawn.transform.up * Random.Range(minSpeedItemScore, maxSpeedItemScore);
+				spawn.gameObject.GetComponent<Rigidbody2D>().velocity = test;
+				Debug.DrawLine(transform.position,transform.position+(Vector3)test);
+
+			}
+
 			this.Die();
 		}
 	}
@@ -175,7 +195,7 @@ public class BasicEnemy : Enemy
 	private void CheckPlayerPosY()
 	{
 		float diffPosY = this.transform.position.y - player.transform.position.y;
-		if (diffPosY < -jumpThreshold)
+		if (diffPosY < -checkPlayerHeightThreshold)
 		{
 			wantsToJump = true;
 		}
@@ -210,7 +230,8 @@ public class BasicEnemy : Enemy
 	private void BubbledMove()
 	{
 		startSinPos += (Vector2) transform.up * Time.deltaTime * bubbleSpeed;
-		transform.position = startSinPos + Vector2.right * Mathf.Sin(sinTimer * frequency) * amplitude;
+		myRigidbody2D.MovePosition(startSinPos + Vector2.right * Mathf.Sin(sinTimer * frequency) * amplitude);
+		//transform.position = startSinPos + Vector2.right * Mathf.Sin(sinTimer * frequency) * amplitude;
 		sinTimer += Time.deltaTime;
 	}
 

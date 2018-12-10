@@ -20,7 +20,7 @@ public class PlayerMovement : Actor
 	private Animator playerAnimator;
 	private CompositeCollider2D tilemapCollider;
 	private Collider2D groundDetectorCollider2D;
-	private Collider2D myCollider2D;
+	//private Collider2D myCollider2D;
 
 	// Used to check whether the player can jump.
 	private bool isAirborne = false;
@@ -41,7 +41,7 @@ public class PlayerMovement : Actor
 		playerAnimator = gameObject.GetComponentInChildren<Animator>();
 		tilemapCollider = GameManager.Instance.levelTilemap.GetComponent<CompositeCollider2D>();
 		groundDetectorCollider2D = groundDetector.GetComponent<Collider2D>();
-		myCollider2D = gameObject.GetComponent<Collider2D>();
+		//myCollider2D = gameObject.GetComponent<Collider2D>();
 	}
 
 	private void FixedUpdate()
@@ -77,6 +77,7 @@ public class PlayerMovement : Actor
 		}
 
 		// Handle the dropdown of player
+		//TODO player can be stuck inside platform, it's due to composite collider
 		/*if (Input.GetAxisRaw("Vertical") < 0)
 		{
 			myCollider2D.isTrigger = true;
