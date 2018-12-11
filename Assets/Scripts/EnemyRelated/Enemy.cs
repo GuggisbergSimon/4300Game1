@@ -19,7 +19,7 @@ public class Enemy : Actor
 	private Collider2D bubbleCollider2D;
 	private Vector2 startSinPos;
 	private float sinTimer = 0.0f;
-
+	private Animator myAnimator;
 	protected Rigidbody2D myRigidbody2D;
 	protected GameObject player;
 	protected bool isBubble = false;
@@ -27,6 +27,7 @@ public class Enemy : Actor
 	protected void Start()
 	{
 		player = GameManager.Instance.player;
+		myAnimator = GetComponentInChildren<Animator>();
 		playerCollider2D = player.GetComponent<Collider2D>();
 		myRigidbody2D = GetComponent<Rigidbody2D>();
 		bubbleCollider2D = bubble.GetComponent<Collider2D>();
@@ -49,12 +50,12 @@ public class Enemy : Actor
 	{
 		if (!bubble.activeSelf)
 		{
+			myAnimator.SetTrigger("InBubble");
 			startSinPos = transform.position;
 			isBubble = true;
 			GetComponentInChildren<SpriteRenderer>().sprite = bubbleSprite;
 			bubble.SetActive(true);
 			// Avoids the bubble collider from being triggered by enemy's own colliders.
-			//myCollider.enabled = false;
 			myRigidbody2D.gravityScale = 0;
 		}
 
@@ -66,7 +67,6 @@ public class Enemy : Actor
 	{
 		startSinPos += (Vector2)transform.up * Time.deltaTime * bubbleSpeed;
 		myRigidbody2D.MovePosition(startSinPos + Vector2.right * Mathf.Sin(sinTimer * frequency) * amplitude);
-		//transform.position = startSinPos + Vector2.right * Mathf.Sin(sinTimer * frequency) * amplitude;
 		sinTimer += Time.deltaTime;
 	}
 

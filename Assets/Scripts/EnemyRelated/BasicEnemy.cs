@@ -32,11 +32,7 @@ public class BasicEnemy : Enemy
 	private Collider2D jumpPositionCollider2D;
 	private Collider2D jumpCheckPlatFormCollider2D;
 	private Collider2D groundDetectorCollider2D;
-	//private Collider2D frontDetectorCollider2D;
-
 	private CompositeCollider2D tilemapCollider2D;
-
-	//private Collider2D myCollider;
 
 	#endregion
 
@@ -45,12 +41,10 @@ public class BasicEnemy : Enemy
 	private new void Start()
 	{
 		base.Start();
-		//myCollider = GetComponent<Collider2D>();
 		jumpPositionCollider2D = jumpPosition.GetComponent<Collider2D>();
 		jumpCheckPlatFormCollider2D = jumpCheckPlatForm.GetComponent<Collider2D>();
 		groundDetectorCollider2D = groundDetector.GetComponent<Collider2D>();
 		frontTrigger = frontDetector.GetComponent<TriggerDetector>();
-		//frontDetectorCollider2D = frontDetector.GetComponent<Collider2D>();
 		tilemapCollider2D = GameManager.Instance.levelTilemap.GetComponent<CompositeCollider2D>();
 		float myRotationY = this.transform.rotation.eulerAngles.y;
 		isLookingRight = Mathf.Abs(myRotationY) < 90.0f;
