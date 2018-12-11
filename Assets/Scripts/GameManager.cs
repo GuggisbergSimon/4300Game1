@@ -49,7 +49,9 @@ public class GameManager : MonoBehaviour
 
 	#region Custom Functions
 
-    // Score related.
+	public float Score => score;
+
+	// Score related.
 	public void AddScore(float points)
 	{
 		score += points;
@@ -59,6 +61,7 @@ public class GameManager : MonoBehaviour
 	public void ResetScore()
 	{
 		score = 0.0f;
+
 	}
 
 	private void OnEnable()
@@ -84,8 +87,6 @@ public class GameManager : MonoBehaviour
 		Application.Quit();
 #endif
 	}
-
-	public float Score => score;
 
     // User input related
 	private void CheckEscape()
