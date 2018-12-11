@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d62a01a788cb93242add8532640d5ad9
+guid: ea911fc94049e7f48be1f3ef82c796ad
 TextureImporter:
   fileIDToRecycleName:
-    21300000: finalplayer_0
-    21300002: finalplayer_1
-    21300004: finalplayer_2
+    21300000: ennemy_1_0
+    21300002: ennemy_1_1
+    21300004: ennemy_1_2
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -66,9 +66,9 @@ TextureImporter:
     maxTextureSize: 64
     resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
-    crunchedCompression: 0
+    crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
@@ -77,9 +77,9 @@ TextureImporter:
     maxTextureSize: 64
     resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
-    crunchedCompression: 0
+    crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
@@ -87,13 +87,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: finalplayer_0
+      name: ennemy_1_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
-        width: 32
-        height: 32
+        x: 2
+        y: 23
+        width: 12
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -101,19 +101,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3812dc8394595fe46a48d4e985206089
+      spriteID: 2c421d9c90911d4469b8dbd25379b49d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: finalplayer_1
+      name: ennemy_1_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
-        width: 32
-        height: 32
+        x: 16
+        y: 23
+        width: 12
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -121,19 +121,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2679a6a90a6e1714eb654d1e95d1f2de
+      spriteID: 082c504ba27663b4bba3ab0725497697
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: finalplayer_2
+      name: ennemy_1_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 32
-        height: 32
+        x: 9
+        y: 16
+        width: 12
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,7 +141,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c0c9e2f52e136134ead9b723f0179659
+      spriteID: 046980386a15c4d468691ab3a24e3095
       vertices: []
       indices: 
       edges: []
@@ -149,7 +149,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 8259c43a0e675514d8b4d76b86e4f4a2
+    spriteID: a334acd44b8650844a75fb9c42941390
     vertices: []
     indices: 
     edges: []

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c7c360f460aef6f4688cde2334bde360
+guid: 48276c861ebc8e14e8b967cc288550b6
 TextureImporter:
   fileIDToRecycleName:
-    21300000: ennemy_3_0
-    21300002: ennemy_3_1
-    21300004: ennemy_3_2
+    21300000: Fruits_0
+    21300002: Fruits_1
+    21300004: Fruits_2
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -67,7 +67,7 @@ TextureImporter:
     resizeAlgorithm: 1
     textureFormat: -1
     textureCompression: 0
-    compressionQuality: 50
+    compressionQuality: 0
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
@@ -78,7 +78,7 @@ TextureImporter:
     resizeAlgorithm: 1
     textureFormat: -1
     textureCompression: 0
-    compressionQuality: 50
+    compressionQuality: 0
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
@@ -87,41 +87,61 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ennemy_3_0
+      name: Fruits_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 0
-        width: 13
-        height: 11
+        x: 44
+        y: 37
+        width: 20
+        height: 25
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 41b903b925d41104b8cbb91d49438e3f
+      spriteID: e8237ddb2097184458c69e5a775cb106
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ennemy_3_1
+      name: Fruits_1
       rect:
         serializedVersion: 2
-        x: 14
-        y: 0
-        width: 18
-        height: 11
+        x: 12
+        y: 8
+        width: 16
+        height: 21
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 951bd2f2152d7de48be56b875013981a
+      spriteID: 029acd98e2290eb4da2047e178feff02
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fruits_2
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 0
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17f1d45ff8bc55048ba149951cb1bea1
       vertices: []
       indices: 
       edges: []
@@ -129,7 +149,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 8e80c503fa04344418a8c8db35227774
+    spriteID: 49e684b459921cc45b5907e073faaae7
     vertices: []
     indices: 
     edges: []

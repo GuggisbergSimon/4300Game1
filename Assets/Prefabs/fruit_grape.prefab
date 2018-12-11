@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 50138970759511422}
   - component: {fileID: 61675017728771138}
   m_Layer: 0
-  m_Name: ItemScore
+  m_Name: fruit_grape
   m_TagString: ItemScore
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,7 +53,7 @@ Transform:
   m_GameObject: {fileID: 1733063106784256}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4882315492995870}
   m_RootOrder: 0
@@ -64,8 +64,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1453693995826710}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 15, y: 5.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4147323163290448}
@@ -115,7 +115,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.3}
+  m_Size: {x: 0.34, y: 0.54}
   m_EdgeRadius: 0
 --- !u!114 &114188639253525124
 MonoBehaviour:
@@ -128,9 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73776d427c5fad34fbe65ac95d91653b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scorePoints: 1000
-  pickupSoundPrefab: {fileID: 1760531264971494, guid: 79ad16a21b022cb418611eeebf1050c0,
-    type: 2}
+  scorePoints: 750
 --- !u!212 &212608982505232026
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -166,7 +164,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300006, guid: 3f3c90f9334b6ca48a25a024674839e3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 48276c861ebc8e14e8b967cc288550b6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
