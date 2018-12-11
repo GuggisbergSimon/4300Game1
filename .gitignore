@@ -37,3 +37,7 @@ sysinfo.txt
 *.apk
 *.unitypackage
 Recordings/
+
+Assets/Unity Recorder/
+
+Assets/Unity Recorder\.meta
