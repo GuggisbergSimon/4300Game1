@@ -1,8 +1,10 @@
 fileFormatVersion: 2
-guid: 76497afcdeafa354aacc4e7271377318
+guid: 48276c861ebc8e14e8b967cc288550b6
 TextureImporter:
   fileIDToRecycleName:
-    21300000: missile_bubble_gumpsd_0
+    21300000: Fruits_0
+    21300002: Fruits_1
+    21300004: Fruits_2
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -41,12 +43,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -61,23 +63,23 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 32
+    maxTextureSize: 64
     resizeAlgorithm: 1
     textureFormat: -1
     textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 1
+    compressionQuality: 0
+    crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 32
+    maxTextureSize: 64
     resizeAlgorithm: 1
     textureFormat: -1
     textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 1
+    compressionQuality: 0
+    crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
@@ -85,13 +87,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: missile_bubble_gumpsd_0
+      name: Fruits_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 16
-        width: 15
-        height: 7
+        x: 44
+        y: 37
+        width: 20
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -99,7 +101,47 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e1e288729ea32344ab6d6f5e7d4a604c
+      spriteID: e8237ddb2097184458c69e5a775cb106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fruits_1
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 8
+        width: 16
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 029acd98e2290eb4da2047e178feff02
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fruits_2
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 0
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17f1d45ff8bc55048ba149951cb1bea1
       vertices: []
       indices: 
       edges: []
@@ -107,7 +149,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 7aec0f5fd46c3c248a694f48c129c9da
+    spriteID: 49e684b459921cc45b5907e073faaae7
     vertices: []
     indices: 
     edges: []

@@ -5,7 +5,6 @@ using UnityEngine;
 public class ItemScore : MonoBehaviour
 {
 	[SerializeField] private float scorePoints = 1000;
-    [SerializeField] GameObject pickupSoundPrefab;
 
 	private bool isTaken = false;
 

@@ -1,8 +1,10 @@
 fileFormatVersion: 2
-guid: 76497afcdeafa354aacc4e7271377318
+guid: ea911fc94049e7f48be1f3ef82c796ad
 TextureImporter:
   fileIDToRecycleName:
-    21300000: missile_bubble_gumpsd_0
+    21300000: ennemy_1_0
+    21300002: ennemy_1_1
+    21300004: ennemy_1_2
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -41,12 +43,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -61,7 +63,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 32
+    maxTextureSize: 64
     resizeAlgorithm: 1
     textureFormat: -1
     textureCompression: 0
@@ -72,7 +74,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 32
+    maxTextureSize: 64
     resizeAlgorithm: 1
     textureFormat: -1
     textureCompression: 0
@@ -85,12 +87,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: missile_bubble_gumpsd_0
+      name: ennemy_1_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 16
-        width: 15
+        x: 2
+        y: 23
+        width: 12
         height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -99,7 +101,47 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e1e288729ea32344ab6d6f5e7d4a604c
+      spriteID: 2c421d9c90911d4469b8dbd25379b49d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ennemy_1_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 23
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 082c504ba27663b4bba3ab0725497697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ennemy_1_2
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 16
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 046980386a15c4d468691ab3a24e3095
       vertices: []
       indices: 
       edges: []
@@ -107,7 +149,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 7aec0f5fd46c3c248a694f48c129c9da
+    spriteID: a334acd44b8650844a75fb9c42941390
     vertices: []
     indices: 
     edges: []
