@@ -6,7 +6,11 @@ public class Enemy : Actor
 {
 	protected bool isBubble = false;
 
-	public bool IsBubble => isBubble;
+	public bool IsBubble
+	{
+		get { return isBubble; }
+		set { isBubble = value; }
+	}
 
 	public new void Die()
 	{

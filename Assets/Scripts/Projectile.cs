@@ -14,7 +14,7 @@ public class Projectile : MonoBehaviour
 	Rigidbody2D projectileRigidbody2D;
 
 	// Used to fire the projectile the right way when turning right and left.
-	BasicEnemy enemyScript;
+	Enemy enemyScript;
 
 	#endregion
 
@@ -25,8 +25,8 @@ public class Projectile : MonoBehaviour
 	{
 		if (collision.gameObject.CompareTag("Enemy"))
 		{
-			enemyScript = collision.gameObject.GetComponent<BasicEnemy>();
-			enemyScript.Bubble();
+			enemyScript = collision.gameObject.GetComponent<Enemy>();
+			enemyScript.IsBubble=true;
 			Destroy(this.gameObject);
 		}
 		else if (collision.gameObject.CompareTag("Level"))

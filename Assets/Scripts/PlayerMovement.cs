@@ -12,7 +12,6 @@ public class PlayerMovement : Actor
 	// Serialized variables.
 	[SerializeField] private float playerSpeed = 1;
 	[SerializeField] private float playerJump = 1;
-	[SerializeField] private bool debugging = false;
 	[SerializeField] private GameObject groundDetector;
 
 	// Private variables.
@@ -156,13 +155,6 @@ public class PlayerMovement : Actor
 				hasPressedJump = false;
 			}
 		}
-
-		// Prevents the player from jumping multiple times.
-		/*if (isAirborne)
-		{
-			// A coroutine with a WaitForSeconds() is necessary, otherwise isAirborne bool would be set back to false as soon as it's set to true.
-			// StartCoroutine(CheckGround());
-		}*/
 	}
 
 	#endregion

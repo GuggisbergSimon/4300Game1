@@ -24,8 +24,9 @@ public class BasicEnemy : Enemy
 	[SerializeField] private int maxItemScoreDropped = 5;
 	[SerializeField] private float minSpeedItemScore = 0.3f;
 	[SerializeField] private float maxSpeedItemScore = 6.0f;
+	[SerializeField] private bool enableJump = true;
 
-	private enum BasicEnemyStates
+	private enum States
 	{
 		Falling,
 		Jumping,
@@ -34,18 +35,21 @@ public class BasicEnemy : Enemy
 	}
 
 	private GameObject player;
-	private BasicEnemyStates myState;
+	private States myState;
 	private bool isLookingRight;
 	private bool wantsToJump = false;
 	private Rigidbody2D myRigidbody2D;
 	private Vector2 previousPos;
+	private TriggerDetector frontTrigger;
 	private Collider2D jumpPositionCollider2D;
 	private Collider2D jumpCheckPlatFormCollider2D;
 	private Collider2D groundDetectorCollider2D;
-	private Collider2D frontDetectorCollider2D;
+	//private Collider2D frontDetectorCollider2D;
 	private Collider2D bubbleCollider2D;
 	private Collider2D playerCollider2D;
+
 	private CompositeCollider2D tilemapCollider2D;
+
 	//private Collider2D myCollider;
 	private Vector2 startSinPos;
 	private float sinTimer = 0.0f;
@@ -62,7 +66,8 @@ public class BasicEnemy : Enemy
 		jumpPositionCollider2D = jumpPosition.GetComponent<Collider2D>();
 		jumpCheckPlatFormCollider2D = jumpCheckPlatForm.GetComponent<Collider2D>();
 		groundDetectorCollider2D = groundDetector.GetComponent<Collider2D>();
-		frontDetectorCollider2D = frontDetector.GetComponent<Collider2D>();
+		frontTrigger = frontDetector.GetComponent<TriggerDetector>();
+		//frontDetectorCollider2D = frontDetector.GetComponent<Collider2D>();
 		bubbleCollider2D = bubble.GetComponent<Collider2D>();
 		playerCollider2D = player.GetComponent<Collider2D>();
 		tilemapCollider2D = GameManager.Instance.levelTilemap.GetComponent<CompositeCollider2D>();
@@ -75,33 +80,41 @@ public class BasicEnemy : Enemy
 
 	private void FixedUpdate()
 	{
+		if (isBubble)
+		{
+			myState = States.InBubble;
+		}
+
 		switch (myState)
 		{
-			case BasicEnemyStates.Falling:
+			case States.Falling:
 			{
 				myRigidbody2D.velocity = myRigidbody2D.velocity * Vector2.up;
 				CheckGround();
 				CheckPlayerPosX();
 			}
 				break;
-			case BasicEnemyStates.Jumping:
+			case States.Jumping:
 			{
 				CheckFalling();
 			}
 				break;
-			case BasicEnemyStates.Running:
+			case States.Running:
 			{
 				MoveForward();
 				CheckGround();
-				if (myState == BasicEnemyStates.Running)
+				if (myState == States.Running)
 				{
 					CheckFront();
-					CheckPlayerPosY();
-					CheckForJump();
+					if (enableJump)
+					{
+						CheckPlayerPosY();
+						CheckForJump();
+					}
 				}
 			}
 				break;
-			case BasicEnemyStates.InBubble:
+			case States.InBubble:
 			{
 				if (!bubble.activeSelf)
 				{
@@ -129,7 +142,7 @@ public class BasicEnemy : Enemy
 
 	public void Bubble()
 	{
-		myState = BasicEnemyStates.InBubble;
+		myState = States.InBubble;
 	}
 
 	#endregion
@@ -140,7 +153,7 @@ public class BasicEnemy : Enemy
 	{
 		if (previousPos.y > transform.position.y)
 		{
-			myState = BasicEnemyStates.Falling;
+			myState = States.Falling;
 		}
 	}
 
@@ -148,17 +161,17 @@ public class BasicEnemy : Enemy
 	{
 		if (groundDetectorCollider2D.IsTouching(tilemapCollider2D))
 		{
-			myState = BasicEnemyStates.Running;
+			myState = States.Running;
 		}
 		else
 		{
-			myState = BasicEnemyStates.Falling;
+			myState = States.Falling;
 		}
 	}
 
 	private void CheckFront()
 	{
-		if (frontDetectorCollider2D.IsTouching(tilemapCollider2D))
+		if (frontTrigger.TriggerEntered)
 		{
 			TurnAround();
 		}
@@ -175,8 +188,7 @@ public class BasicEnemy : Enemy
 
 				Vector2 test = spawn.transform.up * Random.Range(minSpeedItemScore, maxSpeedItemScore);
 				spawn.gameObject.GetComponent<Rigidbody2D>().velocity = test;
-				Debug.DrawLine(transform.position,transform.position+(Vector3)test);
-
+				Debug.DrawLine(transform.position, transform.position + (Vector3) test);
 			}
 
 			this.Die();
@@ -212,7 +224,7 @@ public class BasicEnemy : Enemy
 		    jumpCheckPlatFormCollider2D.IsTouching(tilemapCollider2D))
 		{
 			myRigidbody2D.velocity = Vector2.up * jumpSpeed;
-			myState = BasicEnemyStates.Jumping;
+			myState = States.Jumping;
 		}
 	}
 
