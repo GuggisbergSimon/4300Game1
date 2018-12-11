@@ -12,13 +12,13 @@ public class PlayerMovement : Actor
 	// Serialized variables.
 	[SerializeField] private float playerSpeed = 1;
 	[SerializeField] private float playerJump = 1;
-	[SerializeField] private bool debugging = false;
 	[SerializeField] private GameObject groundDetector;
 
     // Private variables.
     private Rigidbody2D playerRigidbody2D;
 	private Animator playerAnimator;
 	private CompositeCollider2D tilemapCollider;
+
 	private Collider2D groundDetectorCollider2D;
 	//private Collider2D myCollider2D;
 
@@ -46,12 +46,9 @@ public class PlayerMovement : Actor
 
 	private void FixedUpdate()
 	{
-		if (!GameManager.Instance.paused || debugging)
-		{
-			HorizontalMovement();
-			CheckAirborne();
-			CheckJump();
-		}
+		HorizontalMovement();
+		CheckAirborne();
+		CheckJump();
 	}
 
 	private void Update()
@@ -92,7 +89,7 @@ public class PlayerMovement : Actor
 
 	private void OnCollisionEnter2D(Collision2D other)
 	{
-	//TODO add check for bubbled state
+		//TODO add check for bubbled state
 		if (other.gameObject.CompareTag("Enemy") && !other.gameObject.GetComponent<Enemy>().IsBubble)
 		{
 			this.Die();
@@ -159,13 +156,6 @@ public class PlayerMovement : Actor
 				hasPressedJump = false;
 			}
 		}
-
-		// Prevents the player from jumping multiple times.
-		/*if (isAirborne)
-		{
-			// A coroutine with a WaitForSeconds() is necessary, otherwise isAirborne bool would be set back to false as soon as it's set to true.
-			// StartCoroutine(CheckGround());
-		}*/
 	}
 
 	#endregion

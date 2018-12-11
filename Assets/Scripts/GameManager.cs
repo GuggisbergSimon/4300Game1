@@ -8,13 +8,15 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 	// Self reference for use in other scripts.
-	public static GameManager Instance { get; private set; } = null;
+	private static GameManager instance = null;
+	public static GameManager Instance => instance;
+	//public static GameManager Instance { get; private set; } = null;
 
     #region Public References
 
-    [HideInInspector] public GameObject player;
-    [HideInInspector] public GameObject projectileSpawner;
-    [HideInInspector] public GameObject levelTilemap;
+	public GameObject player;
+	//public GameObject projectileSpawner;
+	public GameObject levelTilemap;
 
 	#endregion
 
@@ -47,6 +49,30 @@ public class GameManager : MonoBehaviour
 		score = 0.0f;
 	}
 
+	private void OnEnable()
+	{
+		SceneManager.sceneLoaded += OnLevelFinishedLoadingScene;
+	}
+
+	private void OnDisable()
+	{
+		SceneManager.sceneLoaded -= OnLevelFinishedLoadingScene;
+	}
+
+	void OnLevelFinishedLoadingScene(Scene scene, LoadSceneMode mode)
+	{
+		Setup();
+	}
+
+	public void Quit()
+	{
+#if UNITY_EDITOR
+		UnityEditor.EditorApplication.isPlaying = false;
+#else
+		Application.Quit();
+#endif
+	}
+
 	public float Score => score;
 
     // User input related
@@ -54,11 +80,7 @@ public class GameManager : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
-#if UNITY_EDITOR
-			UnityEditor.EditorApplication.isPlaying = false;
-#else
-		Application.Quit();
-#endif
+			Quit();
 		}
 	}
 
@@ -75,9 +97,6 @@ public class GameManager : MonoBehaviour
 			{
 				paused = true;
 				hidePausePanel = false;
-
-                // debug
-                Debug.Log("boop");
 			}
 		}
 	}
@@ -108,11 +127,10 @@ public class GameManager : MonoBehaviour
 
     private void Setup()
 	{
-		Instance = this;
 		canvas = FindObjectOfType<Canvas>();
 		UIManager = canvas.gameObject.GetComponent<UIManager>();
 		player = GameObject.FindGameObjectWithTag("Player");
-		projectileSpawner = GameObject.FindGameObjectWithTag("ProjectileSpawner");
+		//projectileSpawner = GameObject.FindGameObjectWithTag("ProjectileSpawner");
 		levelTilemap = GameObject.FindGameObjectWithTag("Level");
 		enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
 
@@ -143,6 +161,15 @@ public class GameManager : MonoBehaviour
 
 	private void Awake()
 	{
+		if (instance != null && instance != this)
+		{
+			Destroy(this.gameObject);
+		}
+		else
+		{
+			instance = this;
+			DontDestroyOnLoad(this.gameObject);
+		}
 		Setup();
 	}
 
