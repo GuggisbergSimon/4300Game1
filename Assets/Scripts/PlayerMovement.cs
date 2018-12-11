@@ -14,8 +14,8 @@ public class PlayerMovement : Actor
 	[SerializeField] private float playerJump = 1;
 	[SerializeField] private GameObject groundDetector;
 
-	// Private variables.
-	private Rigidbody2D playerRigidbody2D;
+    // Private variables.
+    private Rigidbody2D playerRigidbody2D;
 	private Animator playerAnimator;
 	private CompositeCollider2D tilemapCollider;
 
@@ -55,6 +55,7 @@ public class PlayerMovement : Actor
 	{
 		if (Input.GetButtonDown("Jump"))
 		{
+            SoundManager.Instance.PlaySound(SoundManager.Sound.JUMP);
 			hasPressedJump = true;
 		}
 		else if (Input.GetButtonUp("Jump"))

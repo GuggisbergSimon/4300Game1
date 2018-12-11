@@ -12,7 +12,7 @@ public class FlyingEnemy : Enemy
 		if (!isBubble)
 		{
 			Vector2 dir = player.transform.position - transform.position;
-			myRigidbody2D.velocity += dir;
+			myRigidbody2D.velocity += dir*speed;
 			if (myRigidbody2D.velocity.magnitude > speedMax)
 			{
 				myRigidbody2D.velocity = myRigidbody2D.velocity.normalized * speedMax;

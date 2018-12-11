@@ -6,7 +6,6 @@ using UnityEngine;
 public class ProjectileSpawner : MonoBehaviour
 {
 	[SerializeField] GameObject projectilePrefab;
-	[SerializeField] bool debugging = false;
 
 	private void Update()
 	{
