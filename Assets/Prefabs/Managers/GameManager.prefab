@@ -52,8 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  projectileSpawner: {fileID: 0}
   levelTilemap: {fileID: 0}
-  startedGame: 0
   hidePausePanel: 1
   paused: 1
+  debugMode: 0
+  canvas: {fileID: 0}

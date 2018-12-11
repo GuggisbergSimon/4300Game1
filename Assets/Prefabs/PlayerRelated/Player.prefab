@@ -234,7 +234,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1581168866879336, guid: 7c3a1a97fa657ed40940d9fb7576142e,
     type: 2}
-  debugging: 1
 --- !u!114 &114764598378195378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -248,7 +247,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 5
   playerJump: 8
-  debugging: 1
   groundDetector: {fileID: 1337060594106618}
 --- !u!212 &212102791101070790
 SpriteRenderer:
