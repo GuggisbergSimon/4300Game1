@@ -38,6 +38,7 @@ public class Projectile : MonoBehaviour
 	private void Start()
 	{
 		projectileRigidbody2D = GetComponent<Rigidbody2D>();
+        SoundManager.Instance.PlaySound(SoundManager.Sound.FIRE);
 	}
 
 	private void Update()

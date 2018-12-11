@@ -133,7 +133,6 @@ public class BasicEnemy : Enemy
 	public void Bubble()
 	{
 		myState = BasicEnemyStates.InBubble;
-        bubblingSound.PlayOneShot(bubblingSound.clip);
 	}
 
 	#endregion
@@ -184,7 +183,6 @@ public class BasicEnemy : Enemy
 
 			}
 
-            Instantiate(bubblePopSoundPrefab);
 			this.Die();
 		}
 	}

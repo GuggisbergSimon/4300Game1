@@ -14,7 +14,6 @@ public class PlayerMovement : Actor
 	[SerializeField] private float playerJump = 1;
 	[SerializeField] private bool debugging = false;
 	[SerializeField] private GameObject groundDetector;
-    [SerializeField] private AudioSource jump;
 
     // Private variables.
     private Rigidbody2D playerRigidbody2D;
@@ -59,7 +58,7 @@ public class PlayerMovement : Actor
 	{
 		if (Input.GetButtonDown("Jump"))
 		{
-            jump.PlayOneShot(jump.clip);
+            SoundManager.Instance.PlaySound(SoundManager.Sound.JUMP);
 			hasPressedJump = true;
 		}
 		else if (Input.GetButtonUp("Jump"))

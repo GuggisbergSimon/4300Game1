@@ -10,7 +10,7 @@ public class Start : MonoBehaviour
 	public void PlayTheGame()
 	{
 		GameManager.Instance.paused = false;
-		GameManager.Instance.startedGame = true;
+		// GameManager.Instance.startedGame = true;
 
 		mainMenuPanel.SetActive(false);
 	}

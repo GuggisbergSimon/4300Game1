@@ -15,7 +15,7 @@ public class ItemScore : MonoBehaviour
 		{
 			GameManager.Instance.AddScore(scorePoints);
             isTaken = true;
-            Instantiate(pickupSoundPrefab);
+            SoundManager.Instance.PlaySound(SoundManager.Sound.PICKUP);
             Destroy(this.gameObject);
 		}
 	}
