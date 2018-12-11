@@ -613,11 +613,6 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5aac190609c003144b4031d9e8985352, type: 2}
   m_IsPrefabAsset: 0
---- !u!1 &436103991 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1508030642720554, guid: 0f16ae0119b81284cbe0fcfb11590eba,
-    type: 2}
-  m_PrefabInternal: {fileID: 702596291}
 --- !u!224 &436103995 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224730770750828532, guid: 0f16ae0119b81284cbe0fcfb11590eba,
@@ -1261,6 +1256,21 @@ Prefab:
         type: 2}
       propertyPath: m_fontSizeBase
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 114094314271425150, guid: 0f16ae0119b81284cbe0fcfb11590eba,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 457241210}
+    - target: {fileID: 114094314271425150, guid: 0f16ae0119b81284cbe0fcfb11590eba,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 114094314271425150, guid: 0f16ae0119b81284cbe0fcfb11590eba,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f16ae0119b81284cbe0fcfb11590eba, type: 2}
@@ -4905,7 +4915,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1008476501}
-        m_MethodName: 
+        m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4915,7 +4925,7 @@ MonoBehaviour:
           m_StringArgument: SimonSceneProto
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 436103991}
+      - m_Target: {fileID: 457241210}
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:

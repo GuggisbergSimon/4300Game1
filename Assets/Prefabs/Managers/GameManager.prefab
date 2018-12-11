@@ -54,6 +54,6 @@ MonoBehaviour:
   player: {fileID: 0}
   levelTilemap: {fileID: 0}
   hidePausePanel: 1
-  paused: 1
+  paused: 0
   debugMode: 0
   canvas: {fileID: 0}

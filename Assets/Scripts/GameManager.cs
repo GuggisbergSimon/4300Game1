@@ -7,6 +7,17 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public enum Level
+    {
+        MAINMENU,
+        LEVEL_1,
+        LEVEL_2,
+        LEVEL_3,
+        LEVEL_4,
+        GAMEOVER,
+        WIN
+    }
+
 	// Self reference for use in other scripts.
 	private static GameManager instance = null;
 	public static GameManager Instance => instance;
@@ -32,6 +43,7 @@ public class GameManager : MonoBehaviour
 	private UIManager UIManager;
 	private bool inLevel = false;
 	private float score = 0.0f;
+    private Level currentScene = Level.MAINMENU;
 
 	#endregion
 
@@ -106,7 +118,36 @@ public class GameManager : MonoBehaviour
 	{
 		if (inLevel && enemies.Count == 0)
 		{
-			LoadLevel("EndingScene");
+            switch (currentScene)
+            {
+                case Level.LEVEL_1:
+                    {
+                        LoadLevel("Level2");
+                        currentScene = Level.LEVEL_2;
+                    }
+                    break;
+                case Level.LEVEL_2:
+                    {
+                        LoadLevel("Level3");
+                        currentScene = Level.LEVEL_3;
+                    }
+                    break;
+                case Level.LEVEL_3:
+                    {
+                        LoadLevel("Level4");
+                        currentScene = Level.LEVEL_4;
+                    }
+                    break;
+                case Level.LEVEL_4:
+                    {
+                        LoadLevel("EndingScene");
+                    }
+                    break;
+                default:
+                    {
+                        Debug.LogError("Error in GameManager.cs: Level stored in currentScene variable is invalid: " + currentScene.ToString());
+                    }break;
+            }
 		}
 	}
 
@@ -116,6 +157,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(nameLevel);
     }
 
+    // a virer
     public void ResetGameManager()
     {
         Setup();
@@ -133,6 +175,29 @@ public class GameManager : MonoBehaviour
 		//projectileSpawner = GameObject.FindGameObjectWithTag("ProjectileSpawner");
 		levelTilemap = GameObject.FindGameObjectWithTag("Level");
 		enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
+
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "Level1":
+                {
+                    currentScene = Level.LEVEL_1;
+                }break;
+            case "Level2":
+                {
+                    currentScene = Level.LEVEL_2;
+                }
+                break;
+            case "Level3":
+                {
+                    currentScene = Level.LEVEL_3;
+                }
+                break;
+            case "Level4":
+                {
+                    currentScene = Level.LEVEL_4;
+                }
+                break;
+        }
 
 		if (enemies.Count > 0)
 		{
