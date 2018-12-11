@@ -49,7 +49,8 @@ public class Enemy : Actor
 	{
 		if (!bubble.activeSelf)
 		{
-			startSinPos = transform.position;
+            SoundManager.Instance.PlaySound(SoundManager.Sound.BUBBLING);
+            startSinPos = transform.position;
 			isBubble = true;
 			GetComponentInChildren<SpriteRenderer>().sprite = bubbleSprite;
 			bubble.SetActive(true);
@@ -84,6 +85,7 @@ public class Enemy : Actor
 				Debug.DrawLine(transform.position, transform.position + (Vector3)test);
 			}
 
+            SoundManager.Instance.PlaySound(SoundManager.Sound.BUBBLE_POP);
 			this.Die();
 		}
 	}
