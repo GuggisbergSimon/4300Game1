@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class BubblePopScript : MonoBehaviour
 {
-	private GameObject enemy;
-
-	private void Start()
-	{
-		enemy = GetComponentInParent<Collider2D>().gameObject;
-	}
+	[SerializeField] private GameObject enemy;
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{

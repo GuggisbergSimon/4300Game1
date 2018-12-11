@@ -14,7 +14,7 @@ public class Back : MonoBehaviour
 		{
 		    GameManager.Instance.hidePausePanel = false;
 		}*/
-
+        /*
 		if (GameManager.Instance.startedGame)
 		{
 			if (GameManager.Instance.hidePausePanel)
@@ -28,5 +28,6 @@ public class Back : MonoBehaviour
 			mainMenuPanel.SetActive(true);
 			currentPanel.SetActive(false);
 		}
+        */
 	}
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemScore : MonoBehaviour
 {
 	[SerializeField] private float scorePoints = 1000;
+    [SerializeField] GameObject pickupSoundPrefab;
 
 	private bool isTaken = false;
 
@@ -13,8 +14,9 @@ public class ItemScore : MonoBehaviour
 		if (other.gameObject.CompareTag("Player") && !isTaken)
 		{
 			GameManager.Instance.AddScore(scorePoints);
-			Destroy(this.gameObject);
-			isTaken = true;
+            isTaken = true;
+            SoundManager.Instance.PlaySound(SoundManager.Sound.PICKUP);
+            Destroy(this.gameObject);
 		}
 	}
 }

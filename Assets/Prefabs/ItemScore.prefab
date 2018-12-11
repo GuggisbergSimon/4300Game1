@@ -129,6 +129,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scorePoints: 1000
+  pickupSoundPrefab: {fileID: 1760531264971494, guid: 79ad16a21b022cb418611eeebf1050c0,
+    type: 2}
 --- !u!212 &212608982505232026
 SpriteRenderer:
   m_ObjectHideFlags: 1

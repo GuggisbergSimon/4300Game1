@@ -10,19 +10,20 @@ public class GameManager : MonoBehaviour
 	// Self reference for use in other scripts.
 	public static GameManager Instance { get; private set; } = null;
 
-	#region Public References
+    #region Public References
 
-	public GameObject player;
-	public GameObject projectileSpawner;
-	public GameObject levelTilemap;
+    [HideInInspector] public GameObject player;
+    [HideInInspector] public GameObject projectileSpawner;
+    [HideInInspector] public GameObject levelTilemap;
 
 	#endregion
 
 	#region Variables
 
-	[HideInInspector] public bool startedGame = false;
+	// [HideInInspector] public bool startedGame = false;
 	[HideInInspector] public bool hidePausePanel = true;
-	[HideInInspector] public bool paused = true;
+    public bool paused = true;
+    public bool debugMode = false;
 
 	[SerializeField] private Canvas canvas;
 	private List<GameObject> enemies;
@@ -34,20 +35,7 @@ public class GameManager : MonoBehaviour
 
 	#region Custom Functions
 
-	public void LoadLevel(string nameLevel)
-	{
-		SceneManager.LoadScene(nameLevel);
-	}
-
-	public void ResetGameManager()
-	{
-		Setup();
-
-		startedGame = false;
-		hidePausePanel = true;
-		paused = true;
-	}
-
+    // Score related.
 	public void AddScore(float points)
 	{
 		score += points;
@@ -61,6 +49,7 @@ public class GameManager : MonoBehaviour
 
 	public float Score => score;
 
+    // User input related
 	private void CheckEscape()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
@@ -75,7 +64,7 @@ public class GameManager : MonoBehaviour
 
 	private void CheckPause()
 	{
-		if (startedGame && Input.GetButtonDown("Pause"))
+		if (Input.GetButtonDown("Pause"))
 		{
 			if (paused)
 			{
@@ -86,10 +75,14 @@ public class GameManager : MonoBehaviour
 			{
 				paused = true;
 				hidePausePanel = false;
+
+                // debug
+                Debug.Log("boop");
 			}
 		}
 	}
 
+    // Win and lose related.
 	private void CheckWin()
 	{
 		if (inLevel && enemies.Count == 0)
@@ -98,7 +91,22 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	private void Setup()
+    // GameManager scene loading and initialization related.
+    public void LoadLevel(string nameLevel)
+    {
+        SceneManager.LoadScene(nameLevel);
+    }
+
+    public void ResetGameManager()
+    {
+        Setup();
+
+        // startedGame = false;
+        hidePausePanel = true;
+        paused = true;
+    }
+
+    private void Setup()
 	{
 		Instance = this;
 		canvas = FindObjectOfType<Canvas>();
@@ -118,6 +126,7 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+    // Enemy related.
 	public void AddEnemy(GameObject enemy)
 	{
 		enemies.Add(enemy);
@@ -139,9 +148,30 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
-		CheckEscape();
-		CheckPause();
-		CheckWin();
+        // Check for user input.
+        CheckEscape();
+        CheckPause();
+
+        // Check for pausing.
+        if (paused)
+        {
+            // Pauses the game if it isn't paused.
+            if(Time.timeScale != 0)
+            {
+                Time.timeScale = 0;
+            }
+        }
+        else
+        {
+            // Unpauses the game if it was paused.
+            if(Time.timeScale != 1)
+            {
+                Time.timeScale = 1;
+            }
+
+            // Check for winning/losing conditions.
+            CheckWin();
+        }
 	}
 
 	#endregion

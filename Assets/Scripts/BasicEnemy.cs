@@ -24,6 +24,8 @@ public class BasicEnemy : Enemy
 	[SerializeField] private int maxItemScoreDropped = 5;
 	[SerializeField] private float minSpeedItemScore = 0.3f;
 	[SerializeField] private float maxSpeedItemScore = 6.0f;
+    [SerializeField] private AudioSource bubblingSound;
+    [SerializeField] private GameObject bubblePopSoundPrefab;
 
 	private enum BasicEnemyStates
 	{
@@ -37,6 +39,7 @@ public class BasicEnemy : Enemy
 	private BasicEnemyStates myState;
 	private bool isLookingRight;
 	private bool wantsToJump = false;
+    private bool lateStartIsDone = false;
 	private Rigidbody2D myRigidbody2D;
 	private Vector2 previousPos;
 	private Collider2D jumpPositionCollider2D;
@@ -140,6 +143,7 @@ public class BasicEnemy : Enemy
 	{
 		if (previousPos.y > transform.position.y)
 		{
+
 			myState = BasicEnemyStates.Falling;
 		}
 	}
@@ -235,5 +239,13 @@ public class BasicEnemy : Enemy
 		sinTimer += Time.deltaTime;
 	}
 
-	#endregion
+    IEnumerator LateStart() // Used to get references stored in GameManager, which initializes at the same time as everything else which causes an error if we're trying to get a reference from it before it's initialized.
+    {
+        yield return new WaitForSeconds(0.05f);
+
+        tilemapCollider2D = GameManager.Instance.levelTilemap.GetComponent<CompositeCollider2D>();
+        lateStartIsDone = true;
+    }
+
+    #endregion
 }
