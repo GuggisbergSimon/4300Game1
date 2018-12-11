@@ -7,15 +7,6 @@ public class FlyingEnemy : Enemy
 	[SerializeField] float speed = 1;
 	[SerializeField] private float speedMax = 2;
 
-	private GameObject player;
-	private Rigidbody2D myRigidbody2D;
-
-	private void Start()
-	{
-		myRigidbody2D = GetComponent<Rigidbody2D>();
-		player = GameManager.Instance.player;
-	}
-
 	private void FixedUpdate()
 	{
 		if (!isBubble)
@@ -29,7 +20,7 @@ public class FlyingEnemy : Enemy
 		}
 		else
 		{
-			//Bubbled Move
+			BubbleMove();
 		}
 	}
 }

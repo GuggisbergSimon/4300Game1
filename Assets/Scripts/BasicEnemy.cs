@@ -14,16 +14,6 @@ public class BasicEnemy : Enemy
 	[SerializeField] private GameObject jumpCheckPlatForm;
 	[SerializeField] private GameObject groundDetector;
 	[SerializeField] private GameObject frontDetector;
-	[SerializeField] private GameObject bubble;
-	[SerializeField] private float bubbleSpeed = 2;
-	[SerializeField] private float frequency = 1;
-	[SerializeField] private float amplitude = 1;
-	[SerializeField] private Sprite bubbleSprite;
-	[SerializeField] private ItemScore itemscorePrefab;
-	[SerializeField] private int minItemScoreDropped = 1;
-	[SerializeField] private int maxItemScoreDropped = 5;
-	[SerializeField] private float minSpeedItemScore = 0.3f;
-	[SerializeField] private float maxSpeedItemScore = 6.0f;
 	[SerializeField] private bool enableJump = true;
 
 	private enum States
@@ -34,45 +24,34 @@ public class BasicEnemy : Enemy
 		InBubble
 	}
 
-	private GameObject player;
 	private States myState;
 	private bool isLookingRight;
 	private bool wantsToJump = false;
-	private Rigidbody2D myRigidbody2D;
 	private Vector2 previousPos;
 	private TriggerDetector frontTrigger;
 	private Collider2D jumpPositionCollider2D;
 	private Collider2D jumpCheckPlatFormCollider2D;
 	private Collider2D groundDetectorCollider2D;
 	//private Collider2D frontDetectorCollider2D;
-	private Collider2D bubbleCollider2D;
-	private Collider2D playerCollider2D;
 
 	private CompositeCollider2D tilemapCollider2D;
 
 	//private Collider2D myCollider;
-	private Vector2 startSinPos;
-	private float sinTimer = 0.0f;
 
 	#endregion
 
 	#region Inherited methods
 
-	private void Start()
+	private new void Start()
 	{
-		player = GameManager.Instance.player;
-		myRigidbody2D = GetComponent<Rigidbody2D>();
+		base.Start();
 		//myCollider = GetComponent<Collider2D>();
 		jumpPositionCollider2D = jumpPosition.GetComponent<Collider2D>();
 		jumpCheckPlatFormCollider2D = jumpCheckPlatForm.GetComponent<Collider2D>();
 		groundDetectorCollider2D = groundDetector.GetComponent<Collider2D>();
 		frontTrigger = frontDetector.GetComponent<TriggerDetector>();
 		//frontDetectorCollider2D = frontDetector.GetComponent<Collider2D>();
-		bubbleCollider2D = bubble.GetComponent<Collider2D>();
-		playerCollider2D = player.GetComponent<Collider2D>();
 		tilemapCollider2D = GameManager.Instance.levelTilemap.GetComponent<CompositeCollider2D>();
-
-		bubble.SetActive(false);
 		float myRotationY = this.transform.rotation.eulerAngles.y;
 		isLookingRight = Mathf.Abs(myRotationY) < 90.0f;
 		//TODO add checkstate somewhere here
@@ -116,19 +95,7 @@ public class BasicEnemy : Enemy
 				break;
 			case States.InBubble:
 			{
-				if (!bubble.activeSelf)
-				{
-					startSinPos = transform.position;
-					isBubble = true;
-					GetComponentInChildren<SpriteRenderer>().sprite = bubbleSprite;
-					bubble.SetActive(true);
-					// Avoids the bubble collider from being triggered by enemy's own colliders.
-					//myCollider.enabled = false;
-					myRigidbody2D.gravityScale = 0;
-				}
-
-				CheckCollisionsInBubble();
-				BubbledMove();
+				BubbleMove();
 			}
 				break;
 		}
@@ -177,23 +144,7 @@ public class BasicEnemy : Enemy
 		}
 	}
 
-	void CheckCollisionsInBubble()
-	{
-		if (bubbleCollider2D.IsTouching(playerCollider2D))
-		{
-			for (int i = 0; i <= Random.Range(minItemScoreDropped, maxItemScoreDropped); i++)
-			{
-				ItemScore spawn = Instantiate(itemscorePrefab, transform.position,
-					Quaternion.Euler(0, 0, Random.Range(0, 360)));
 
-				Vector2 test = spawn.transform.up * Random.Range(minSpeedItemScore, maxSpeedItemScore);
-				spawn.gameObject.GetComponent<Rigidbody2D>().velocity = test;
-				Debug.DrawLine(transform.position, transform.position + (Vector3) test);
-			}
-
-			this.Die();
-		}
-	}
 
 	private void CheckPlayerPosX()
 	{
@@ -237,14 +188,6 @@ public class BasicEnemy : Enemy
 	{
 		isLookingRight = !isLookingRight;
 		this.transform.Rotate(Vector3.up * 180);
-	}
-
-	private void BubbledMove()
-	{
-		startSinPos += (Vector2) transform.up * Time.deltaTime * bubbleSpeed;
-		myRigidbody2D.MovePosition(startSinPos + Vector2.right * Mathf.Sin(sinTimer * frequency) * amplitude);
-		//transform.position = startSinPos + Vector2.right * Mathf.Sin(sinTimer * frequency) * amplitude;
-		sinTimer += Time.deltaTime;
 	}
 
 	#endregion
