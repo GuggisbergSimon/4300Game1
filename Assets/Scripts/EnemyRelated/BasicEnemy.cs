@@ -109,7 +109,7 @@ public class BasicEnemy : Enemy
 
 	public void Bubble()
 	{
-		myState = States.InBubble;
+        myState = States.InBubble;
 	}
 
 	#endregion
