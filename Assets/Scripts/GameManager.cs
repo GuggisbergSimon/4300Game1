@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
         MAINMENU,
         LEVEL_1,
         LEVEL_2,
+        LEVEL_3,
+        LEVEL_4,
         GAMEOVER,
         WIN
     }
@@ -126,6 +128,18 @@ public class GameManager : MonoBehaviour
                     break;
                 case Level.LEVEL_2:
                     {
+                        LoadLevel("Level3");
+                        currentScene = Level.LEVEL_3;
+                    }
+                    break;
+                case Level.LEVEL_3:
+                    {
+                        LoadLevel("Level4");
+                        currentScene = Level.LEVEL_4;
+                    }
+                    break;
+                case Level.LEVEL_4:
+                    {
                         LoadLevel("EndingScene");
                     }
                     break;
@@ -171,6 +185,16 @@ public class GameManager : MonoBehaviour
             case "Level2":
                 {
                     currentScene = Level.LEVEL_2;
+                }
+                break;
+            case "Level3":
+                {
+                    currentScene = Level.LEVEL_3;
+                }
+                break;
+            case "Level4":
+                {
+                    currentScene = Level.LEVEL_4;
                 }
                 break;
         }
